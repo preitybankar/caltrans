@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calculate soil loss</title>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 8;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	margin: 50px auto;
+	border: 1px solid #999;
+	width: 20%;
+}
+
+h2, p {
+	margin: 0 0 20px;
+	font-weight: 400;
+	color: #999;
+}
+
+span {
+	color: #666;
+	display: block;
+	padding: 0 0 5px;
+}
+
+form {
+	padding: 25px;
+	margin: 25px;
+	box-shadow: 0 2px 5px #f5f5f5;
+	background: #eee;
+}
+
+input[type=text], select, button, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+.ls-form button {
+	width: 100%;
+	padding: 10px;
+	border: none;
+	background: #1c87c9;
+	font-size: 16px;
+	font-weight: 400;
+	color: #fff;
+}
+
+.ls-form button:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+button:hover {
+	background: #2371a0;
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+button.button {
+	background: none;
+	border-top: none;
+	outline: none;
+	border-right: none;
+	border-left: none;
+	border-bottom: #02274a 1px solid;
+	padding: 0 0 3px 0;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+button.button:hover {
+	border-bottom: #a99567 1px solid;
+	color: #a99567;
+}
+
+.container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	text-align: center;	
+}
+
+.calculate-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 10%;
+}
+
+.container select {
+  width: 7%;
+}
+</style>
+
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	var lsValueMap = new Map();
+	$(document).ready(function() {
+		$.ajax({
+			type: 'GET',
+	        url: 'ls',
+	        async : false,
+	    }).done(function(lsList) {
+	    	//alert("Hi");
+	    	var slopeSet = new Set();
+	    	var slopeLengthSet = new Set();
+	    	lsValueMap.clear();
+	    	for (var i = 0; i < lsList.length ; i++ ) {
+	    		var ls = lsList[i];
+	    		slopeSet.add(ls.slope);
+	    		slopeLengthSet.add(ls.slope_length);
+	    		
+	    		var key = constructLSMapKey(ls.slope, ls.slope_length);
+	    		lsValueMap[key] = ls.ls_value;
+	    	}
+	    	slopeSet.forEach(function(slope) {
+	    		$("#slope").append("<option value='"+slope+"'>"+slope+"</option>");
+	    	});
+	    	slopeLengthSet.forEach(function(slope_length) {
+	    		$("#slope_length").append("<option value='"+slope_length+"'>"+slope_length+"</option>");
+	    	});
+	    	
+	    	// Update LS value for the current slope and length
+	    	var slope = $("#slope").val();
+	    	var slopeLength = $("#slope_length").val();
+	    	setLSValue(slope, slopeLength);
+	    }).error(function(response) {
+	    	alert(response.responseText);
+	    });
+	});
+	
+	$(document).on('change', '#slope', function() {
+		var slopeLength = $("#slope_length").val();
+		setLSValue(this.value, slopeLength);
+	});
+	
+	$(document).on('change', '#slope_length', function() {
+		var slope = $("#slope").val();
+		setLSValue(slope, this.value);
+	});
+	
+	function setLSValue(slope, slopeLength) {
+		var key = constructLSMapKey(slope, slopeLength);
+		var ls = lsValueMap[key];
+		if(ls == null) {
+			$("#ls_value").text("");
+			$('#select_ls_button').attr("disabled", true);
+		} else {
+			$("#ls_value").text(ls);
+			$('#select_ls_button').attr("disabled", false);
+		}
+	}
+	
+	function constructLSMapKey(slope, slopeLength) {
+		return slope.toString() + "-" + slopeLength.toString();
+	}
+	
+	function onSelectLSButtonClick() {
+  		var lsValue = $("#ls_value").text();
+  		if(lsValue) {
+  			$("#ls_button").text("LS: " + lsValue);
+  		} else {
+  			$("#ls_button").text("LS: Length/Steepness");
+  		}
+ 	}
+</script>
+</head>
+<body>
+	<h1 style="text-align: center;">Calculate Soil Loss (A) in
+		tons/acre/year</h1>
+
+	<div class="container">
+		<label> Pre - Construction Soil Loss (A) = </label>
+		<select id="r" name="R">
+			<option selected disabled>R: Erosivity</option>
+		</select>
+		
+		<label> X </label>
+		
+		<select id="k" name="K">
+			<option selected disabled>K: Erodibility</option>
+		</select>
+		
+		<label> X </label>
+
+		<button id="ls_button" style="width: 180px;"
+			onClick="onLSButtonClick()">LS: Length/Steepness</button>
+
+		<label> X </label>
+		
+		<select id="c" name="C">
+			<option selected disabled>C: Cover Management</option>
+			<option value="volvo">Straw (2 ton/acre) 0.02</option>
+			<option value="saab">BFM 0.003</option>
+			<option value="saab">Hydroseed 0.01</option>
+		</select>
+		
+		<label> X </label>
+		
+		<select id="p" name="P">
+			<option selected disabled>P: Erosion Control Practice</option>
+			<option value="volvo">Straw (2 ton/acre) 0.02</option>
+			<option value="saab">BFM 0.003</option>
+		</select>
+		
+		<br>
+		
+		<button class="calculate-button">CALCULATE</button>
+	</div>
+
+	<div id="modalOne" class="modal">
+		<div class="modal-content">
+			<div class="ls-form">
+				<a class="close">&times;</a>
+				<form onsubmit="return lsSubmit(event)">
+					<h2>Select LS factor</h2>
+					<div>
+						<span>Select Average Watershed Slope (%)</span>
+						<select id="slope" name="slope" style="width: 100%;"></select>
+						<span>Select Sheet Flow Length (ft)</span>
+						<select id="slope_length" name="slope_length" style="width: 100%;"></select>
+					</div>
+					<span>LS factor value</span> <span id="ls_value" style="color: blue; font-weight: bold">999</span>
+					<button id="select_ls_button" onClick="onSelectLSButtonClick()">Select LS</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script>
+      function onLSButtonClick() {
+        document.getElementById("modalOne").style.display = "block";
+      }
+      function lsSubmit(e) {
+    	  e.preventDefault();
+    	  document.getElementById("modalOne").style.display = "none";
+    	  return false;
+      }
+      let closeBtns = [...document.querySelectorAll(".close")];
+      closeBtns.forEach(function(btn) {
+        btn.onclick = function() {
+          let modal = btn.closest('.modal');
+          modal.style.display = "none";
+        }
+      });
+      window.onclick = function(event) {
+        if(event.target.className === "modal") {
+          event.target.style.display = "none";
+        }
+      }
+    </script>
+</body>
+</html>
