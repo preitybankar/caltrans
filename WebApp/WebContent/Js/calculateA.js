@@ -1,14 +1,16 @@
 /**
  * 
  */
-var lsValueMap = new Map();
-	$(document).ready(function() {
-		$.ajax({
+ 	////////////// Load LS Values for Pre Construction //////////////
+	
+	var lsValueMap = new Map(); // Global variable
+	
+	$(document).on("click", "#pre_ls_button", function () {
+    	$.ajax({
 			type: 'GET',
 	        url: 'ls',
-	        async : false,
+	        async : true,
 	    }).done(function(lsList) {
-	    	//alert("Hi");
 	    	var slopeSet = new Set();
 	    	var slopeLengthSet = new Set();
 	    	lsValueMap.clear();
@@ -21,74 +23,119 @@ var lsValueMap = new Map();
 	    		lsValueMap[key] = ls.ls_value;
 	    	}
 	    	slopeSet.forEach(function(slope) {
-	    		$("#slope").append("<option value='"+slope+"'>"+slope+"</option>");
+	    		$("#pre_slope").append("<option value='"+slope+"'>"+slope+"</option>");
 	    	});
 	    	slopeLengthSet.forEach(function(slope_length) {
-	    		$("#slope_length").append("<option value='"+slope_length+"'>"+slope_length+"</option>");
+	    		$("#pre_slope_length").append("<option value='"+slope_length+"'>"+slope_length+"</option>");
 	    	});
 	    	
-	    	// Update LS value for the current slope and length
-	    	var slope = $("#slope").val();
-	    	var slopeLength = $("#slope_length").val();
-	    	setLSValue(slope, slopeLength);
+	    	// Update Pre LS value for the current slope and length
+	    	var slope = $("#pre_slope").val();
+	    	var slopeLength = $("#pre_slope_length").val();
+	    	setPreLSValue(slope, slopeLength);
+	    	
 	    }).fail(function(response) {
 	    	alert(response.responseText);
 	    });
 	});
+
 	
-	$(document).on('change', '#slope', function() {
-		var slopeLength = $("#slope_length").val();
-		setLSValue(this.value, slopeLength);
+	////////////// Set/Update LS for Pre-Construction //////////////
+	
+	$(document).on('change', '#pre_slope', function() {
+		var slopeLength = $("#pre_slope_length").val();
+		setPreLSValue(this.value, slopeLength);
 	});
 	
-	$(document).on('change', '#slope_length', function() {
-		var slope = $("#slope").val();
-		setLSValue(slope, this.value);
+	$(document).on('change', '#pre_slope_length', function() {
+		var slope = $("#pre_slope").val();
+		setPreLSValue(slope, this.value);
 	});
 	
-	function setLSValue(slope, slopeLength) {
+	function setPreLSValue(slope, slopeLength) {
 		var key = constructLSMapKey(slope, slopeLength);
 		var ls = lsValueMap[key];
-		if(ls == null) {
-			$("#ls_value").text("");
-			$('#select_ls_button').attr("disabled", true);
-		} else {
-			$("#ls_value").text(ls);
-			$('#select_ls_button').attr("disabled", false);
-		}
+		
+		$("#pre_ls_value").text((ls == null) ? "" : ls);
+		$('#select_pre_ls_button').attr("disabled", (ls == null));
 	}
+	
+	function onSelectPreLSButtonClick() {
+  		var lsValue = $("#pre_ls_value").text();
+  		if(lsValue) {
+  			$("#pre_ls_button").text("LS: " + lsValue);
+  		} else {
+  			$("#pre_ls_button").text("LS: Length/Steepness");
+  		}
+ 	}
+	
+	////////////// Load LS Values for Post - Construction ////////////////
+	
+	$(document).on("click", "#post_ls_button", function () {
+    	$.ajax({
+			type: 'GET',
+	        url: 'ls',
+	        async : true,
+	    }).done(function(lsList) {
+	    	var slopeSet = new Set();
+	    	var slopeLengthSet = new Set();
+	    	lsValueMap.clear();
+	    	for (var i = 0; i < lsList.length ; i++ ) {
+	    		var ls = lsList[i];
+	    		slopeSet.add(ls.slope);
+	    		slopeLengthSet.add(ls.slope_length);
+	    		
+	    		var key = constructLSMapKey(ls.slope, ls.slope_length);
+	    		lsValueMap[key] = ls.ls_value;
+	    	}
+	    	slopeSet.forEach(function(slope) {
+	    		$("#post_slope").append("<option value='"+slope+"'>"+slope+"</option>");
+	    	});
+	    	slopeLengthSet.forEach(function(slope_length) {
+	    		$("#post_slope_length").append("<option value='"+slope_length+"'>"+slope_length+"</option>");
+	    	});
+	    	
+	    	// Update Post LS value for the current slope and length
+	    	var slope = $("#post_slope").val();
+	    	var slopeLength = $("#post_slope_length").val();
+	    	setPostLSValue(slope, slopeLength);
+	    	
+	    }).fail(function(response) {
+	    	alert(response.responseText);
+	    });
+	}); 
+	
+	////////////// Set/Update LS Value for Post - Construction //////////////
+	
+	$(document).on('change', '#post_slope', function() {
+		var slopeLength = $("#post_slope_length").val();
+		setPostLSValue(this.value, slopeLength);
+	});
+	
+	$(document).on('change', '#post_slope_length', function() {
+		var slope = $("#post_slope").val();
+		setPostLSValue(slope, this.value);
+	});
+	
+	function setPostLSValue(slope, slopeLength) {
+		var key = constructLSMapKey(slope, slopeLength);
+		var ls = lsValueMap[key];
+		
+		$("#post_ls_value").text((ls == null) ? "" : ls);
+		$('#select_post_ls_button').attr("disabled", (ls == null));
+	}
+	
+	function onSelectPostLSButtonClick() {
+  		var lsValue = $("#post_ls_value").text();
+  		if(lsValue) {
+  			$("#post_ls_button").text("LS: " + lsValue);
+  		} else {
+  			$("#post_ls_button").text("LS: Length/Steepness");
+  		}
+ 	}
+	
+	// Common Construct Map key function //
 	
 	function constructLSMapKey(slope, slopeLength) {
 		return slope.toString() + "-" + slopeLength.toString();
 	}
-	
-	function onSelectLSButtonClick() {
-  		var lsValue = $("#ls_value").text();
-  		if(lsValue) {
-  			$("#ls_button").text("LS: " + lsValue);
-  		} else {
-  			$("#ls_button").text("LS: Length/Steepness");
-  		}
- 	}
-
-// javascript for POP-UP MODEL
-function onLSButtonClick() {
-        document.getElementById("modalOne").style.display = "block";
-      }
-      function lsSubmit(e) {
-    	  e.preventDefault();
-    	  document.getElementById("modalOne").style.display = "none";
-    	  return false;
-      }
-      let closeBtns = [...document.querySelectorAll(".close")];
-      closeBtns.forEach(function(btn) {
-        btn.onclick = function() {
-          let modal = btn.closest('.modal');
-          modal.style.display = "none";
-        }
-      });
-      window.onclick = function(event) {
-        if(event.target.className === "modal") {
-          event.target.style.display = "none";
-        }
-      }

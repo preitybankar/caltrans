@@ -3,7 +3,6 @@
 	 <head>
 		  <!-- Required meta tags -->
 		  <meta charset="utf-8">
-		  
 		  <!-- If IE use the latest rendering engine -->
 		  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
 		  
@@ -29,7 +28,7 @@
 						      <label class="form-label"> Pre - Construction Soil Loss (A) = </label>
 						    </div>					    
 						    <div class="col">
-						      <button type="button" class="btn btn-outline-secondary">R: Erosivity</button>
+						      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_r_modal">R: Erosivity</button>
 						    </div>	
 						    <span class="input-group-text">x</span>    
 						    <div class="col">
@@ -37,78 +36,90 @@
   							</div>
   							<span class="input-group-text">x</span> 	
   							<div class="col">
-							  <button id="ls_button" class="btn btn-outline-secondary" onClick="onLSButtonClick()">LS: Length/Steepness</button>						    
+							  <button id="pre_ls_button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_ls_modal">LS: Length/Steepness</button>						    
   							</div>
   							<span class="input-group-text">x</span> 
   							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary">C: Cover Management</button>
+							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_c_modal">C: Cover Management</button>
   							</div>
   							<span class="input-group-text">x</span> 
   							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary">P: Erosion Control Practice</button>
+							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">P: Erosion Control Practice</button>
   							</div>			    
 					  	</div>
 					  	<br><br><br>
 					  	<div class="row row-cols-auto justify-content-md-center">
 					  		<button class="calculate-button btn btn-success">CALCULATE</button>
 					  	</div>
-					  	
-					  	<div id="modalOne" class="modal">
-							<div class="modal-content">
-								<div class="ls-form">
-									<a class="close">&times;</a>
-									<form onsubmit="return lsSubmit(event)">
-										<h2>Select LS factor</h2>
-										<div>
-											<span>Select Average Watershed Slope (%)</span>
-											<select id="slope" name="slope" style="width: 100%;"></select>
-											<span>Select Sheet Flow Length (ft)</span>
-											<select id="slope_length" name="slope_length" style="width: 100%;"></select>
-										</div>
-										<span>LS factor value</span> <span id="ls_value" style="color: blue; font-weight: bold">999</span>
-										<button id="select_ls_button" onClick="onSelectLSButtonClick()">Select LS</button>
-									</form>
-								</div>
-							</div>
-						</div> 
-					</div>
-					<br><br><br>
-					<div class="container-fluid">		
-						<div class="row row-cols-auto justify-content-md-center">
-						    <div class="col">
-						      <label class="form-label"> Post - Construction Soil Loss (A) = </label>
-						    </div>					    
-						    <div class="col">
-						      <button type="button" class="btn btn-outline-secondary">R: Erosivity</button>
-						    </div>	
-						    <span class="input-group-text">x</span>    
-						    <div class="col">
-							  <input type="text" class="form-control" id="floatingInputK2" placeholder="K: Erodibility" aria-describedby="inputGroup-sizing-sm">								    
-  							</div>
-  							<span class="input-group-text">x</span> 	
-  							<div class="col">
-							  <button id="ls_button2" class="btn btn-outline-secondary" onClick="onLSButton2Click()">LS: Length/Steepness</button>						    
-  							</div>
-  							<span class="input-group-text">x</span> 
-  							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#myModal">C: Cover Management</button>
-  							</div>
-  							<span class="input-group-text">x</span> 
-  							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary">P: Erosion Control Practice</button>
-  							</div>			    
-					  	</div>
-					  	<br><br><br>
-					  	<div class="row row-cols-auto justify-content-md-center">
-					  		<button class="calculate-button btn btn-success">CALCULATE</button>
-					  	</div>
-					  	
-					  	<!-- Modal -->			
-						<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							
+						<!-- Modal to select Pre LS Factor -->			
+						<div class="modal fade" id="pre_ls_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+						        <h5 class="modal-title" id="staticBackdropLabel">Select LS factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body" id="pre-ls-modal-body">
+						        <div>
+									<span>Select Average Watershed Slope (%)</span>
+									<select id="pre_slope" name="pre_slope" style="width: 100%;"></select>
+									<span>Select Sheet Flow Length (ft)</span>
+									<select id="pre_slope_length" name="pre_slope_length" style="width: 100%;"></select>
+								</div>
+								<span>LS factor value</span> <span id="pre_ls_value" style="color: blue; font-weight: bold">999</span>
+						      </div>
+						      <div class="modal-footer">
+						        <button id="select_pre_ls_button" class="btn btn-primary" onClick="onSelectPreLSButtonClick()" data-bs-dismiss="modal">Select LS</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						<!-- Modal to select Pre C Factor -->		
+						<div class="modal fade" id="pre_c_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select C factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Understood</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						<!-- Modal to select Pre P Factor -->		
+						<div class="modal fade" id="pre_p_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select P factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Understood</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						<!-- Modal to select Pre R Factor -->		
+						<div class="modal fade" id="pre_r_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select R factor</h5>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body">
@@ -121,6 +132,119 @@
 						    </div>
 						  </div>
 						</div>  
+							
+					</div>
+					<br><br><br>
+					<div class="container-fluid">		
+						<div class="row row-cols-auto justify-content-md-center">
+						    <div class="col">
+						      <label class="form-label"> Post - Construction Soil Loss (A) = </label>
+						    </div>					    
+						    <div class="col">
+						      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_r_modal">R: Erosivity</button>
+						    </div>	
+						    <span class="input-group-text">x</span>    
+						    <div class="col">
+							  <input type="text" class="form-control" id="floatingInputK2" placeholder="K: Erodibility" aria-describedby="inputGroup-sizing-sm">								    
+  							</div>
+  							<span class="input-group-text">x</span> 	
+  							<div class="col">
+							  <button id="post_ls_button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_ls_modal">LS: Length/Steepness</button>						    
+  							</div>
+  							<span class="input-group-text">x</span> 
+  							<div class="col">
+							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">C: Cover Management</button>
+  							</div>
+  							<span class="input-group-text">x</span> 
+  							<div class="col">
+							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">P: Erosion Control Practice</button>
+  							</div>			    
+					  	</div>
+					  	<br><br><br>
+					  	<div class="row row-cols-auto justify-content-md-center">
+					  		<button class="calculate-button btn btn-success">CALCULATE</button>
+					  	</div>
+					  	
+					  	<!-- Modal to select Post LS Factor -->	
+						<div class="modal fade" id="post_ls_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select LS factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body" id="post-ls-modal-body">
+						        <div>
+									<span>Select Average Watershed Slope (%)</span>
+									<select id="post_slope" name="post_slope" style="width: 100%;"></select>
+									<span>Select Sheet Flow Length (ft)</span>
+									<select id="post_slope_length" name="post_slope_length" style="width: 100%;"></select>
+								</div>
+								<span>LS factor value</span> <span id="post_ls_value" style="color: blue; font-weight: bold">999</span>
+						      </div>
+						      <div class="modal-footer">
+						        <button id="select_post_ls_button" class="btn btn-primary" onClick="onSelectPostLSButtonClick()" data-bs-dismiss="modal">Select LS</button>
+						      </div>
+						    </div>
+						  </div>
+						</div> 
+						
+					  	<!-- Modal to select Post C Factor -->		
+						<div class="modal fade" id="post_c_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select C factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Understood</button>
+						      </div>
+						    </div>
+						  </div>
+						</div> 
+						
+						<!-- Modal to select Post P Factor -->		
+						<div class="modal fade" id="post_p_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select P factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Understood</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						<!-- Modal to select Post R Factor -->		
+						<div class="modal fade" id="post_r_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="staticBackdropLabel">Select R factor</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Understood</button>
+						      </div>
+						    </div>
+						  </div>
+						</div> 
 							
 					</div>
 
