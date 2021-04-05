@@ -141,13 +141,23 @@
 						        <h5 class="modal-title" id="staticBackdropLabel">Select R factor</h5>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
-						      <div class="modal-body">
-						        ...
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Understood</button>
-						      </div>
+						      <div class="modal-body" id="pre-r-modal-body">
+						        <label>Click on the link below and calculate R factor value for targeted construction area: </label>
+						        <br><a href="https://lew.epa.gov/">Rainfall Erosivity Factor Calculator</a><br>
+						        <div class="form-floating">   
+							</div><br>
+						        <label>Enter R Factor Value: </label>
+							<span id="pre_r_value"></span><br>
+							<input type="text" class="form-control" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value">
+							<div class="form-floating">
+							</div><br>
+							<label>Enter Location: </label>
+							<span id="pre_r_location"></span><br>
+							<input type="text" class="form-control" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location">
+						       </div>
+						       <div class="modal-footer">
+						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select R</button>
+						       </div>
 						    </div>
 						  </div>
 						</div>  
@@ -262,13 +272,23 @@
 						        <h5 class="modal-title" id="staticBackdropLabel">Select R factor</h5>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
-						      <div class="modal-body">
-						        ...
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Understood</button>
-						      </div>
+						      <div class="modal-body" id="post-r-modal-body">
+						        <label>Click on the link below and calculate R factor value for targeted construction area: </label>
+						        <br><a href="https://lew.epa.gov/">Rainfall Erosivity Factor Calculator</a><br>
+						        <div class="form-floating">
+							</div><br>
+							<label>Enter R Factor Value: </label>
+							<span id="post_r_value"></span><br>
+							<input type="text" class="form-control" placeholder="R Value" aria-label="R Value" aria-describedby="post_r_value">
+							<div class="form-floating">
+							</div><br>
+							<label>Enter Location: </label>
+							<span id="post_r_location"></span><br>
+							<input type="text" class="form-control" placeholder="Location" aria-label="Location" aria-describedby="post_r_location">
+						       </div>
+						       <div class="modal-footer">
+						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select R</button>
+						       </div>
 						    </div>
 						  </div>
 						</div> 
