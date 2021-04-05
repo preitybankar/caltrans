@@ -3,6 +3,8 @@ package com.caltrans.rusle;
 import java.util.List;
 import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.models.LS;
+import com.caltrans.rusle.db.CTable;
+import com.caltrans.rusle.models.C;
 
 public class Main {
 	public static void main(String[] args) {
@@ -44,7 +46,20 @@ public class Main {
 		lsTable.insert(new LS(50f, 3, 0.58f));
 		lsTable.insert(new LS(60f, 3, 0.63f));
 		
-		
+		CTable cTable = new CTable();
+		cTable.createIfNotExist();
+		cTable.insert(new C("Straw (2 ton/acre)", "USDA straw small grain", 0.02f));
+		cTable.insert(new C("BFM", "NTPEP ASTM 6459", 0.003f));
+		cTable.insert(new C("Hydroseed", "USDA; permanent seeding (90 percent stand).", 0.01f));
+		cTable.insert(new C("Jute Net", "-", 0.02f));
+		cTable.insert(new C("Pavement", "Assumed to match lowest C factor", 0.001f));
+		cTable.insert(new C("Competent gravel cover", "-", 0.05f));
+		cTable.insert(new C("Earthguard Fiber Matrix", "NTPEP ASTM 6459", 0.001f));
+		cTable.insert(new C("Grass, grasslike plants, or decaying compacted plant litter (80% cover)", "-", 0.013f));
+		cTable.insert(new C("Mostly weeds with little lateral root networks or undecayed residues (80% cover)", "-", 0.043f));
+		cTable.insert(new C("Tall weeds or short brush (average 20 inches high) (80% cover)", "-", 0.038f));
+		cTable.insert(new C("None (Bare soil)", "USDA", 1.0f));
+		cTable.insert(new C("Coconut fiber net", "AEC Product Data Sheet", 0.1f));
 		
 		/*List<LS> lsList = lsTable.getAllLS();
 		for (LS dbLS : lsList) {
