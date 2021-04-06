@@ -147,3 +147,33 @@
 	function constructLSMapKey(slope, slopeLength) {
 		return slope.toString() + "-" + slopeLength.toString();
 	}
+	
+	
+		
+	////////////// Setting R Value for Pre - Construction //////////////
+
+	function onSelectPreRButtonClick() {
+  		var prerValue = $('#pre_r_value').val();
+  		var preLoc = $('#pre_r_location').val();
+  		if(prerValue && preLoc){
+  		var pre_r_str="R: " + prerValue ;
+  		}
+  		else{
+  		var pre_r_str= "R: Erosivity"; 
+  		}
+  		$("#pre_r_button").text(pre_r_str);
+  	}
+  	
+  	 ////////////// Setting R Value for Post - Construction //////////////
+
+	function onSelectPostRButtonClick() {
+  		var postrValue = $('#post_r_value').val();
+  		var postLoc = $('#post_r_location').val();
+  		if(postrValue && postLoc){
+  		var post_r_str="R: " + postrValue ;
+  		}
+  		else{
+  		var post_r_str= "R: Erosivity"; 
+  		}
+  		$("#post_r_button").text(post_r_str);
+  	}

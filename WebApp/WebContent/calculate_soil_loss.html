@@ -28,7 +28,7 @@
 						      <span class="input-group-text fs-6"> Pre - Construction Soil Loss (A) = </span>
 						    </div>					    
 						    <div class="col">
-						      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_r_modal">R: Erosivity</button>
+						      <button id="pre_r_button"  class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_r_modal">R: Erosivity</button>
 						    </div>	
 						    <span class="input-group-text">x</span>    
 						    <div class="col">								   
@@ -141,21 +141,21 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="pre-r-modal-body">
-						        <label>Click on the link below and calculate R factor value for targeted construction area: </label>
-						        <br><a href="https://lew.epa.gov/">Rainfall Erosivity Factor Calculator</a><br>
-						        <div class="form-floating">   
-							</div><br>
-						        <label>Enter R Factor Value: </label>
-							<span id="pre_r_value"></span><br>
-							<input type="text" class="form-control" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value">
-							<div class="form-floating">
-							</div><br>
-							<label>Enter Location: </label>
-							<span id="pre_r_location"></span><br>
-							<input type="text" class="form-control" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location">
+									<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br>
+									<br><a class="btn btn-secondary" href="https://lew.epa.gov/" target="_blank">Rainfall Erosivity Factor Calculator</a>
+									<br>
+									<div class="form-floating">   
+									</div><br>
+									<label>Enter R Factor Value: </label><br>
+									<input type="text" class="form-control" id="pre_r_value" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value">
+									<div class="form-floating">
+									</div><br>
+									<label>Enter Location: </label><br>
+									<input type="text" class="form-control" id="pre_r_location" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location">
 						       </div>
 						       <div class="modal-footer">
-						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select R</button>
+						       <button id="select_pre_r_button" class="btn btn-primary" onClick="onSelectPreRButtonClick()" data-bs-dismiss="modal">Select R</button>
+						       </div>
 						       </div>
 						    </div>
 						  </div>
@@ -169,7 +169,7 @@
 								<span class="input-group-text fs-6"> Post - Construction Soil Loss (A) = </span>
 						    </div>					    
 						    <div class="col">
-						      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_r_modal">R: Erosivity</button>
+						      <button id="post_r_button"  class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_r_modal">R: Erosivity</button>
 						    </div>	
 						    <span class="input-group-text">x</span>    
 						    <div class="col">
@@ -272,21 +272,20 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="post-r-modal-body">
-						        <label>Click on the link below and calculate R factor value for targeted construction area: </label>
-						        <br><a href="https://lew.epa.gov/">Rainfall Erosivity Factor Calculator</a><br>
+						        <label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br>
+						        <br><a class="btn btn-secondary" href="https://lew.epa.gov/" target="_blank">Rainfall Erosivity Factor Calculator</a>
+						        <br>
 						        <div class="form-floating">
-							</div><br>
-							<label>Enter R Factor Value: </label>
-							<span id="post_r_value"></span><br>
-							<input type="text" class="form-control" placeholder="R Value" aria-label="R Value" aria-describedby="post_r_value">
-							<div class="form-floating">
-							</div><br>
-							<label>Enter Location: </label>
-							<span id="post_r_location"></span><br>
-							<input type="text" class="form-control" placeholder="Location" aria-label="Location" aria-describedby="post_r_location">
+								</div><br>
+								<label>Enter R Factor Value: </label><br>
+								<input type="text" class="form-control" id="post_r_value" placeholder="R Value" aria-label="R Value" aria-describedby="post_r_value">
+								<div class="form-floating">
+								</div><br>
+								<label>Enter Location: </label><br>
+								<input type="text" class="form-control" id="post_r_location" placeholder="Location" aria-label="Location" aria-describedby="post_r_location">
 						       </div>
 						       <div class="modal-footer">
-						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select R</button>
+						        <button id="select_post_r_button" class="btn btn-primary" onClick="onSelectPostRButtonClick()" data-bs-dismiss="modal">Select R</button>
 						       </div>
 						    </div>
 						  </div>
