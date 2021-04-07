@@ -177,3 +177,127 @@
   		}
   		$("#post_r_button").text(post_r_str);
   	}
+  	
+  	////////////// Load C Values for Pre Construction //////////////
+	
+	var cValueMap = new Map(); // Global variable
+	var refValueMap = new Map(); // Global variable
+	var isLoading = false;	// Global variable
+	
+	$(document).on("click", "#pre_c_button", function () {
+		if (!isLoading) {
+	        $("#pre_bmpName").empty();
+	        isLoading = true;   
+	        $.ajax({
+				type: 'GET',
+		        url: 'c',
+		        async : true,
+		    }).done(function(cList) {
+		    	var bmpSet = new Set();
+		    	cValueMap.clear();
+		    	refValueMap.clear();
+		    	for (var i = 0; i < cList.length ; i++ ) {
+		    		var c = cList[i];
+		    		bmpSet.add(c.bmp_name);
+		    		
+		    		var key = c.bmp_name;
+		    		cValueMap[key] = c.c_value;
+		    		refValueMap[key] = c.reference;
+		    	}
+		    	bmpSet.forEach(function(bmp_name) {
+		    		$("#pre_bmpName").append("<option value='"+bmp_name+"'>"+bmp_name+"</option>");
+		    	});	
+		    	// Update Pre LS value for the current slope and length
+		    	var bmp = $("#pre_bmpName").val();
+		    	setPreCValue(bmp);
+		    	isLoading = false;	
+		    }).fail(function(response) {
+		    	alert(response.responseText);
+		    });      
+    	}  	
+	});
+
+	
+	////////////// Set/Update C for Pre-Construction //////////////
+	
+	$(document).on('change', '#pre_bmpName', function() {
+		setPreCValue(this.value);
+	});
+	
+	function setPreCValue(bmp) {
+		var key = bmp;
+		var c = cValueMap[key];
+		var ref = refValueMap[key];
+		$("#pre_c_value").text((c == null) ? "" : c);
+		$("#pre_c_reference").text((ref == null) ? "" : ref);
+		$('#select_pre_c_button').attr("disabled", (c == null));
+	}
+	
+	function onSelectPreCButtonClick() {
+  		var cValue = $("#pre_c_value").text();
+  		if(cValue) {
+  			$("#pre_c_button").text("C: " + cValue);
+  		} else {
+  			$("#pre_c_button").text("C: Cover Management");
+  		}
+ 	}
+ 	
+ 	////////////// Load C Values for Post Construction //////////////
+	
+	$(document).on("click", "#post_c_button", function () {
+		if (!isLoading) {
+	        $("#post_bmpName").empty();
+	        isLoading = true;   
+	        $.ajax({
+				type: 'GET',
+		        url: 'c',
+		        async : true,
+		    }).done(function(cList) {
+		    	var bmpSet = new Set();
+		    	cValueMap.clear();
+		    	refValueMap.clear();
+		    	for (var i = 0; i < cList.length ; i++ ) {
+		    		var c = cList[i];
+		    		bmpSet.add(c.bmp_name);
+		    		
+		    		var key = c.bmp_name;
+		    		cValueMap[key] = c.c_value;
+		    		refValueMap[key] = c.reference;
+		    	}
+		    	bmpSet.forEach(function(bmp_name) {
+		    		$("#post_bmpName").append("<option value='"+bmp_name+"'>"+bmp_name+"</option>");
+		    	});	
+		    	// Update Pre LS value for the current slope and length
+		    	var bmp = $("#post_bmpName").val();
+		    	setPostCValue(bmp);
+		    	isLoading = false;	
+		    }).fail(function(response) {
+		    	alert(response.responseText);
+		    });      
+    	}  	
+	});
+
+	
+	////////////// Set/Update C for Post-Construction //////////////
+	
+	$(document).on('change', '#post_bmpName', function() {
+		setPostCValue(this.value);
+	});
+	
+	function setPostCValue(bmp) {
+		var key = bmp;
+		var c = cValueMap[key];
+		var ref = refValueMap[key];
+		$("#post_c_value").text((c == null) ? "" : c);
+		$("#post_c_reference").text((ref == null) ? "" : ref);
+		$('#select_post_c_button').attr("disabled", (c == null));
+	}
+	
+	function onSelectPostCButtonClick() {
+  		var cValue = $("#post_c_value").text();
+  		if(cValue) {
+  			$("#post_c_button").text("C: " + cValue);
+  		} else {
+  			$("#post_c_button").text("C: Cover Management");
+  		}
+ 	}

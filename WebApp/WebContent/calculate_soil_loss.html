@@ -99,15 +99,14 @@
 								      <label for="pre_bmpName">Cover BMP Name</label>
 								  </div><br>
 							      <label>Reference: </label>
-							      <span id="pre_c_reference" style="color: blue; font-weight: bold">Taco Bell</span><br>
+							      <span id="pre_c_reference" style="color: green; font-weight: bold">Taco Bell</span><br>
 							      <div class="form-floating">
 								  </div><br>
 							      <label>C factor value: </label>
 							      <span id="pre_c_value" style="color: blue; font-weight: bold">999</span><br>
-							      
 						      </div>
 						      <div class="modal-footer">
-						        <button id="select_c_button" class="btn btn-primary" onClick="onSelectPreCButtonClick()" data-bs-dismiss="modal">Select C</button>
+						        <button id="select_pre_c_button" class="btn btn-primary" onClick="onSelectPreCButtonClick()" data-bs-dismiss="modal">Select C</button>
 						      </div>
 						    </div>
 						  </div>
@@ -184,7 +183,7 @@
   							</div>
   							<span class="input-group-text">x</span> 
   							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">C: Cover Management</button>
+							  <button id="post_c_button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">C: Cover Management</button>
   							</div>
   							<span class="input-group-text">x</span> 
   							<div class="col">
@@ -234,11 +233,20 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="post-c-modal-body">
-						        ...
+						        <label>Select Cover BMP: </label>
+							      <div class="form-floating">
+								      <select class="form-select" id="post_bmpName" name="post_bmpName" aria-label="Floating label select example"></select>
+								      <label for="post_bmpName">Cover BMP Name</label>
+								  </div><br>
+							      <label>Reference: </label>
+							      <span id="post_c_reference" style="color: green; font-weight: bold">Taco Bell</span><br>
+							      <div class="form-floating">
+								  </div><br>
+							      <label>C factor value: </label>
+							      <span id="post_c_value" style="color: blue; font-weight: bold">999</span><br>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Understood</button>
+						        <button id="select_post_c_button"  class="btn btn-primary" onClick="onSelectPostCButtonClick()" data-bs-dismiss="modal">Select C</button>
 						      </div>
 						    </div>
 						  </div>
