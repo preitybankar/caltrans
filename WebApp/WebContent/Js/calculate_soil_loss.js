@@ -150,12 +150,21 @@
 	
 	
 		
-	////////////// Setting R Value for Pre - Construction //////////////
+	////////////// Setting/Adding R Value for Pre - Construction //////////////
 
 	function onSelectPreRButtonClick() {
   		var prerValue = $('#pre_r_value').val();
   		var preLoc = $('#pre_r_location').val();
-  		if(prerValue && preLoc){
+  		$.ajax({ 
+            type : "POST", 
+            data : { 
+                r_value : prerValue, 
+                location: preLoc 
+            }, 
+            url : "r", 
+        }); 
+        
+        if(prerValue && preLoc){
   		var pre_r_str="R: " + prerValue ;
   		}
   		else{
@@ -164,11 +173,20 @@
   		$("#pre_r_button").text(pre_r_str);
   	}
   	
-  	 ////////////// Setting R Value for Post - Construction //////////////
+  	 ////////////// Setting R/Adding Value for Post - Construction //////////////
 
 	function onSelectPostRButtonClick() {
   		var postrValue = $('#post_r_value').val();
   		var postLoc = $('#post_r_location').val();
+  		$.ajax({ 
+            type : "POST", 
+            data : { 
+                r_value : postrValue, 
+                location: postLoc 
+            }, 
+            url : "r", 
+            
+        }); 
   		if(postrValue && postLoc){
   		var post_r_str="R: " + postrValue ;
   		}

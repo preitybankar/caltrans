@@ -5,6 +5,8 @@ import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.models.LS;
 import com.caltrans.rusle.db.CTable;
 import com.caltrans.rusle.models.C;
+import com.caltrans.rusle.db.RTable;
+import com.caltrans.rusle.models.R;
 
 public class Main {
 	public static void main(String[] args) {
@@ -60,6 +62,9 @@ public class Main {
 		cTable.insert(new C("Tall weeds or short brush (average 20 inches high) (80% cover)", "-", 0.038f));
 		cTable.insert(new C("None (Bare soil)", "USDA", 1.0f));
 		cTable.insert(new C("Coconut fiber net", "AEC Product Data Sheet", 0.1f));
+		
+		RTable rTable = new RTable();
+		rTable.createIfNotExist();
 		
 		/*List<LS> lsList = lsTable.getAllLS();
 		for (LS dbLS : lsList) {
