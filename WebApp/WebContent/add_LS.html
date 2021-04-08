@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="UTF-8">
+	
+	<!-- If IE use the latest rendering engine -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	
+	<!-- Set the page to the width of the device and set the zoon level -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+	<title>Caltrans - Rusle Program</title>
+</head>
+
+<body>
+	<div id="page-wrap">
+		<header></header>
+		<section id="main-content">
+			<div id="guts">
+				<div class="container"><br><br>
+					<div class="shadow p-3 mb-5 bg-body rounded"><br>
+						<div class="row row-cols-auto justify-content-md-center">
+						      <span class="fs-4"> Add LS factor values </span>	    
+						</div><br>
+						<div class="row row-cols-auto justify-content-md-center" id="message" role="alert"></div><br>
+						<form id = "LSForm">
+							<div class="row mb-3 row-cols-auto justify-content-md-center">
+								<label for="ls-slope" class="col-sm-3 col-form-label">Enter Average Watershed Slope (%)</label>
+								<div class="mb-3 col-sm-5">
+									<div class = "input-group">
+										<input type="text" class="form-control" name="ls_slope" id="ls-slope" placeholder="Average Watershed Slope (%)" required>
+										<span class="input-group-text">%</span>
+	  									<span class="input-group-text">0.00</span>
+									</div>
+								</div>
+							</div>
+							<div class="row mb-3 row-cols-auto justify-content-md-center">
+								<label for="ls-length" class="col-sm-3 col-form-label">Enter Sheet Flow Length (ft)</label>
+								<div class="mb-3 col-sm-5">
+									<div class = "input-group">
+										<input type="text" class="form-control" name ="ls_length" id="ls-length" placeholder="Sheet Flow Length (ft)" required>
+										<span class="input-group-text">ft</span>
+	  									<span class="input-group-text">00</span>
+									</div>
+								</div>
+							</div>
+							<div class="row mb-3 row-cols-auto justify-content-md-center">
+								<label for="ls-value" class="col-sm-3 col-form-label">Enter LS factor value</label>
+								<div class="mb-3 col-sm-5">
+									<div class = "input-group">
+										<input type="text" class="form-control" name="ls_value" id="ls-value" placeholder="LS factor value" required>
+	  									<span class="input-group-text">0.00</span>
+									</div>
+								</div>
+							</div>
+							<div class="row mb-3 row-cols-auto justify-content-md-center">
+						    	<button type="submit" class="btn btn-primary">SAVE</button>
+							</div><br><br>
+						</form>
+					</div>
+				</div>
+				<br>
+				<div class="container">
+					<div class ="table-responsive">
+						<table id="ls_table" class="table table-striped table-hover caption-top align-middle text-center">
+							<caption>List of LS factor values:</caption>
+							<thead class="table-primary">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Average Watershed Slope (%)</th>
+									<th scope="col">Sheet Flow Length (ft)</th>
+									<th scope="col">LS value</th>
+									<th scope="col">---</th>
+									<th scope="col">---</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>Mark</td>
+									<td>Otto</td>
+									<td>@mdo</td>
+									<td><a href="#">Edit</a></td>
+									<td><a href="#">Delete</a></td>
+								</tr>
+								<tr>
+									<th scope="row">2</th>
+									<td>Jacob</td>
+									<td>Thornton</td>
+									<td>@fat</td>
+									<td><a href="#">Edit</a></td>
+									<td><a href="#">Delete</a></td>
+								</tr>
+								<tr>
+									<th scope="row">3</th>
+									<td>Larry the Bird</td>
+									<td></td>
+									<td>@twitter</td>
+									<td><a href="#">Edit</a></td>
+									<td><a href="#">Delete</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>	
+				</div>
+			</div>
+		</section>
+		<footer></footer>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>	
+	<!-- Custom scripts and plugins -->
+	<script src="Js/index.js"></script>	
+	<script src="Js/add_LS.js"></script>  
+	 	
+</body>
+</html>

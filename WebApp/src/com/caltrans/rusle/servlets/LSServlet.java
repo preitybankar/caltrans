@@ -1,7 +1,6 @@
 package com.caltrans.rusle.servlets;
 
 import java.io.IOException;
-
 import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.models.LS;
 import com.google.gson.JsonArray;
@@ -35,8 +34,22 @@ public class LSServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(request, resp);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/json");
+		JsonArray json = new JsonArray();
+
+		String ls_slope = request.getParameter("ls_slope");
+		String ls_length = request.getParameter("ls_length");
+		String ls_value = request.getParameter("ls_value");
+		
+		LS ls = new LS(Float.parseFloat(ls_slope), Integer.parseInt(ls_length), Float.parseFloat(ls_value));
+		LSTable lsTable = new LSTable();
+		lsTable.createIfNotExist();
+		lsTable.insert(ls);
+		response.setStatus(200);
+		response.setContentType("application/json");
+		response.getWriter().write(json.toString());
 	}
 
 }
