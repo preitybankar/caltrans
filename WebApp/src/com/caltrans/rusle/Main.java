@@ -6,7 +6,7 @@ import com.caltrans.rusle.models.LS;
 import com.caltrans.rusle.db.CTable;
 import com.caltrans.rusle.models.C;
 import com.caltrans.rusle.db.RTable;
-import com.caltrans.rusle.models.R;
+
 
 public class Main {
 	public static void main(String[] args) {

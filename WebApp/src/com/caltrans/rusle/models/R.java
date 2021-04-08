@@ -1,11 +1,11 @@
 package com.caltrans.rusle.models;
 
 public class R {
-	private final String rValue;
+	private final float rValue;
 	private final String location;
 	
 
-	public String getrValue() {
+	public float getrValue() {
 		return rValue;
 	}
 
@@ -14,7 +14,7 @@ public class R {
 	}
 
 	
-	public R(String rValue, String location) {
+	public R(float rValue, String location) {
 		this.rValue = rValue;
 		this.location = location;
 	}
