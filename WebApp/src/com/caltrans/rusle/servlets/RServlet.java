@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.caltrans.rusle.db.RTable;
 import com.caltrans.rusle.models.R;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,13 +26,14 @@ public class RServlet extends HttpServlet {
 		resp.setContentType("text/json");
 		JsonArray json = new JsonArray();
 		
-		String RValue = request.getParameter("r_value");
+		String R_value = request.getParameter("r_value");
+		Float  RValue=Float.parseFloat(R_value );  
 		String Location = request.getParameter("location");
 		
 		R r= new R(RValue, Location);
 		RTable rtable = new RTable();
 		rtable.createIfNotExist();
-		if (!RValue.isBlank() && !Location.isBlank())
+		if (!R_value.isBlank() && !Location.isBlank())
 		{
 			rtable.insert(r);
 		}
