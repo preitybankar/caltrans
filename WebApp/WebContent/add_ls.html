@@ -35,12 +35,12 @@
 		<header></header>
 		<section id="main-content">
 			<div id="guts">
-				<div class="container"><br><br>
+				<div class="container"><br>
+				<div class="justify-content-md-center" id="message" role="alert"></div><br>
 					<div class="shadow p-3 mb-5 bg-body rounded"><br>
 						<div class="row row-cols-auto justify-content-md-center">
 						      <span class="fs-4"> Add LS factor values </span>	    
-						</div><br>
-						<div class="row row-cols-auto justify-content-md-center" id="message" role="alert"></div><br>
+						</div><br><br>
 						<form id = "ls_form">
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
 								<label for="ls-slope" class="col-sm-3 col-form-label">Enter Average Watershed Slope (%)</label>
@@ -73,11 +73,10 @@
 							</div>
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
 						    	<button type="submit" class="btn btn-primary">SAVE</button>
-							</div><br><br>
+							</div><br>
 						</form>
 					</div>
 				</div>
-				<br>
 				<div class="container">
 					<div class ="table-responsive">
 						<caption> List of LS factor values:</caption> <br><br>
@@ -88,8 +87,8 @@
 									<th scope="col">Average Watershed Slope (%)</th>
 									<th scope="col">Sheet Flow Length (ft)</th>
 									<th scope="col">LS value</th>
-									<th scope="col">Links to Edit</th>
-									<th scope="col">Links to Delete</th>
+									<th scope="col">Action</th>
+									<th scope="col">Action</th>
 								</tr>
 							</thead>
 							<tbody id="ls_table_body">
@@ -100,13 +99,110 @@
 									<th scope="col">Average Watershed Slope (%)</th>
 									<th scope="col">Sheet Flow Length (ft)</th>
 									<th scope="col">LS value</th>
-									<th scope="col">Links to Edit</th>
-									<th scope="col">Links to Delete</th>
+									<th scope="col">Action</th>
+									<th scope="col">Action</th>
 					            </tr>
 				        	</tfoot>
 						</table>
 					</div>	
-				</div>
+				</div>	
+				<!-- Modal to edit LS factor values -->	
+				<div class="modal fade" id="edit_ls_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="staticBackdropLabel">Edit LS factor values</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <form id = "edit_form">
+					      <div class="modal-body" id="edit-ls-modal-body">
+					        <label>Enter Average Watershed Slope (%)</label>
+						      <div class="form-floating">
+							      <input type="text" class="form-control" id="edit_slope" required>
+							      <label for="edit_slope">Average Watershed Slope (%)</label>
+							  </div><br>
+						      <label>Enter Sheet Flow Length (ft)</label>
+						      <div class="form-floating">
+							      <input type="text" class="form-control" id="edit_slope_length" required>
+							      <label for="edit_slope_length">Sheet Flow Length (ft)</label>
+							  </div><br>
+							   <label>Enter LS factor value </label>
+							   <div class="form-floating">
+							      <input type="text" class="form-control" id="edit_ls_value" required>	
+							      <label for="edit_ls_value">LS factor value: </label>
+							  </div><br>
+					      </div>
+					      <div class="modal-footer">
+					        <div class="row mb-3 row-cols-auto justify-content-md-center">
+								<button id="update_ls_button" type="submit" class="btn btn-primary" onClick="onUpdateLSButtonClick()" data-bs-dismiss="modal">UPDATE</button>
+							</div>
+					      </div>
+					   </form>
+				    </div>
+				  </div>
+				</div> 
+
+				<!-- Modal to delete LS factor values -->	
+				<div class="modal fade" id="delete_ls_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="staticBackdropLabel">Confirmation to delete</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <form id = "delete_form">
+					      <div class="modal-body" id="delete-ls-modal-body">
+					      	<p>Are you sure, you want to delete this row data?</p>
+					      </div>
+					      <div class="modal-footer">
+					        <div class="row mb-3 row-cols-auto justify-content-md-center">
+								<button id="delete_ls_button" type="button" class="btn btn-primary" onClick="onDeleteLSButtonClick()" data-bs-dismiss="modal">DELETE</button>
+							</div>
+					      </div>
+					   </form>
+				    </div>
+				  </div>
+				</div> 
+				
+				
+<!-- 			
+				<form id = "edit_form">
+					<div class="row mb-3 row-cols-auto justify-content-md-center">
+						<label for="edit_slope" class="col-sm-3 col-form-label">Enter Average Watershed Slope (%)</label>
+						<div class="mb-3 col-sm-5">
+							<div class = "input-group">
+								<input type="text" class="form-control" id="edit_slope" placeholder="Average Watershed Slope (%)" required>
+								<span class="input-group-text">%</span>
+								<span class="input-group-text">0.00</span>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3 row-cols-auto justify-content-md-center">
+						<label for="edit_slope_length" class="col-sm-3 col-form-label">Enter Sheet Flow Length (ft)</label>
+						<div class="mb-3 col-sm-5">
+							<div class = "input-group">
+								<input type="text" class="form-control" id="edit_slope_length" placeholder="Sheet Flow Length (ft)" required>
+								<span class="input-group-text">ft</span>
+										<span class="input-group-text">00</span>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3 row-cols-auto justify-content-md-center">
+						<label for="edit_ls_value" class="col-sm-3 col-form-label">Enter LS factor value</label>
+						<div class="mb-3 col-sm-5">
+							<div class = "input-group">
+								<input type="text" class="form-control" id="edit_ls_value" placeholder="LS factor value" required>
+								<span class="input-group-text">0.00</span>
+							</div>
+						</div>
+					</div>
+					
+			
+	 -->				
+				
+				
+				
+				
 			</div>
 		</section>
 		<footer></footer>
