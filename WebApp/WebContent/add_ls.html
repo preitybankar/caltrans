@@ -29,7 +29,7 @@
 
 	<!-- Custom scripts and plugins -->
 	<script src="Js/index.js"></script>	
-	<script src="Js/add_LS.js"></script> 
+	<script src="Js/add_ls.js"></script> 
 
 	<div id="page-wrap">
 		<header></header>
@@ -41,7 +41,7 @@
 						      <span class="fs-4"> Add LS factor values </span>	    
 						</div><br>
 						<div class="row row-cols-auto justify-content-md-center" id="message" role="alert"></div><br>
-						<form id = "LSForm">
+						<form id = "ls_form">
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
 								<label for="ls-slope" class="col-sm-3 col-form-label">Enter Average Watershed Slope (%)</label>
 								<div class="mb-3 col-sm-5">
@@ -92,31 +92,7 @@
 									<th scope="col">Links to Delete</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-									<td><a href="#">Edit</a></td>
-									<td><a href="#">Delete</a></td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-									<td><a href="#">Edit</a></td>
-									<td><a href="#">Delete</a></td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Larry the Bird</td>
-									<td></td>
-									<td>@twitter</td>
-									<td><a href="#">Edit</a></td>
-									<td><a href="#">Delete</a></td>
-								</tr>
+							<tbody id="ls_table_body">
 							</tbody>
 							<tfoot class="table-primary">
 					            <tr>
