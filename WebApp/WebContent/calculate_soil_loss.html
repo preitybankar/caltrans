@@ -47,7 +47,7 @@
   							</div>
   							<span class="input-group-text">x</span> 
   							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">P: Erosion Control Practice</button>
+							  <button id="pre_p_button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">P: Erosion Control Practice</button>
   							</div>			    
 					  	</div>
 					  	<br><br><br><br>
@@ -120,12 +120,21 @@
 						        <h5 class="modal-title" id="staticBackdropLabel">Select P factor</h5>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
-						      <div class="modal-body">
-						        ...
+						      <div class="modal-body" id="pre-p-modal-body">
+						         <label>Select Support Practices: </label>
+							      <div class="form-floating">
+								      <select class="form-select" id="pre_supportpracticesName" name="pre_supportpracticesName" aria-label="Floating label select example"></select>
+								      <label for="pre_supportpracticesName">Support Practices Name</label>
+								  </div><br>
+							      <label>Reference: </label>
+							      <span id="pre_p_reference" style="color: green; font-weight: bold">USDA</span><br>
+							      <div class="form-floating">
+								  </div><br>
+							      <label>P factor value: </label>
+							      <span id="pre_p_value" style="color: blue; font-weight: bold">1.0</span><br>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Understood</button>
+						         <button id="select_pre_p_button" class="btn btn-primary" onClick="onSelectPrePButtonClick()" data-bs-dismiss="modal">Select P</button>
 						      </div>
 						    </div>
 						  </div>
@@ -188,7 +197,7 @@
   							</div>
   							<span class="input-group-text">x</span> 
   							<div class="col">
-							  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">P: Erosion Control Practice</button>
+							  <button id="post_p_button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">P: Erosion Control Practice</button>
   							</div>			    
 					  	</div>
 					  	<br><br><br><br>
@@ -261,12 +270,21 @@
 						        <h5 class="modal-title" id="staticBackdropLabel">Select P factor</h5>
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
-						      <div class="modal-body">
-						        ...
+						      <div class="modal-body" id="post-p-modal-body">
+						       <label>Select Support Practices: </label>
+							      <div class="form-floating">
+								      <select class="form-select" id="post_supportpracticesName" name="post_supportpracticesName" aria-label="Floating label select example"></select>
+								      <label for="post_supportpracticesName">Support Practices Name</label>
+								  </div><br>
+							      <label>Reference: </label>
+							      <span id="post_p_reference" style="color: green; font-weight: bold">USDA</span><br>
+							      <div class="form-floating">
+								  </div><br>
+							      <label>P factor value: </label>
+							      <span id="post_p_value" style="color: blue; font-weight: bold">1.0</span><br>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Understood</button>
+						        <button id="select_post_p_button"  class="btn btn-primary" onClick="onSelectPostPButtonClick()" data-bs-dismiss="modal">Select P</button>
 						      </div>
 						    </div>
 						  </div>
