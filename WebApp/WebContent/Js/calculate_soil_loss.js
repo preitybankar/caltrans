@@ -319,3 +319,128 @@
   			$("#post_c_button").text("C: Cover Management");
   		}
  	}
+	
+	
+			////////////// Load P Values for Pre Construction //////////////
+	
+	var pValueMap = new Map(); // Global variable
+	var refValueMap = new Map(); // Global variable
+	var isLoading = false;	// Global variable
+	
+	$(document).on("click", "#pre_p_button", function () {
+		if (!isLoading) {
+	        $("#pre_supportpracticesName").empty();
+	        isLoading = true;   
+	        $.ajax({
+				type: 'GET',
+		        url: 'p',
+		        async : true,
+		    }).done(function(pList) {
+		    	var supportpracticesSet = new Set();
+		    	pValueMap.clear();
+		    	refValueMap.clear();
+		    	for (var i = 0; i < pList.length ; i++ ) {
+		    		var p = pList[i];
+		    		supportpracticesSet.add(p.supportpractices_name);
+		    		
+		    		var key = p.supportpractices_name;
+		    		pValueMap[key] = p.p_value;
+		    		refValueMap[key] = p.reference;
+		    	}
+		    	supportpracticesSet.forEach(function(supportpractices_name) {
+		    		$("#pre_supportpracticesName").append("<option value='"+supportpractices_name+"'>"+supportpractices_name+"</option>");
+		    	});	
+		    	// Update Pre P value for the current support practices
+		    	var supportpractices = $("#pre_supportpracticesName").val();
+		    	setPrePValue(supportpractices);
+		    	isLoading = false;	
+		    }).fail(function(response) {
+		    	alert(response.responseText);
+		    });      
+    	}  	
+	});
+
+	
+	////////////// Set/Update P for Pre-Construction //////////////
+	
+	$(document).on('change', '#pre_supportpracticesName', function() {
+		setPrePValue(this.value);
+	});
+	
+	function setPrePValue(supportpractices) {
+		var key = supportpractices;
+		var p = pValueMap[key];
+		var ref = refValueMap[key];
+		$("#pre_p_value").text((p == null) ? "" : p);
+		$("#pre_p_reference").text((ref == null) ? "" : ref);
+		$('#select_pre_p_button').attr("disabled", (p == null));
+	}
+	
+	function onSelectPrePButtonClick() {
+  		var pValue = $("#pre_p_value").text();
+  		if(pValue) {
+  			$("#pre_p_button").text("P: " + pValue);
+  		} else {
+  			$("#pre_p_button").text("P: Erosion Control Practice");
+  		}
+ 	}
+ 	
+ 	////////////// Load P Values for Post Construction //////////////
+	
+	$(document).on("click", "#post_p_button", function () {
+		if (!isLoading) {
+	        $("#post_supportpracticesName").empty();
+	        isLoading = true;   
+	        $.ajax({
+				type: 'GET',
+		        url: 'p',
+		        async : true,
+		    }).done(function(pList) {
+		    	var supportpracticesSet = new Set();
+		    	pValueMap.clear();
+		    	refValueMap.clear();
+		    	for (var i = 0; i < pList.length ; i++ ) {
+		    		var p = pList[i];
+		    		supportpracticesSet.add(p.supportpractices_name);
+		    		
+		    		var key = p.supportpractices_name;
+		    		pValueMap[key] = p.p_value;
+		    		refValueMap[key] = p.reference;
+		    	}
+		    	supportpracticesSet.forEach(function(supportpractices_name) {
+		    		$("#post_supportpracticesName").append("<option value='"+supportpractices_name+"'>"+supportpractices_name+"</option>");
+		    	});	
+		    	// Update Post P value for the current support practices
+		    	var supportpractices = $("#post_supportpracticesName").val();
+		    	setPostPValue(supportpractices);
+		    	isLoading = false;	
+		    }).fail(function(response) {
+		    	alert(response.responseText);
+		    });      
+    	}  	
+	});
+
+	
+	////////////// Set/Update P for Post-Construction //////////////
+	
+	$(document).on('change', '#post_supportpracticesName', function() {
+		setPostPValue(this.value);
+	});
+	
+	function setPostPValue(supportpractices) {
+		var key = supportpractices;
+		var p = pValueMap[key];
+		var ref = refValueMap[key];
+		$("#post_p_value").text((p == null) ? "" : p);
+		$("#post_p_reference").text((ref == null) ? "" : ref);
+		$('#select_post_p_button').attr("disabled", (p == null));
+	}
+	
+	function onSelectPostPButtonClick() {
+  		var pValue = $("#post_p_value").text();
+  		if(pValue) {
+  			$("#post_p_button").text("P: " + pValue);
+  		} else {
+  			$("#post_p_button").text("P: Erosion Control Practice");
+  		}
+ 	}

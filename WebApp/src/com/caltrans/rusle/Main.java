@@ -6,6 +6,8 @@ import com.caltrans.rusle.models.LS;
 import com.caltrans.rusle.db.CTable;
 import com.caltrans.rusle.models.C;
 import com.caltrans.rusle.db.RTable;
+import com.caltrans.rusle.db.PTable;
+import com.caltrans.rusle.models.P;
 
 
 public class Main {
@@ -62,6 +64,15 @@ public class Main {
 		cTable.insert(new C("Tall weeds or short brush (average 20 inches high) (80% cover)", "-", 0.038f));
 		cTable.insert(new C("None (Bare soil)", "USDA", 1.0f));
 		cTable.insert(new C("Coconut fiber net", "AEC Product Data Sheet", 0.1f));
+		
+		PTable pTable = new PTable();
+		pTable.createIfNotExist();
+		pTable.insert(new P("Loose(no practices)", "USDA straw small grain", 1.0f));
+		pTable.insert(new P("Track Walking (perpendicular to flow)", "NTPEP ASTM 6459", 0.9f));
+		pTable.insert(new P("Terracing", "USDA; permanent seeding (90 percent stand).", 0.7f));
+		pTable.insert(new P("Benching", "USDA", 0.7f));
+		pTable.insert(new P("Fiber rolls ", "Assumed to match lowest P factor", 0.8f));
+		pTable.insert(new P("Compacted/smooth", "NTPEP ASTM 6459", 1.3f));
 		
 		RTable rTable = new RTable();
 		rTable.createIfNotExist();
