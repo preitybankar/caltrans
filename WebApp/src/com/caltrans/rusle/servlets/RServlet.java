@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.caltrans.rusle.db.RTable;
 import com.caltrans.rusle.models.R;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +19,18 @@ public class RServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		super.doGet(request, response);
+		response.setContentType("text/json");
+		RTable rTable = new RTable();
+		JsonArray json = new JsonArray();
+		for(R r : rTable.getAllR()) {
+			JsonObject rJSON  = new JsonObject();
+			rJSON.addProperty("location", r.getLocation());
+			rJSON.addProperty("r_value", r.getrValue());
+			json.add(rJSON);
+		}
+        response.setStatus(200);
+		response.setContentType("application/json");
+		response.getWriter().write(json.toString());
 	}
 	
 	@Override
