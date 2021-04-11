@@ -35,8 +35,22 @@ public class CServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(request, resp);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/json");
+		JsonArray json = new JsonArray();
+
+		String bmp = request.getParameter("bmp");
+		String reference = request.getParameter("reference");
+		String c_value = request.getParameter("c_value");
+		
+		C c = new C(bmp, reference, Float.parseFloat(c_value));
+		CTable cTable = new CTable();
+		cTable.createIfNotExist();
+		cTable.insert(c);
+		response.setStatus(200);
+		response.setContentType("application/json");
+		response.getWriter().write(json.toString());
 	}
 
 }
