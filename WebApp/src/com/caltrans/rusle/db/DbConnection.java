@@ -8,7 +8,7 @@ public class DbConnection {
 	private static final String JDBC_CONNECTION_STRING = "com.mysql.cj.jdbc.Driver";
 	private static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/caltrans";
 	private static final String DB_ADMIN = "root";
-	private static final String DB_ADMIN_PASSWORD = "12345";
+	private static final String DB_ADMIN_PASSWORD = "caltransadmin";
 
 	protected Connection mConnection;
 
