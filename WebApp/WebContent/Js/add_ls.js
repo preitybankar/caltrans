@@ -8,7 +8,7 @@ function loadDatatable() {
 		url: 'ls',
 		async: true,
 	}).done(function(data) {
-		lsTable = "";
+		//lsTable = "";
 		lsTable = $('#ls_table').DataTable({
 			responsive: true,
 			data: data,
@@ -19,14 +19,24 @@ function loadDatatable() {
 				{ data: "slope" },
 				{ data: "slope_length" },
 				{ data: "ls_value" },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_ls_modal">Edit</a>'; } },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_ls_modal">Delete</a>'; } }
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="editLS(\'' + meta.row + '\')">Edit</a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="deleteLS(\'' + meta.row + '\')">Delete</a>'; } }
 			]
 		});
-		console.log(lsTable);
+		//console.log(lsTable);
 	});
 }
 
+function editLS(selectedRowIndex) {
+	var ls = lsTable.row(selectedRowIndex).data();
+	alert("Edit " + JSON.stringify(ls));
+}
+
+function deleteLS(selectedRowIndex) {
+	var ls = lsTable.row(selectedRowIndex).data();
+	alert("Delete " + JSON.stringify(ls));
+	lsTable.row(selectedRowIndex).remove().draw();
+}
 
 $(document).ready(function() {
 	if ($.fn.dataTable.isDataTable('#ls_table')) {
