@@ -150,43 +150,126 @@
 	
 	
 		
-	////////////// Setting/Adding R Value for Pre - Construction //////////////
+	///////////// Load R Values for Pre Construction //////////////
+	
+	var rValueMap = new Map(); // Global variable
+	var isLoading = false;	// Global variable
+	
+	$(document).on("click", "#pre_r_button", function () {
+		if (!isLoading) {
+	        $("#pre_r_location_select").empty();
+	        isLoading = true;   
+	        $.ajax({
+				type: 'GET',
+		        url: 'r',
+		        async : true,
+		    }).done(function(rList) {
+		    	var locationSet = new Set();
+		    	rValueMap.clear();
+		    	for (var i = 0; i < rList.length ; i++ ) {
+		    		var r = rList[i];
+		    		locationSet.add(r.location);
+		    		
+		    		var key = r.location;
+		    		rValueMap[key] = r.r_value;
+		    	}
+		    	locationSet.forEach(function(location) {
+		    		$("#pre_r_location_select").append("<option value='"+location+"'>"+location+"</option>");
+		    	});	
+		    	// Update Pre R
+		    	var location = $("#pre_r_location_select").val();
+		    	setPreRValue(location);
+		    	isLoading = false;	
+		    }).fail(function(response) {
+		    	alert(response.responseText);
+		    });      
+    	}  	
+	});
 
-	function onSelectPreRButtonClick() {
-  		var prerValue = $('#pre_r_value').val();
-  		var preLoc = $('#pre_r_location').val();
-  		$.ajax({ 
-            type : "POST", 
-            data : { 
-                r_value : prerValue, 
-                location: preLoc 
-            }, 
-            url : "r", 
-        }); 
-        
-        if(prerValue && preLoc){
+	
+	////////////// Set/Update R for Pre-Construction //////////////
+	
+	$(document).on('change', '#pre_r_location_select', function() {
+		setPreRValue(this.value);
+	});
+	
+	function setPreRValue(location) {
+		var key = location;
+		var r = rValueMap[key];
+		
+		$("#pre_r_value_select").text((r == null) ? "" : r);
+			
+	}
+		
+		function onSelectPreRButtonClick() {
+  		var prerValue = $('#pre_r_value_text').val();
+  		var preLoc = $('#pre_r_location_text').val();
+	
+  		if(prerValue && preLoc){
   		var pre_r_str="R: " + prerValue ;
   		}
   		else{
   		var pre_r_str= "R: Erosivity"; 
   		}
+  		
   		$("#pre_r_button").text(pre_r_str);
   	}
   	
-  	 ////////////// Setting R/Adding Value for Post - Construction //////////////
+  	////////////// Load R Values for Post Construction //////////////
+	
+	var rValueMap = new Map(); // Global variable
+	var isLoading = false;	// Global variable
+	
+	$(document).on("click", "#post_r_button", function () {
+		if (!isLoading) {
+	        $("#post_r_location_select").empty();
+	        isLoading = true;   
+	        $.ajax({
+				type: 'GET',
+		        url: 'r',
+		        async : true,
+		    }).done(function(rList) {
+		    	var locationSet = new Set();
+		    	rValueMap.clear();
+		    	for (var i = 0; i < rList.length ; i++ ) {
+		    		var r = rList[i];
+		    		locationSet.add(r.location);
+		    		
+		    		var key = r.location;
+		    		rValueMap[key] = r.r_value;
+		    	}
+		    	locationSet.forEach(function(location) {
+		    		$("#post_r_location_select").append("<option value='"+location+"'>"+location+"</option>");
+		    	});	
+		    	// Update Pre R
+		    	var location = $("#post_r_location_select").val();
+		    	setPostRValue(location);
+		    	isLoading = false;	
+		    }).fail(function(response) {
+		    	alert(response.responseText);
+		    });      
+    	}  	
+	});
 
-	function onSelectPostRButtonClick() {
-  		var postrValue = $('#post_r_value').val();
-  		var postLoc = $('#post_r_location').val();
-  		$.ajax({ 
-            type : "POST", 
-            data : { 
-                r_value : postrValue, 
-                location: postLoc 
-            }, 
-            url : "r", 
-            
-        }); 
+	
+	////////////// Set/Update R for Pre-Construction //////////////
+	
+	$(document).on('change', '#post_r_location_select', function() {
+		setPostRValue(this.value);
+	});
+	
+	function setPostRValue(location) {
+		var key = location;
+		var r = rValueMap[key];
+		
+		$("#post_r_value_select").text((r == null) ? "" : r);
+		$('#select_post_r_button').attr("disabled", (r == null));
+	}
+	
+		function onSelectPostRButtonClick() {
+  		var postrValue = $('#post_r_value_text').val();
+  		var postLoc = $('#post_r_location_text').val();
+	
   		if(postrValue && postLoc){
   		var post_r_str="R: " + postrValue ;
   		}
@@ -195,6 +278,7 @@
   		}
   		$("#post_r_button").text(post_r_str);
   	}
+  	 
   	
   	////////////// Load C Values for Pre Construction //////////////
 	
