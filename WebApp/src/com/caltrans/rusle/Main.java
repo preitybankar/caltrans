@@ -6,6 +6,7 @@ import com.caltrans.rusle.models.LS;
 import com.caltrans.rusle.db.CTable;
 import com.caltrans.rusle.models.C;
 import com.caltrans.rusle.db.RTable;
+import com.caltrans.rusle.models.R;
 import com.caltrans.rusle.db.PTable;
 import com.caltrans.rusle.models.P;
 
@@ -76,6 +77,10 @@ public class Main {
 		
 		RTable rTable = new RTable();
 		rTable.createIfNotExist();
+		rTable.insert(new R(45.49f, "Sacramento"));
+		rTable.insert(new R(47.73f, "Davis"));
+		rTable.insert(new R(52.53f, "Folsom"));
+		
 		
 		/*List<LS> lsList = lsTable.getAllLS();
 		for (LS dbLS : lsList) {

@@ -45,10 +45,8 @@ public class RServlet extends HttpServlet {
 		R r= new R(RValue, Location);
 		RTable rtable = new RTable();
 		rtable.createIfNotExist();
-		if (!R_value.isBlank() && !Location.isBlank())
-		{
-			rtable.insert(r);
-		}
+		rtable.insert(r);
+		resp.setStatus(200);
 		resp.setContentType("application/json");
 		resp.getWriter().write(json.toString());
 		
