@@ -19,7 +19,7 @@ function loadDatatable() {
 				{ data: "slope" },
 				{ data: "slope_length" },
 				{ data: "ls_value" },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="editLS(\'' + meta.row + '\')">Edit</a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { console.log(); return '<a href="#" onclick="editLS(\'' + meta.row + '\')">Edit</a>'; } },
 				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="deleteLS(\'' + meta.row + '\')">Delete</a>'; } }
 			]
 		});
