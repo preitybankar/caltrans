@@ -35,8 +35,21 @@ public class PServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(request, resp);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/json");
+		JsonArray json = new JsonArray();
+
+		String supportpractices_name = request.getParameter("supportpractices_name");
+		String reference = request.getParameter("reference");
+		String p_value = request.getParameter("p_value");
+		
+		P p = new P(supportpractices_name, reference, Float.parseFloat(p_value));
+		PTable pTable = new PTable();
+		pTable.createIfNotExist();
+		pTable.insert(p);
+		response.setStatus(200);
+		response.setContentType("application/json");
+		response.getWriter().write(json.toString());
 	}
 
 }
