@@ -19,8 +19,53 @@
 		  <header></header>	
 		  	<section id="main-content">
 				<div id="guts">
+					<br><br>
+					<h3 class="text-center">RUSLE Application</h3>
+					<br><br>
 					<div class="container">
-						<h1>Hello, Home Page</h1>
+						<p>The Stormwater industry in California needs an application that will easily determine the soil loss (erosion) inputting existing conditions for construction project. The application will be developed to comply with the requirements of the
+California General NPDES Permit (or Construction General Permit (CGP)) for stormwater discharges associated with construction activity.
+						</p><br>
+						<p class="text-center fw-bold">The basis for the application is the Revised Universal Soil Loss Equation (RUSLE):</p>
+						<p class="text-center fw-bold">A = R x K x LS x C x P</p><br>
+						<p>Where:</p>
+						
+						<ul class="list-group list-group-flush">
+						  <li class="list-group-item">A = Soil Loss in tones/acre/year</li>
+						  <li class="list-group-item">R = Erosivity (based on schedule and rainfall intensity)</li>
+						  <li class="list-group-item">K = Erodibility (based silt content of soil)</li>
+						  <li class="list-group-item">LS = Length/Steepness (based on representative slope length and steepness)</li>
+						  <li class="list-group-item">C = Cover Management (BMPs based on cover effectiveness)</li>
+						  <li class="list-group-item">P = Erosion Control Practice (other erosion control BMP effectiveness)</li>
+						</ul>
+					<br><br>
+					<p>The post-construction soil loss needs to be equal to or less than pre-construction. The application will compare the pre-construction soil loss to the post-construction soil loss.</p>
+					<p>The RUSLE 2 program allows multiple “transects” to be entered. This means that there may be several inputs for representative areas on a construction project.</p>
+					<br>
+					<p>The application accepts input for the multiple areas and compute a weighted average based on area or percentage represented by the transect.The application will also be able to help model BMPs during construction. Input of during construction BMPs would also be compared to pre-construction conditions to determine if the BMPs are adequate (less than or equal to pre-construction soil loss).</p>
+					<br>
+					<p>The application will need to have a data base for the input parameters. The R factor is based on a schedule and rainfall intensity. There is a rain fall intensity map with contours that would need to be included. There is a table for areas to
+determine percentages of rainfall during the year. Then the percentages of the year (based on schedule input) would be multiplied by the annual intensity (based on location on the map contours)</p>
+
+					<br>
+					<p>There is a map of K values. Based on location the correct K value could be defaulted. But this should include an input box for measured K. These are typically 0.24 to 0.40.
+					</p>
+					<br>
+					<p>The LS factor would be based on a table of length versus slope percent. The application would need to take the input and output a factor based on the table.</p>
+					<br>
+					<p>The C factor would need a list of cover BMPs with associated effectiveness to choose from and an input for percent or area of coverage.
+					</p>
+					<br>
+					<p>There should also be an “other” to enter project specific BMPs and their effectiveness. I would assume the list included in the app could grow over time based on feedback for additional BMPs.
+					</p>
+					<br>
+					<p>The P factor similarly would need a list of BMPs with effectiveness to select one or more with a percentage or area.
+					</p>
+					<br>
+					<p>This is not just a replacement of the RUSLE 2 program. This is to be more specific to the needs of CA construction. The RUSLE was developed from a farming aspect to reduce soil loss from wind dating back to the Dust Bowl. So, there may be many farming aspects that do not apply. For example, a typical construction BMPs does not include fallen row crops such as corn but should include straw mulch that could be applied to the disturbed soil area to cover it at a 2-inch thickness.</p>
+					<br>
+					<p>We can work on getting the best BMP effectiveness data from the Caltrans website, RUSLE 2 program, SMARTS database (Water Boards), etc. In fact, we might want to share this with CASQA once we get it started for input.
+					</p>
 					</div>
 				</div>
 			</section>

@@ -8,34 +8,54 @@ function loadDatatable() {
 		url: 'ls',
 		async: true,
 	}).done(function(data) {
-		//lsTable = "";
+		lsTable = "";
 		lsTable = $('#ls_table').DataTable({
 			responsive: true,
 			data: data,
 			destroy: true,
 			retrieve: true,
 			columns: [
-				{ data: "", "render": function(data, type, full, meta) { return meta.row + 1; } },
+				{ data: "", "render": function(data, type, full, meta) { return meta.row + meta.settings._iDisplayStart + 1; } },
 				{ data: "slope" },
 				{ data: "slope_length" },
 				{ data: "ls_value" },
-				{ data: null, "render": function(data, type, full, meta) { console.log(); return '<a href="#" onclick="editLS(\'' + meta.row + '\')">Edit</a>'; } },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="deleteLS(\'' + meta.row + '\')">Delete</a>'; } }
-			]
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="editLS(\'' + meta.row + '\')"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#"> <i class="fa fa-minus-square" aria-hidden="true"></i></a>'; } }
+			],  
+	         "fnRowCallback": function (nRow, aData, iDisplayIndex) {  
+	             $("td:first", nRow).html(iDisplayIndex + 1);  
+	             return nRow;  
+	         }
 		});
 		//console.log(lsTable);
 	});
 }
 
 function editLS(selectedRowIndex) {
-	var ls = lsTable.row(selectedRowIndex).data();
-	alert("Edit " + JSON.stringify(ls));
+ 	//alert(selectedRowIndex);
+	//var ls = JSON.stringify(lsTable.row(selectedRowIndex).data());
+	//alert("Edit " + ls);
 }
-
-function deleteLS(selectedRowIndex) {
-	var ls = lsTable.row(selectedRowIndex).data();
-	alert("Delete " + JSON.stringify(ls));
-	lsTable.row(selectedRowIndex).remove().draw();
+      
+function deleteLS(clickedRow, rowData) {
+		$.ajax({
+		url: "ls",
+		data: JSON.stringify(rowData),
+		type: "DELETE",
+		async: true,
+		success: function() {
+			lsTable.row(clickedRow).remove().draw();
+			//alert("Inside success");
+			$('#message').html("<span>Deleted! LS data record has been deleted.</span>")
+				.addClass("alert alert-success")
+				.hide()
+				.fadeIn(1500);
+	
+			setTimeout(function() {
+				$('#message').fadeOut("Slow");
+			}, 5000);
+		}
+	});
 }
 
 $(document).ready(function() {
@@ -49,6 +69,43 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+
+	$('#ls_table tbody').on( 'click', 'td .fa.fa-pencil-square', function () {
+		//alert("Clicked Edit");
+    	//alert( 'Row index: '+ lsTable.row( clickedRow ).index() );
+    	var clickedRow = $($(this).closest('td')).closest('tr'); 
+		var rowData = JSON.stringify(lsTable.row( clickedRow ).data());
+		//alert( 'Row data: '+ rowData);
+  
+	} );
+	
+	$('#ls_table tbody').on( 'click', 'td i.fa.fa-minus-square', function (e) {
+	    
+    	var clickedRow = $($(this).closest('td')).closest('tr');
+    	var rowData = lsTable.row( clickedRow ).data();
+    	
+    	var delete_ls_modal = new bootstrap.Modal(document.getElementById('delete_ls_modal'), {
+		  backdrop: 'static',
+		  keyboard: false,
+		  focus: true
+		})
+		
+		delete_ls_modal.show();
+    	
+    	e.stopPropagation();
+
+	    $('#delete_ls_button').click( function() {
+	        //alert('clicked');   
+    		deleteLS(clickedRow, rowData);     
+	    });
+    		
+    	//alert( 'Row data: '+ rowData);
+    	console.log(rowData);
+    	console.log(rowData.ls_value);
+    	console.log(rowData.slope);
+    	console.log(rowData.slope_length);
+	});
+	
 	$("#ls_form").on("submit", function(e) {
 		var dataString = $(this).serialize();
 		// get inputs

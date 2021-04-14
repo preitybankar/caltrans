@@ -21,7 +21,7 @@
 				<div id="guts">
 					<br><br>
 					<h4 style="text-align: center;">Calculate Soil Loss (A) in tons/acre/year</h4>
-					<br><br><br>
+					<br><br><br><br>
 					<div class="container-fluid">		
 						<div class="row row-cols-auto justify-content-md-center">
 						    <div class="col">
@@ -34,7 +34,7 @@
 						    <div class="col">								   
 	  							<div class="input-group">
 								  <span class="input-group-text" id="basic-addon1">K:</span>
-								  <input type="text" class="form-control" placeholder="K: Erodibility" aria-label="K: Erodibility" aria-describedby="basic-addon1">
+								  <input type="text" class="form-control" placeholder="K: Erodibility" aria-label="K: Erodibility" aria-describedby="basic-addon1" id="pre_k_value">
 								</div>
   							</div>
   							<span class="input-group-text">x</span> 	
@@ -52,8 +52,22 @@
 					  	</div>
 					  	<br><br><br><br>
 					  	<div class="row row-cols-auto justify-content-md-center">
-					  		<button class="calculate-button btn btn-success">CALCULATE</button>
-					  	</div>
+					  		<button class="calculate-button btn btn-success" id = "pre_cons_calculate_btn">CALCULATE</button>
+					  	</div><br><br><br>
+					  	
+					  	<div  id="pre_result_div" class="container border"><br><br>
+							 <div class="row row-cols-auto justify-content-md-center">
+						    <div class="col-sm-3 text-end">
+						    	<label for="pre-cons-result" class="col-form-label">Pre - Construction Soil Loss (A) Result = </label>
+						    </div>
+						    <div class="col-sm-3">
+						      	<div class = "input-group">
+							 		<span class="input-group-text" id="inputGroup-sizing-default">A :</span>
+									<input type="text" class="form-control text-danger" name="pre_cons_result" id="pre_cons_result">
+								</div>
+						    </div>
+						  </div><br><br>
+						</div><br>
 							
 						<!-- Modal to select Pre LS Factor -->			
 						<div class="modal fade" id="pre_ls_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -154,20 +168,17 @@
 									Rainfall Erosivity Factor Calculator</a>
 									<br><br>
 									<label>Select From Location from Database</label>
-									<div class="row g-2">
-  									<div class="col-md">
-							      <div class="form-floating">
-								      <select class="form-control" id="pre_r_location_select" name="pre_r_location_select" aria-label="Floating label select example"></select>
-								      </div>
-								 </div>
-  								<div class="col-md">
-								  <label>Database R Value= </label><br>
-							      <span id="pre_r_value_select" style="color: black; font-weight: bold"></span><br>
-									<div class="form-floating">   
-									</div>
-									</div><br><br>
-									<br>
-									<br>
+									<div class="row">
+	  									<div class="col">
+										    <div class="form-floating">
+												<select class="form-select" id="pre_r_location_select" name="pre_r_location_select" aria-label="Floating label select example"></select>
+												<label for="pre_r_location_select">Location:</label>
+											</div>
+									 	</div>
+	  									<div class="col">
+									  		<label>Database R Value= </label>
+								      		<span id="pre_r_value_select" style="color: blue; font-weight: bold"></span>
+										</div><br><br><br><br>
 									<label>Please Enter R Factor Value: </label><br>
 									<input type="text" class="form-control" id="pre_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value_text">
 									<div class="form-floating">
@@ -181,10 +192,9 @@
 						       </div>
 						    </div>
 						  </div>
-						</div>  
-							
+						</div>  	
 					</div>
-					<br><br><br><br><br><br>
+					<br><br><br><br><br>
 					<div class="container-fluid">		
 						<div class="row row-cols-auto justify-content-md-center">
 						    <div class="col">
@@ -197,7 +207,7 @@
 						    <div class="col">
 								<div class="input-group">
 									<span class="input-group-text" id="basic-addon2">K:</span>
-									<input type="text" class="form-control" placeholder="K: Erodibility" aria-label="K: Erodibility" aria-describedby="basic-addon2">
+									<input id="post_k_value" type="text" class="form-control" placeholder="K: Erodibility" aria-label="K: Erodibility" aria-describedby="basic-addon2">
 						    	</div>  							
 							</div>
   							<span class="input-group-text">x</span> 	
@@ -213,10 +223,24 @@
 							  <button id="post_p_button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">P: Erosion Control Practice</button>
   							</div>			    
 					  	</div>
-					  	<br><br><br><br>
+					  	<br><br><br>
 					  	<div class="row row-cols-auto justify-content-md-center">
-					  		<button class="calculate-button btn btn-success">CALCULATE</button>
-					  	</div>
+					  		<button class="calculate-button btn btn-success" id="post_cons_calculate_btn">CALCULATE</button>
+					  	</div><br><br><br>
+					  	
+					  	<div  id="post_result_div" class="container border"><br><br>
+					  	 <div class="row row-cols-auto justify-content-md-center">
+						    <div class="col-sm-3 text-end">
+						    	<label for="pre-cons-result" class="col-form-label">Post - Construction Soil Loss (A) Result = </label>
+						    </div>
+						    <div class="col-sm-3">
+						      	<div class = "input-group">
+							 		<span class="input-group-text" id="inputGroup-sizing-default">A :</span>
+									<input type="text" class="form-control text-danger" name="post_cons_result" id="post_cons_result">
+								</div>
+						    </div>
+						  </div><br><br>
+					  </div><br>
 					  	
 					  	<!-- Modal to select Post LS Factor -->	
 						<div class="modal fade" id="post_ls_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -317,15 +341,16 @@
 									Rainfall Erosivity Factor Calculator</a>
 									<br><br>
 									<label>Select From Location from Database</label>
-									<div class="row g-2">
-  									<div class="col-md">
+									<div class="row">
+  									<div class="col">
 							      <div class="form-floating">
 								      <select class="form-select" id="post_r_location_select" name="post_r_location_select" aria-label="Floating label select example"></select>
+								      	<label for="post_r_location_select">Location:</label>
 								      </div>
 								 </div>
-  								<div class="col-md">
-								  <label>Database R Value= </label><br>
-							      <span id="post_r_value_select" style="color: black; font-weight: bold"></span><br>
+  								<div class="col">
+								  <label>Database R Value= </label>
+							      <span id="post_r_value_select" style="color: blue; font-weight: bold"></span><br>
 									<div class="form-floating">   
 									</div>
 									</div><br><br>

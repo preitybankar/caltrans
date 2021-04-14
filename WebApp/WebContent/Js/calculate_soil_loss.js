@@ -185,8 +185,9 @@
 		    });      
     	}  	
 	});
+ 
+ 
 
-	
 	////////////// Set/Update R for Pre-Construction //////////////
 	
 	$(document).on('change', '#pre_r_location_select', function() {
@@ -528,3 +529,32 @@
   			$("#post_p_button").text("P: Erosion Control Practice");
   		}
  	}
+ 	
+ 	/////////////////////////////////////////////////////////////////////////////
+	
+	$( "#pre_cons_calculate_btn" ).click(function() {
+	  	var pre_r_value = parseFloat($("#pre_r_button").text().split(" ")[1]);
+	  	var pre_k_value = parseFloat($("#pre_k_value").val());
+	  	var pre_ls_value = parseFloat($("#pre_ls_button").text().split(" ")[1]);
+	  	var pre_c_value = parseFloat($("#pre_c_button").text().split(" ")[1]);
+	  	var pre_p_value = parseFloat($("#pre_p_button").text().split(" ")[1]);
+		
+		var pre_const_soil_loss = (pre_r_value * pre_k_value * pre_ls_value * pre_c_value * pre_p_value);
+	  	
+	  	$("#pre_cons_result").val(pre_const_soil_loss);
+	});
+	
+	/////////////////////////////////////////////////////////////////////////////
+	
+	$( "#post_cons_calculate_btn" ).click(function() {
+	  	var post_r_value = parseFloat($("#post_r_button").text().split(" ")[1]);
+	  	var post_k_value = parseFloat($("#post_k_value").val());
+	  	var post_ls_value = parseFloat($("#post_ls_button").text().split(" ")[1]);
+	  	var post_c_value = parseFloat($("#post_c_button").text().split(" ")[1]);
+	  	var post_p_value = parseFloat($("#post_p_button").text().split(" ")[1]);
+		
+		var post_const_soil_loss = (post_r_value * post_k_value * post_ls_value * post_c_value * post_p_value);
+	  	
+	  	$("#post_cons_result").val(post_const_soil_loss);
+	});
+

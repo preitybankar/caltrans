@@ -1,8 +1,12 @@
 package com.caltrans.rusle.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.stream.Collectors;
+
 import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.models.LS;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -47,6 +51,36 @@ public class LSServlet extends HttpServlet {
 		LSTable lsTable = new LSTable();
 		lsTable.createIfNotExist();
 		lsTable.insert(ls);
+		response.setStatus(200);
+		response.setContentType("application/json");
+		response.getWriter().write(json.toString());
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("Inside doDelete");
+		
+		response.setContentType("text/json");
+		JsonArray json = new JsonArray();
+		
+		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
+		
+		float ls_slope = data.get("slope").getAsFloat();
+		int ls_length = data.get("slope_length").getAsInt();
+		float ls_value = data.get("ls_value").getAsFloat();
+		
+		System.out.println(ls_slope);
+		System.out.println(ls_length);
+		System.out.println(ls_value);
+	
+		
+		LS ls = new LS(ls_slope, ls_length, ls_value);
+		
+		System.out.println(ls);
+		
+		LSTable lsTable = new LSTable();	
+		lsTable.delete(ls);
 		response.setStatus(200);
 		response.setContentType("application/json");
 		response.getWriter().write(json.toString());
