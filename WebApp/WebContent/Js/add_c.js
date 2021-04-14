@@ -19,14 +19,13 @@ function loadDatatable() {
 				{ data: "bmp_name" },
 				{ data: "reference" },
 				{ data: "c_value" },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_c_modal">Edit</a>'; } },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_c_modal">Delete</a>'; } }
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_c_modal"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_c_modal"><i class="fa fa-minus-square" aria-hidden="true"></i></a>'; } }
 			]
 		});
 		console.log(cTable);
 	});
 }
-
 
 $(document).ready(function() {
 	if ($.fn.dataTable.isDataTable('#c_table')) {

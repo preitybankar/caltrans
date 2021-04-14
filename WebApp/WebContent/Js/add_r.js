@@ -18,8 +18,8 @@ function loadDatatable() {
 				{ data: "", "render": function(data, type, full, meta) { return meta.row + 1; } },
 				{ data: "location" },
 				{ data: "r_value" },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_r_modal">Edit</a>'; } },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_r_modal">Delete</a>'; } }
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_r_modal"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_r_modal"><i class="fa fa-minus-square" aria-hidden="true"></i></a>'; } }
 			]
 		});
 		console.log(rTable);

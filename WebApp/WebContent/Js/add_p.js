@@ -19,14 +19,13 @@ function loadDatatable() {
 				{ data: "supportpractices_name" },
 				{ data: "reference" },
 				{ data: "p_value" },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_p_modal">Edit</a>'; } },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_p_modal">Delete</a>'; } }
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#edit_p_modal"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" data-bs-toggle="modal" data-bs-target="#delete_p_modal"><i class="fa fa-minus-square" aria-hidden="true"></i></a>'; } }
 			]
 		});
 		console.log(pTable);
 	});
 }
-
 
 $(document).ready(function() {
 	if ($.fn.dataTable.isDataTable('#p_table')) {
