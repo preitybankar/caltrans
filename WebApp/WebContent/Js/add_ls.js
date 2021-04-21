@@ -2,6 +2,7 @@
  * 
  */
 var lsTable;
+var clickedEditRow;
 function loadDatatable() {
 	$.ajax({
 		type: 'GET',
@@ -19,7 +20,7 @@ function loadDatatable() {
 				{ data: "slope" },
 				{ data: "slope_length" },
 				{ data: "ls_value" },
-				{ data: null, "render": function(data, type, full, meta) { return '<a href="#" onclick="editLS(\'' + meta.row + '\')"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
+				{ data: null, "render": function(data, type, full, meta) { return '<a href="#")"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
 				{ data: null, "render": function(data, type, full, meta) { return '<a href="#"> <i class="fa fa-minus-square" aria-hidden="true"></i></a>'; } }
 			],  
 	         "fnRowCallback": function (nRow, aData, iDisplayIndex) {  
@@ -31,10 +32,28 @@ function loadDatatable() {
 	});
 }
 
-function editLS(selectedRowIndex) {
- 	//alert(selectedRowIndex);
-	//var ls = JSON.stringify(lsTable.row(selectedRowIndex).data());
-	//alert("Edit " + ls);
+function editLS(clickedRow, changedData) {
+			//alert('form clicked');        
+    		//alert(clickedRow)
+    		/*
+    		$.ajax({
+				url: "ls",
+				data: JSON.stringify(changedData),
+				type: "POST",
+				async: true,
+				success: function() {
+					//lsTable.row(clickedRow).draw();
+					//alert("Inside success");
+					$('#message').html("<span>Updated! LS data record has been updated.</span>")
+						.addClass("alert alert-success")
+						.hide()
+						.fadeIn(1500);
+			
+					setTimeout(function() {
+						$('#message').fadeOut("Slow");
+					}, 5000);
+				}
+			}); */
 }
       
 function deleteLS(clickedRow, rowData) {
@@ -70,14 +89,49 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-	$('#ls_table tbody').on( 'click', 'td .fa.fa-pencil-square', function () {
-		//alert("Clicked Edit");
+	$('#ls_table tbody').on( 'click', 'td .fa.fa-pencil-square', function (e) {
     	//alert( 'Row index: '+ lsTable.row( clickedRow ).index() );
-    	var clickedRow = $($(this).closest('td')).closest('tr'); 
-		var rowData = JSON.stringify(lsTable.row( clickedRow ).data());
-		//alert( 'Row data: '+ rowData);
+    	
+    	var clickedRow = $($(this).closest('td')).closest('tr');
+    	var rowData = lsTable.row( clickedRow ).data();
+		
+		$('#edit_slope').val(rowData.slope);
+		$('#edit_slope_length').val(rowData.slope_length); 
+		$('#edit_ls_value').val(rowData.ls_value);
+	
+		var edit_ls_modal = new bootstrap.Modal(document.getElementById('edit_ls_modal'), {
+		  backdrop: 'static',
+		  keyboard: false,
+		  focus: true
+		})
+		
+		edit_ls_modal.show();
+    	
+    	e.stopPropagation();
+    	
+    	$('#update_ls_button').click( function() {
+	        // alert('clicked');
+	        
+	        
+	        $('#edit_slope').val(rowData.slope);
+			$('#edit_slope_length').val(rowData.slope_length); 
+			$('#edit_ls_value').val(rowData.ls_value);
+	       
+	        var dataString = new Object();
+			dataString.slope = $('#edit_slope').val();
+			dataString.slope_length = $('#edit_slope_length').val();
+			dataString.ls_value = $('#edit_ls_value').val();
+			
+			console.log(dataString);
+			 
+    		editLS(clickedRow, dataString); 
+	    });
+	    
+	    //console.log(rowData.slope);
+    	//console.log(rowData.slope_length);
+    	//console.log(rowData.ls_value);
   
-	} );
+	});
 	
 	$('#ls_table tbody').on( 'click', 'td i.fa.fa-minus-square', function (e) {
 	    
@@ -100,12 +154,12 @@ $(document).ready(function() {
 	    });
     		
     	//alert( 'Row data: '+ rowData);
-    	console.log(rowData);
-    	console.log(rowData.ls_value);
-    	console.log(rowData.slope);
-    	console.log(rowData.slope_length);
+    	//console.log(rowData);
+    	//console.log(rowData.ls_value);
+    	//console.log(rowData.slope);
+    	//console.log(rowData.slope_length);
 	});
-	
+	    
 	$("#ls_form").on("submit", function(e) {
 		var dataString = $(this).serialize();
 		// get inputs
