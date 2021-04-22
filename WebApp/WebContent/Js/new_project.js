@@ -339,7 +339,7 @@
 		}
 	}
 	  		
-	var i = 0;
+	// var i = 0;
 	const PROJECT = new Project();
 	const SITE_LIST = [];
 	const MAX_SITES = 2;
@@ -367,17 +367,64 @@
    		  	$("#addPostCoversBtn").prop("id", "addPostCoversBtn_" + siteIndex);
  		  	$("#addPrePracticesBtn").prop("id", "addPrePracticesBtn_" + siteIndex);
  		  	$("#addPostPracticesBtn").prop("id", "addPostPracticesBtn_" + siteIndex);
-			$("#headingOne_" + siteIndex).html("<button id= accordion_button_" + siteIndex +" class=accordion-button type=button data-bs-toggle=collapse data-bs-target=#collapseOne_" + siteIndex + " aria-expanded=true aria-controls=collapseOne_" + siteIndex + ">" + "Site #" + siteIndex + "</button>");
-	
+			$("#headingOne_" + siteIndex).html("<button id= accordion_button_" + siteIndex +" class=accordion-button type=button data-bs-toggle=collapse data-bs-target=#collapseOne_" + siteIndex + " aria-expanded=true aria-controls=collapseOne_" + siteIndex + ">" + "Site #" + (siteIndex + 1) + "</button>");
+			
 	
 			let site = new Site();
-			site.setName("" + siteIndex);
+			site.setName("Site_" + siteIndex);
+			site.setLocation("Newark");
+			site.setDescription("backyard garden irrigation system");
+			site.setArea("2000 sqft");
 			// Since we added empty precover section, add empty precover object and populate it when user enters information
 			site.setPreSoilLoss(new SoilLoss());
 			site.setPostSoilLoss(new SoilLoss());
 			//site.addPreCover(new C());
 			SITE_LIST[siteIndex] = site;
 			// alert(siteList[siteIndex].getName());
+			
+			////////////////////////////// add one pre cover by default /////////////////////////
+			let preSoilLoss = site.getPreSoilLoss();
+			let preCoverIndex = preSoilLoss.getCoverCount();
+			
+			let div2 = document.createElement('div');
+			div2.id = "preCoverButton_" + preCoverIndex + "-" + siteIndex;
+		  	div2.innerHTML = ('<div class="input-group mb-3"><input id=preCValues_' + preCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="pre_c_button" disabled><button id=preCButton_' + preCoverIndex + "-" + siteIndex + ' class="preSelectCBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_c_modal">Select C</button></div>');
+			var preCoverSection = document.getElementById('preCoverSection_'+ siteIndex);
+		  	preCoverSection.appendChild(div2);
+			preSoilLoss.addCover(new C());
+			
+			//////////////////////////// add one post cover by default /////////////////////////
+			let postSoilLoss = site.getPostSoilLoss();
+			let postCoverIndex = postSoilLoss.getCoverCount();
+					
+			let div3 = document.createElement('div');
+			div3.id = "postCoverButton_" + postCoverIndex + "-" + siteIndex; 	
+			div3.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_' + postCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_' + postCoverIndex + "-" + siteIndex + ' class="postSelectCBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button></div>');
+			var postCoverSection = document.getElementById('postCoverSection_'+ siteIndex);
+		  	postCoverSection.appendChild(div3);
+			postSoilLoss.addCover(new C());
+			
+			//////////////////////// add one pre practice by default //////////////////////////
+			let prePracticeIndex = preSoilLoss.getPracticeCount();
+			let div4 = document.createElement('div');
+			div4.id = "prePracticeButton_" + prePracticeIndex + "-" + siteIndex;
+		  	div4.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_' + prePracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_' + prePracticeIndex + "-" + siteIndex + ' class="preSelectPBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button></div>');
+			var prePracticeSection = document.getElementById('prePracticeSection_'+ siteIndex);
+		  	prePracticeSection.appendChild(div4);
+			preSoilLoss.addPractice(new P());
+			
+			///////////////////////// add one post practice by default ////////////////////////////
+			let postPracticeIndex = postSoilLoss.getPracticeCount();
+			let div5 = document.createElement('div');
+			div5.id = "postPracticeButton_"+ postPracticeIndex + "-" + siteIndex;
+			div5.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_' + postPracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_' + postPracticeIndex + "-" + siteIndex + ' class="postSelectPBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button></div>');
+			var postPracticeSection = document.getElementById('postPracticeSection_'+ siteIndex);
+		  	postPracticeSection.appendChild(div5);
+			postSoilLoss.addPractice(new P());
+			
+			// alert(JSON.stringify(site));
+			// alert(JSON.stringify(SITE_LIST));
+			
 		}
 	
 	
@@ -424,6 +471,7 @@
 			// Since we added empty precover section, add empty precover object and populate it when user enters information
 			preSoilLoss.addCover(new C());
 			//site.addPreCover(new C());
+			// alert(JSON.stringify(SITE_LIST));
 		}
 
 		/*if(j<10){
@@ -437,10 +485,31 @@
 		}*/
 	}
 
-	var k = 1;
+	// var k = 1;
+	const MAX_POST_COVERS = 2;
 	function addPostCoversButton(btnId) {
-		btnIdIndex = btnId.split("_")[1];
-		if(k<10){	
+		
+		let siteIndex = btnId.split("_")[1];
+		
+		let site = SITE_LIST[siteIndex];
+		let postSoilLoss = site.getPostSoilLoss();
+		let postCoverIndex = postSoilLoss.getCoverCount();
+		
+		if(postCoverIndex < MAX_POST_COVERS) {
+			let div = document.createElement('div');
+			div.id = "postCoverButton_" + postCoverIndex + "-" + siteIndex;
+		  	
+			div.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_' + postCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_' + postCoverIndex + "-" + siteIndex + ' class="postSelectCBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button></div>');
+			var postCoverSection = document.getElementById('postCoverSection_'+ siteIndex);
+		  	postCoverSection.appendChild(div);
+	
+			// Since we added empty precover section, add empty precover object and populate it when user enters information
+			postSoilLoss.addCover(new C());
+			//site.addPreCover(new C());
+			// alert(JSON.stringify(SITE_LIST));
+		}
+		
+		/* if(k<10){	
 			k++;
 			let div = document.createElement('div');
 			//div.innerHTML = document.getElementById('post_cover_button_1').innerHTML;
@@ -448,13 +517,32 @@
 			div.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_'+k+"-"+btnIdIndex+' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_'+k+"-"+btnIdIndex+' class="postSelectCBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button></div>');
 			var postCoverSection = document.getElementById('postCoverSection_'+ btnIdIndex);
 		  	postCoverSection.appendChild(div);
-		}
+		} */
 	}
 
-	var m = 1;
+	// var m = 1;
+	const MAX_PRE_PRACTICES = 2;
 	function addPrePracticesButton(btnId) {
-		btnIdIndex = btnId.split("_")[1];
-		if(m<10){		
+		
+		let siteIndex = btnId.split("_")[1];
+		
+		let site = SITE_LIST[siteIndex];
+		let preSoilLoss = site.getPreSoilLoss();
+		let prePracticeIndex = preSoilLoss.getPracticeCount();
+		
+		if(prePracticeIndex < MAX_PRE_PRACTICES) {
+			
+			let div = document.createElement('div');
+			div.id = "prePracticeButton_" + prePracticeIndex + "-" + siteIndex;
+		  	div.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_' + prePracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_' + prePracticeIndex + "-" + siteIndex + ' class="preSelectPBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button></div>');
+			var prePracticeSection = document.getElementById('prePracticeSection_'+ siteIndex);
+		  	prePracticeSection.appendChild(div);
+			preSoilLoss.addPractice(new P());
+			
+			// alert(JSON.stringify(SITE_LIST));
+		}
+	
+		/* if(m<10){		
 			m++;
 			let div = document.createElement('div');
 			//div.innerHTML = document.getElementById('prePracticeButton_1').innerHTML;
@@ -462,12 +550,32 @@
 		  	div.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_'+m+"-"+btnIdIndex+' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_'+m+"-"+btnIdIndex+' class="preSelectPBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button></div>');
 			var prePracticeSection = document.getElementById('prePracticeSection_'+ btnIdIndex);
 		  	prePracticeSection.appendChild(div);
-		}
+		} */
 	}
 
-	var n = 1;
+	// var n = 1;
+	const MAX_POST_PRACTICES = 2;
 	function addPostPracticesButton(btnId) {
-		btnIdIndex = btnId.split("_")[1];
+		
+		let siteIndex = btnId.split("_")[1];
+		
+		let site = SITE_LIST[siteIndex];
+		let postSoilLoss = site.getPostSoilLoss();
+		let postPracticeIndex = postSoilLoss.getPracticeCount();
+		
+		if(postPracticeIndex < MAX_POST_PRACTICES) {
+			
+			let div = document.createElement('div');
+			div.id = "postPracticeButton_"+ postPracticeIndex + "-" + siteIndex;
+			div.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_' + postPracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_' + postPracticeIndex + "-" + siteIndex + ' class="postSelectPBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button></div>');
+			var postPracticeSection = document.getElementById('postPracticeSection_'+ siteIndex);
+		  	postPracticeSection.appendChild(div);
+			postSoilLoss.addPractice(new P());
+			
+			// alert(JSON.stringify(SITE_LIST));
+		}
+		
+		/* btnIdIndex = btnId.split("_")[1];
 		if(n<10){	
 			n++;
 			let div = document.createElement('div');
@@ -476,7 +584,7 @@
 			div.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_'+n+"-"+btnIdIndex+' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_'+n+"-"+btnIdIndex+' class="postSelectPBtn btn btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button></div>');
 			var postPracticeSection = document.getElementById('postPracticeSection_'+ btnIdIndex);
 		  	postPracticeSection.appendChild(div);
-		}
+		} */
 	}
 	/////////////////////    Global variables    //////////////////////
 	var isLoading = false;
@@ -486,6 +594,8 @@
 	var cValueMap = new Map();
 	var refValueMap = new Map();
 	var pValueMap = new Map();
+	
+	const lsMap = new Map();
 	
 	////////////// Load LS Values for Pre Construction //////////////
 	$(document).on("click", "#pre_ls_button", function () {
