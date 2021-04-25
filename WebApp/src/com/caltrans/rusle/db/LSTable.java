@@ -41,11 +41,13 @@ public class LSTable extends DbConnection {
 	public void insert(LS ls) {
 		openConnection();
 		try {
+			System.out.println(INSERT_OR_UPDATE_INTO_LS);
 			PreparedStatement ps = mConnection.prepareStatement(INSERT_OR_UPDATE_INTO_LS);
 			ps.setFloat(1, ls.getSlope());
 			ps.setInt(2, ls.getSlopeLength());
 			ps.setFloat(3, ls.getLSValue());
 			ps.setFloat(4, ls.getLSValue());
+			System.out.println(ps);
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

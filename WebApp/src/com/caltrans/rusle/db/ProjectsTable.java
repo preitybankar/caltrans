@@ -5,9 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
-
-import com.caltrans.rusle.models.LS;
 import com.caltrans.rusle.models.Project;
 
 public class ProjectsTable extends DbConnection {
@@ -22,11 +21,16 @@ public class ProjectsTable extends DbConnection {
 	private static final String SITE_DETAILS = "site_details";
 	
 	private static final String CREATE_PROJECTS_TABLE = String.format(
-			"CREATE TABLE IF NOT EXISTS %s (%s INT NOT NULL, %s VARCHAR(250) NOT NULL, %s FLOAT NOT NULL, %s VARCHAR(250) NOT NULL, %s VARCHAR(250) NOT NULL, %s VARCHAR(250) NOT NULL, %s VARCHAR(250) NOT NULL, %s VARCHAR(250) NOT NULL, PRIMARY KEY (%s INT NOT NULL))",
+			"CREATE TABLE IF NOT EXISTS %s (%s INT NOT NULL AUTO_INCREMENT, %s VARCHAR(250) NOT NULL, %s FLOAT NOT NULL, %s DATE NOT NULL, %s DATE NOT NULL, %s VARCHAR(250) NOT NULL, "
+			+ "%s VARCHAR(250) NOT NULL, %s VARCHAR(250) NOT NULL, PRIMARY KEY (%s))",
 			PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, ID);
 	
-	private static final String INSERT_OR_UPDATE_INTO_PROJECTS = String.format(
-			"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (?,?,?) ON DUPLICATE KEY UPDATE %s = ?", PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, ID);
+	private static final String INSERT_INTO_PROJECTS = String.format(
+			"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS);
+	
+	
+	private static final String UPDATE_PROJECTS = String.format(
+			"UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, ID);
 	
 	private static final String SELECT_FROM_PROJECTS = String.format("SELECT %s, %s, %s, %s, %s, %s, %s, %s FROM %s", ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, PROJECTS);
 	
@@ -47,15 +51,16 @@ public class ProjectsTable extends DbConnection {
 	public void insert(Project project) {
 		openConnection();
 		try {
-			PreparedStatement ps = mConnection.prepareStatement(INSERT_OR_UPDATE_INTO_PROJECTS);	
-			ps.setInt(1, project.getId());
-			ps.setString(2, project.getName());
-			ps.setFloat(3, project.getArea());
-			ps.setString(4, project.getStartDate());
-			ps.setString(5, project.getEndDate());
-			ps.setString(6, project.getLocation());
-			ps.setString(7, project.getDescription());
-			ps.setString(8, project.getSiteDetails());
+			System.out.println(INSERT_INTO_PROJECTS);
+			PreparedStatement ps = mConnection.prepareStatement(INSERT_INTO_PROJECTS);
+			ps.setString(1, project.getName());
+			ps.setFloat(2, project.getArea());
+			ps.setDate(3, project.getStartDate());
+			ps.setDate(4, project.getEndDate());
+			ps.setString(5, project.getLocation());
+			ps.setString(6, project.getDescription());
+			ps.setString(7, project.getSiteDetails());
+			System.out.println(ps);
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,6 +69,28 @@ public class ProjectsTable extends DbConnection {
 		}
 	}
 	
+	public void update(Project project) {
+		openConnection();
+		try {
+			System.out.println(UPDATE_PROJECTS);
+			PreparedStatement ps = mConnection.prepareStatement(UPDATE_PROJECTS);
+			ps.setString(1, project.getName());
+			ps.setFloat(2, project.getArea());
+			ps.setDate(3, project.getStartDate());
+			ps.setDate(4, project.getEndDate());
+			ps.setString(5, project.getLocation());
+			ps.setString(6, project.getDescription());
+			ps.setString(7, project.getSiteDetails());
+			ps.setInt(8, project.getId());
+			System.out.println(ps);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+
 	public List<Project> getAllProjects() {
 		openConnection();
 		List<Project> projectList = new ArrayList<Project>();
@@ -74,8 +101,8 @@ public class ProjectsTable extends DbConnection {
 				int id = rs.getInt(ID);
 				String name = rs.getString(NAME);
 				float area = rs.getFloat(AREA);
-				String startDate = rs.getString(START_DATE);
-				String endDate = rs.getString(END_DATE);
+				Date startDate = rs.getDate(START_DATE);
+				Date endDate = rs.getDate(END_DATE);
 				String location = rs.getString(LOCATION);
 				String description = rs.getString(DESCRIPTION);
 				String siteDetails = rs.getString(SITE_DETAILS);
