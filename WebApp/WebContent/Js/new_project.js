@@ -1108,5 +1108,145 @@ function setProjectDetails(elementId) {
 
 $(document).on("click", "#saveProjectBtn", function() {
 	
-	alert("save button clicked");
+	//alert("@@@@ save button clicked");
+	
+	var project = {
+	   "name":"Test",
+	   "location":"California",
+	   "area":8000,
+	   "start_date":"2021-04-12",
+	   "end_date":"2021-05-19",
+	   "description":"Agbaii Kahihi !!!",
+	   "site_details":JSON.stringify([
+	      {
+	         "name":"Site_0",
+	         "location":"Newark",
+	         "description":"backyard garden irrigation system",
+	         "area":"2000 sqft",
+	         "pre_soil_loss":{
+	            "k":{
+	               "k_value":0.68
+	            },
+	            "r":{
+	               "location":0.2,
+	               "r_value":0.68,
+	               "duration":"3 months"
+	            },
+	            "ls":{
+	               "slope":0.2,
+	               "slope_length":3,
+	               "ls_value":0.68
+	            },
+	            "covers":[
+	               {
+	                  "bmp_name":"Straw",
+	                  "reference":"None",
+	                  "c_value":0.02,
+	                  "percentage":50
+	               },
+	               {
+	                  "bmp_name":"Pavement",
+	                  "reference":"None",
+	                  "c_value":0.07,
+	                  "percentage":50
+	               }
+	            ],
+	            "practices":[
+	               {
+	                  "supportpractices_name":"Benching",
+	                  "reference":"None",
+	                  "p_value":0.02,
+	                  "percentage":50
+	               },
+	               {
+	                  "supportpractices_name":"Terracing",
+	                  "reference":"None",
+	                  "p_value":0.07,
+	                  "percentage":50
+	               }
+	            ],
+	            "soil_loss":0.785
+	         },
+	         "post_soil_loss":{
+	            "k":{
+	               "k_value":0.68
+	            },
+	            "r":{
+	               "location":0.2,
+	               "r_value":0.68,
+	               "duration":"3 months"
+	            },
+	            "ls":{
+	               "slope":0.2,
+	               "slope_length":3,
+	               "ls_value":0.34
+	            },
+	            "covers":[
+	               {
+	                  "bmp_name":"Straw",
+	                  "reference":"None",
+	                  "c_value":0.02,
+	                  "percentage":50
+	               },
+	               {
+	                  "bmp_name":"Pavement",
+	                  "reference":"None",
+	                  "c_value":0.07,
+	                  "percentage":50
+	               }
+	            ],
+	            "practices":[
+	               {
+	                  "supportpractices_name":"Benching",
+	                  "reference":"None",
+	                  "p_value":0.02,
+	                  "percentage":50
+	               },
+	               {
+	                  "supportpractices_name":"Terracing",
+	                  "reference":"None",
+	                  "p_value":0.07,
+	                  "percentage":50
+	               }
+	            ],
+	            "soil_loss":0.999
+	         }
+	      },
+	      {
+	         "name":"Site_1",
+	         "location":"Fremont",
+	         "description":"test",
+	         "area":"5000 sqft"
+	      }
+	   ])
+	};
+	
+	alert(JSON.stringify(project));
+	
+	$.ajax({
+			type: 'POST',
+			url: 'project',
+			data: project,
+			async: true,
+		}).done(function(response) {
+			alert(JSON.stringify(response));
+		}).fail(function(response) {
+			alert(JSON.stringify(response));
+		});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 });

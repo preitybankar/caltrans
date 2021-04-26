@@ -22,7 +22,7 @@ public class ProjectsTable extends DbConnection {
 	
 	private static final String CREATE_PROJECTS_TABLE = String.format(
 			"CREATE TABLE IF NOT EXISTS %s (%s INT NOT NULL AUTO_INCREMENT, %s VARCHAR(250) NOT NULL, %s FLOAT NOT NULL, %s DATE NOT NULL, %s DATE NOT NULL, %s VARCHAR(250) NOT NULL, "
-			+ "%s VARCHAR(250) NOT NULL, %s VARCHAR(250) NOT NULL, PRIMARY KEY (%s))",
+			+ "%s VARCHAR(250) NOT NULL, %s TEXT, PRIMARY KEY (%s))",
 			PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, ID);
 	
 	private static final String INSERT_INTO_PROJECTS = String.format(
@@ -48,10 +48,9 @@ public class ProjectsTable extends DbConnection {
 		}
 	}
 	
-	public void insert(Project project) {
+	public boolean insert(Project project) {
 		openConnection();
 		try {
-			System.out.println(INSERT_INTO_PROJECTS);
 			PreparedStatement ps = mConnection.prepareStatement(INSERT_INTO_PROJECTS);
 			ps.setString(1, project.getName());
 			ps.setFloat(2, project.getArea());
@@ -60,13 +59,15 @@ public class ProjectsTable extends DbConnection {
 			ps.setString(5, project.getLocation());
 			ps.setString(6, project.getDescription());
 			ps.setString(7, project.getSiteDetails());
-			System.out.println(ps);
 			ps.execute();
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			close();
 		}
+		
 	}
 	
 	public void update(Project project) {
