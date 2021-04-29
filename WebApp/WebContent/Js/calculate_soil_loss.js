@@ -150,137 +150,203 @@
 	
 	
 		
-	///////////// Load R Values for Pre Construction //////////////
-	
+	/////////////R VALUE for Pre Construction Custom///////	
+			
+	var rCustom =false;
+	var rdatabase =false;
+			
+	$(document).ready(function() {
+	  $("#btn-rcustom").click(function() {
+	    $("#form-rcustom").show();
+	    $("#form-rdatabase").hide();
+	    rCustom =true;
+	    rdatabase =false; 
+	  });
+	});
+
+	///////////// Load R Values for Pre Construction Database //////////////
+
 	var rValueMap = new Map(); // Global variable
+	var durValueMap = new Map(); // Global variable
 	var isLoading = false;	// Global variable
-	
-	$(document).on("click", "#pre_r_button", function () {
-		if (!isLoading) {
+	var locationKey; 	
+	$(document).ready(function() {
+	  $("#btn-database").click(function() {
+	    $("#form-rdatabase").show();
+	    $("#form-rcustom").hide();
+	    rCustom =false;
+	    rdatabase =true;
+	   
+	    if (!isLoading) {
 	        $("#pre_r_location_select").empty();
 	        isLoading = true;   
 	        $.ajax({
-				type: 'GET',
-		        url: 'r',
-		        async : true,
-		    }).done(function(rList) {
-		    	var locationSet = new Set();
-		    	rValueMap.clear();
-		    	for (var i = 0; i < rList.length ; i++ ) {
-		    		var r = rList[i];
-		    		locationSet.add(r.location);
-		    		
-		    		var key = r.location;
-		    		rValueMap[key] = r.r_value;
-		    	}
-		    	locationSet.forEach(function(location) {
-		    		$("#pre_r_location_select").append("<option value='"+location+"'>"+location+"</option>");
-		    	});	
-		    	// Update Pre R
-		    	var location = $("#pre_r_location_select").val();
-		    	setPreRValue(location);
-		    	isLoading = false;	
-		    }).fail(function(response) {
-		    	alert(response.responseText);
-		    });      
-    	}  	
-	});
- 
- 
+					type: 'GET',
+			        url: 'r',
+			        async : true,
+			    }).done(function(rList) {
+			    	var locationSet = new Set();
+			    	rValueMap.clear();
+			    	durValueMap.clear();
+			    	for (var i = 0; i < rList.length ; i++ ) {
+			    		var r = rList[i];
+			    		locationSet.add(r.location);	    		
+		
+			    		var key = r.location;
+			    		rValueMap[key] = r.r_value;
+			    		durValueMap[key] = r.duration;
+			    	}
+			    	locationSet.forEach(function(location) {
+			    		$("#pre_r_location_select").append("<option value='"+location+"'>"+location+"</option>");
+			    	});	
+			    	// Update Pre R
+			    	var location = $("#pre_r_location_select").val();
+			    	locationKey=location;
+			    	setPreRValue(location);
+			    	isLoading = false;	
+			    }).fail(function(response) {
+			    	alert(response.responseText);
+			    });      
+		   	}  	
+		  });
+		});
 
-	////////////// Set/Update R for Pre-Construction //////////////
-	
+	////////////// Update/Set Database R for Pre-Construction //////////////
+
 	$(document).on('change', '#pre_r_location_select', function() {
-		setPreRValue(this.value);
-	});
-	
-	function setPreRValue(location) {
-		var key = location;
-		var r = rValueMap[key];
-		
-		$("#pre_r_value_select").text((r == null) ? "" : r);
+			setPreRValue(this.value);
+		});
 			
-	}
-		
+		function setPreRValue(location) {
+			var key = location;
+			locationKey=location;
+			var r = rValueMap[key];
+			var dur = durValueMap[key];
+			
+			$("#pre_r_value_select").text((r == null) ? "" : r);
+			$("#pre_r_duration_select").text((dur == null) ? "" : dur);	
+		}		
+
 		function onSelectPreRButtonClick() {
-  		var prerValue = $('#pre_r_value_text').val();
-  		var preLoc = $('#pre_r_location_text').val();
-	
-  		if(prerValue && preLoc){
-  		var pre_r_str="R: " + prerValue ;
-  		}
-  		else{
-  		var pre_r_str= "R: Erosivity"; 
+  			var prerValue_text = $('#pre_r_value_text').val();
+  			var preLoc_text = $('#pre_r_location_text').val();
+  			var prerdur_text = $('#pre_r_duration_text').val();
+  			var prerValue_select = $('#pre_r_value_select').text();
+  			var preLoc_select = $('#pre_r_location_select').text();
+  			var prerdur_select = $('#pre_r_duration_select').text();
+  		
+			if(rCustom && !rdatabase){
+  				var pre_r_str="R: " + preLoc_text + "| " + prerValue_text + "| " +prerdur_text + " months";
+  			}
+  			else if (rdatabase && !rCustom){
+  				var pre_r_str= "R: " + locationKey + "| " + prerValue_select + "| " +prerdur_select+ " months"; 
+  			}
+  			else {
+  				var pre_r_str= "R: Erosivity" ;
+  			}
+  		
+  			$("#pre_r_button").text(pre_r_str);
   		}
   		
-  		$("#pre_r_button").text(pre_r_str);
-  	}
   	
-  	////////////// Load R Values for Post Construction //////////////
-	
+ 	/////////////R VALUE for Post Construction Custom///////	
+			
+	var rCustom =false;
+	var rdatabase =false;
+			
+	$(document).ready(function() {
+	  $("#btn-rcustompost").click(function() {
+	    $("#form-rcustompost").show();
+	    $("#form-rdatabasepost").hide();
+	    rCustom =true;
+	    rdatabase =false; 
+	  });
+	});
+
+	///////////// Load R Values for Post Construction Database //////////////
+
 	var rValueMap = new Map(); // Global variable
+	var durValueMap = new Map(); // Global variable
 	var isLoading = false;	// Global variable
-	
-	$(document).on("click", "#post_r_button", function () {
-		if (!isLoading) {
+	var locationKey; 	
+	$(document).ready(function() {
+	  $("#btn-databasepost").click(function() {
+	    $("#form-rdatabasepost").show();
+	    $("#form-rcustompost").hide();
+	    rCustom =false;
+	    rdatabase =true;
+	   
+	    if (!isLoading) {
 	        $("#post_r_location_select").empty();
 	        isLoading = true;   
 	        $.ajax({
-				type: 'GET',
-		        url: 'r',
-		        async : true,
-		    }).done(function(rList) {
-		    	var locationSet = new Set();
-		    	rValueMap.clear();
-		    	for (var i = 0; i < rList.length ; i++ ) {
-		    		var r = rList[i];
-		    		locationSet.add(r.location);
-		    		
-		    		var key = r.location;
-		    		rValueMap[key] = r.r_value;
-		    	}
-		    	locationSet.forEach(function(location) {
-		    		$("#post_r_location_select").append("<option value='"+location+"'>"+location+"</option>");
-		    	});	
-		    	// Update Pre R
-		    	var location = $("#post_r_location_select").val();
-		    	setPostRValue(location);
-		    	isLoading = false;	
-		    }).fail(function(response) {
-		    	alert(response.responseText);
-		    });      
-    	}  	
-	});
-
-	
-	////////////// Set/Update R for Pre-Construction //////////////
-	
-	$(document).on('change', '#post_r_location_select', function() {
-		setPostRValue(this.value);
-	});
-	
-	function setPostRValue(location) {
-		var key = location;
-		var r = rValueMap[key];
+					type: 'GET',
+			        url: 'r',
+			        async : true,
+			    }).done(function(rList) {
+			    	var locationSet = new Set();
+			    	rValueMap.clear();
+			    	durValueMap.clear();
+			    	for (var i = 0; i < rList.length ; i++ ) {
+			    		var r = rList[i];
+			    		locationSet.add(r.location);	    		
 		
-		$("#post_r_value_select").text((r == null) ? "" : r);
-		$('#select_post_r_button').attr("disabled", (r == null));
-	}
-	
+			    		var key = r.location;
+			    		rValueMap[key] = r.r_value;
+			    		durValueMap[key] = r.duration;
+			    	}
+			    	locationSet.forEach(function(location) {
+			    		$("#post_r_location_select").append("<option value='"+location+"'>"+location+"</option>");
+			    	});	
+			    	// Update Pre R
+			    	var location = $("#post_r_location_select").val();
+			    	locationKey=location;
+			    	setPreRValue(location);
+			    	isLoading = false;	
+			    }).fail(function(response) {
+			    	alert(response.responseText);
+			    });      
+		   	}  	
+		  });
+		});
+
+	////////////// Update/Set Database R for Post-Construction //////////////
+
+	$(document).on('change', '#post_r_location_select', function() {
+			setPostRValue(this.value);
+		});
+			
+		function setPostRValue(location) {
+			var key = location;
+			locationKey=location;
+			var r = rValueMap[key];
+			var dur = durValueMap[key];
+			
+			$("#post_r_value_select").text((r == null) ? "" : r);
+			$("#post_r_duration_select").text((dur == null) ? "" : dur);	
+		}		
+
 		function onSelectPostRButtonClick() {
-  		var postrValue = $('#post_r_value_text').val();
-  		var postLoc = $('#post_r_location_text').val();
-	
-  		if(postrValue && postLoc){
-  		var post_r_str="R: " + postrValue ;
+  			var postrValue_text = $('#post_r_value_text').val();
+  			var postLoc_text = $('#post_r_location_text').val();
+  			var postrdur_text = $('#post_r_duration_text').val();
+  			var postrValue_select = $('#post_r_value_select').text();
+  			var postLoc_select = $('#post_r_location_select').text();
+  			var postrdur_select = $('#post_r_duration_select').text();
+  		
+			if(rCustom && !rdatabase){
+  				var post_r_str="R: " + postLoc_text + "| " + postrValue_text + "| " +postrdur_text + " months";
+  			}
+  			else if (rdatabase && !rCustom){
+  				var post_r_str= "R: " + locationKey + "| " + postrValue_select + "| " +postrdur_select+ " months"; 
+  			}
+  			else {
+  				var post_r_str= "R: Erosivity" ;
+  			}
+  		
+  			$("#post_r_button").text(post_r_str);
   		}
-  		else{
-  		var post_r_str= "R: Erosivity"; 
-  		}
-  		$("#post_r_button").text(post_r_str);
-  	}
   	 
-  	
   	////////////// Load C Values for Pre Construction //////////////
 	
 	var cValueMap = new Map(); // Global variable
