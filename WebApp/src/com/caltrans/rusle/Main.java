@@ -77,9 +77,9 @@ public class Main {
 		
 		RTable rTable = new RTable();
 		rTable.createIfNotExist();
-		rTable.insert(new R(45.49f, "Sacramento"));
-		rTable.insert(new R(47.73f, "Davis"));
-		rTable.insert(new R(52.53f, "Folsom"));
+		rTable.insert(new R(45.49f, "Sacramento",12));
+		rTable.insert(new R(47.73f, "Davis",12));
+		rTable.insert(new R(52.53f, "Folsom",12));
 		
 		
 		/*List<LS> lsList = lsTable.getAllLS();

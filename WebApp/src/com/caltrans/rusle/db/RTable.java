@@ -14,16 +14,18 @@ public class RTable extends DbConnection {
 	private static final String R = "r";
 	private static final String R_VALUE = "r_value";
 	private static final String LOCATION = "location";
+	private static final String DURATION = "duration";
 	
 
 	private static final String CREATE_R_TABLE = String.format(
-			"CREATE TABLE IF NOT EXISTS %s ( %s FLOAT NOT NULL, %s VARCHAR(250) NOT NULL, UNIQUE (%s))",
-			R, R_VALUE, LOCATION, LOCATION);
+			"CREATE TABLE IF NOT EXISTS %s ( %s FLOAT NOT NULL, %s VARCHAR(250) NOT NULL, %s INT DEFAULT '12',  UNIQUE (%s))",
+			R, R_VALUE, LOCATION, DURATION, LOCATION);
 	private static final String INSERT_OR_UPDATE_INTO_R = String.format(
-			"INSERT INTO %s (%s, %s) VALUES (?,?) ON DUPLICATE KEY UPDATE %s = ?", R, R_VALUE, LOCATION, R_VALUE);
-	private static final String SELECT_FROM_R = String.format("SELECT %s, %s FROM %s", R_VALUE, LOCATION, R);
+			"INSERT INTO %s (%s, %s, %s) VALUES (?,?,?) ON DUPLICATE KEY UPDATE %s = ?", R, R_VALUE, LOCATION, DURATION, R_VALUE);
+	private static final String SELECT_FROM_R = String.format("SELECT %s, %s, %s FROM %s", R_VALUE, LOCATION, DURATION, R);
 	private static final String DELETE_FROM_R = String.format("DELETE FROM %s WHERE %s = ?", R, R_VALUE);
 
+		
 	public void createIfNotExist() {
 		openConnection();
 		try {
@@ -42,7 +44,9 @@ public class RTable extends DbConnection {
 			PreparedStatement ps = mConnection.prepareStatement(INSERT_OR_UPDATE_INTO_R);
 			ps.setFloat(1, r.getrValue());
 			ps.setString(2, r.getLocation());
-			ps.setFloat(3, r.getrValue());
+			ps.setInt(3, r.getDuration());
+			ps.setFloat(4, r.getrValue());
+			
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,7 +64,8 @@ public class RTable extends DbConnection {
 			while (rs.next()) {
 				String location = rs.getString(LOCATION);
 				float rValue = rs.getFloat(R_VALUE);
-				R r = new R(rValue, location);
+				int duration=rs.getInt(DURATION);
+				R r = new R(rValue, location, duration);
 				rList.add(r);
 			}
 			if (rs != null && !rs.isClosed()) {
