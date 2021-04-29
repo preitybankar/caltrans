@@ -34,6 +34,8 @@ public class ProjectsTable extends DbConnection {
 	
 	private static final String SELECT_FROM_PROJECTS = String.format("SELECT %s, %s, %s, %s, %s, %s, %s, %s FROM %s", ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, PROJECTS);
 	
+	// private static final String SELECT_PROJECTS_BY_ID = String.format("SELECT %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?", ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, PROJECTS, ID);
+	
 	private static final String DELETE_FROM_PROJECTS = String.format("DELETE FROM %s WHERE %s = ?", PROJECTS, ID);
 	
 	public void createIfNotExist() {
@@ -122,6 +124,41 @@ public class ProjectsTable extends DbConnection {
 			close();
 		}
 		return projectList;
+	}
+	
+	
+	
+	public List<Project> getProjectById(String projectId) {
+		openConnection();
+		List<Project> projectList = new ArrayList<Project>();
+		try {
+			Statement s = mConnection.createStatement();
+			ResultSet rs = s.executeQuery("select * from projects where id = '" + projectId + "'");
+			while (rs.next()) {
+				int id = rs.getInt(ID);
+				String name = rs.getString(NAME);
+				float area = rs.getFloat(AREA);
+				Date startDate = rs.getDate(START_DATE);
+				Date endDate = rs.getDate(END_DATE);
+				String location = rs.getString(LOCATION);
+				String description = rs.getString(DESCRIPTION);
+				String siteDetails = rs.getString(SITE_DETAILS);
+				Project project = new Project(id, name, area, startDate, endDate, location, description, siteDetails);
+				projectList.add(project);
+			}
+			if (rs != null && !rs.isClosed()) {
+				rs.close();
+			}
+			if (s != null && !s.isClosed()) {
+				s.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		System.out.println("projectList" + projectList);
+		return projectList;	
 	}
 	
 	public void delete(Project project) {

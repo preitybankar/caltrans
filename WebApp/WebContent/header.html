@@ -18,7 +18,6 @@
     <title>Caltrans - Rusle Program</title>
   </head>
   <body>
- 
 	<header>
 		 <div class="p-3 bg-dark text-white">
 		  <div class="container">
@@ -68,7 +67,7 @@
 							<ul class="dropdown-menu"
 								aria-labelledby="navbarDropdownMenuLink1">
 								<li><a class="dropdown-item" href="new_project.html">Create new Project</a></li>
-								<li><a class="dropdown-item" href="#">Open existing Project</a></li>
+								<li><a class="dropdown-item" id="chooseProjectLink" href="#" data-bs-toggle="modal" data-bs-target="#openProject" onClick="openProject()">Open existing Project</a></li>
 							</ul>
 						</li>
 						<li class="nav-item navbar-brand"><a class="nav-link" aria-current="page" href="calculate_soil_loss.html">Calculate Soil Loss</a></li>
@@ -86,6 +85,27 @@
 				</div>
 			</div>
 		</nav>
+		<!-- Modal -->
+		<div class="modal fade" id="openProject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="staticBackdropLabel">Choose Project</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body" id="choose-project-modal-body">
+		          <label>Select project to open</label><br><br>
+			      <div class="form-floating">
+				      <select class="form-select" id="selectProject" name="selectProject" aria-label="Floating label select example"></select>
+				      <label for="selectProject">Project Name</label>
+				  </div><br>
+		      </div>
+		      <div class="modal-footer">
+		         <button id="openProjectBtn" class="btn btn-primary" onClick="onOpenProjectBtnClick()" data-bs-dismiss="modal">Open</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	</header>
   </body>
 </html>

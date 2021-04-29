@@ -64,7 +64,7 @@
 										<div class="col-sm-6">	
 											<div class="form-floating mb-3">
 												<input type="text" class="form-control" name="projectArea" id="projectArea" onfocusout="setProjectDetails(this.id)" placeholder="Enter total project area here.." required>
-												<label for="projectArea" class="col-form-label">Project Area</label>
+												<label for="projectArea" class="col-form-label">Project Area in acres</label>
 											</div>							
 										</div>
 										<div class="col-sm-6">
@@ -77,22 +77,22 @@
 									
 									<div class="row g-3">		
 										<div class="col-sm-6">	
-											<div class="input-group date" data-provide="datepicker">
+											<div class="input-group date">
 											   <div class="input-group-addon">
 											        <span class="input-group-text">Start Date</span>
 											    </div>
-											    <input type="text" class="form-control" id="startDate" name="startDate" onfocusout="setProjectDetails(this.id)" placeholder="Start Date">
+											    <input type="text" class="form-control datepicker" id="startDate" name="startDate" onfocusout="setProjectDetails(this.id)" placeholder="Start Date">
 											    <div class="input-group-addon">
 											        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
 											    </div>
 											</div>		
 										</div>
 										<div class="col-sm-6">
-											<div class="input-group date" data-provide="datepicker">
+											<div class="input-group date">
 												<div class="input-group-addon">
 											        <span class="input-group-text">End Date</span>
 											    </div>
-											    <input type="text" class="form-control" id="endDate" name="endDate" onfocusout="setProjectDetails(this.id)" placeholder="End Date">
+											    <input type="text" class="form-control datepicker" id="endDate" name="endDate" onfocusout="setProjectDetails(this.id)" placeholder="End Date">
 												<div class="input-group-addon">
 											        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
 											    </div>
@@ -139,7 +139,7 @@
 														<div class="col-sm-6">	
 															<div class="form-floating mb-3">
 																<input type="text" class="form-control" id="siteArea" placeholder="Enter site area here.." onfocusout="setSiteDetails(this.id)">
-																<label for="siteArea">Site Area</label>
+																<label for="siteArea">Site Area in acres</label>
 															</div>
 														</div>
 														<div class="col-sm-6">
@@ -159,8 +159,9 @@
 														<div class="col-sm-6 border-end">
 															 <div class="input-group mb-3">
 															  	<span class="input-group-text" id="basic-addon1">K:</span>
-															  	<input  id="preKValue" type="text" class="form-control" placeholder="K: Erodibility" onfocusout="setKValue(this.id, 'pre')" aria-label="K: Erodibility" aria-describedby="basic-addon1">
+															  	<input  id="preKValue" type="text" class="form-control" placeholder="K: Erodibility" onfocusout="setKValue(this.id, 'pre')" aria-label="K: Erodibility" aria-describedby="basic-addon1">												  
 															  	<span class="input-group-text" id="basic-addon1">0.00</span>
+															  	<span class="input-group-text" id="basic-addon1">Range(0.24 to 4.4)</span>
 															 </div>
 														</div>
 														<div class="col-sm-6 border-start">	
@@ -168,6 +169,7 @@
 																<span class="input-group-text" id="basic-addon2">K:</span>		
 																<input id="postKValue" type="text" class="form-control" placeholder="K: Erodibility" onfocusout="setKValue(this.id, 'post')" aria-label="K: Erodibility" aria-describedby="basic-addon2">	
 													    		<span class="input-group-text" id="basic-addon2">0.00</span>
+													    		<span class="input-group-text" id="basic-addon2">Range(0.24 to 4.4)</span>
 													    	</div>
 														</div>
 													</div>
@@ -273,14 +275,14 @@
 														<div class="col-sm-6 border-end">	
 													        <div class="input-group mb-3">
 													        	<span class="input-group-text" id="basic-addon2">Soil Loss A:</span>	
-																<input id="preAvalue" type="text" class="form-control" placeholder="Soil Loss" aria-label="Soil Loss" aria-describedby="basic-addon2">
+																<input id="preAvalue" type="text" class="form-control text-danger" placeholder="Soil Loss" aria-label="Soil Loss" aria-describedby="basic-addon2">
 																<span class="input-group-text" id="basic-addon2">tons/acre/year</span>
 															</div>		      			
 														</div>	
 														<div class="col-sm-6 border-start">
 															<div class="input-group mb-3">
 															  	<span class="input-group-text" id="basic-addon2">Soil Loss A:</span>	
-																<input id="postAvalue" type="text" class="form-control" placeholder="Soil Loss" aria-label="Soil Loss" aria-describedby="basic-addon2">
+																<input id="postAvalue" type="text" class="form-control text-danger" placeholder="Soil Loss" aria-label="Soil Loss" aria-describedby="basic-addon2">
 																<span class="input-group-text" id="basic-addon2">tons/acre/year</span>
 															</div>		
 														</div>
@@ -288,10 +290,10 @@
 													
 													<div class="row">				
 														<div class="col border-end text-end">	
-													        <button id="preConsCalculateBtn" class="calculate-button btn btn-success btn-sm">Calculate Soil Loss</button>      			
+													        <button id="preConsCalculateBtn" class="calculatePreSoilLoss btn btn-success btn-sm">Calculate Soil Loss</button>      			
 														</div>	
 														<div class="col border-start text-end">	
-													        <button id="postConsCalculateBtn" class="calculate-button btn btn-success btn-sm">Calculate Soil Loss</button>	      			
+													        <button id="postConsCalculateBtn" class="calculatePostSoilLoss btn btn-success btn-sm">Calculate Soil Loss</button>	      			
 														</div>	
 													</div><br>
 													<div class="row">	
@@ -352,6 +354,7 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="pre-c-modal-body">
+						      	<input id="preCsiteId" type="text" style="display: none;">
 						        <label>Select Cover BMP: </label>
 							      <div class="form-floating">
 								      <select class="form-select" id="pre_bmpName" name="pre_bmpName" aria-label="Floating label select example"></select>
@@ -361,15 +364,17 @@
 							      <span id="pre_c_reference" style="color: green; font-weight: bold">Taco Bell</span><br>
 							      <br>
 							      <label>C factor value: </label>
-							      <span id="pre_c_value" style="color: blue; font-weight: bold">999</span><br>
-								  <br>
+							      <span id="pre_c_value" style="color: blue; font-weight: bold">999</span><br><br>
+								  <label>Enter percentage: </label>
 						          <div class="input-group mb-3">
-									  	<input id="pre_c_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" required>
+						          		<span class="input-group-text" id="percent-addon1">0.00</span>
+									  	<input id="pre_c_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" onfocusout="checkCoverPercentVal(this.id, 'pre')" required>
 									  	<span class="input-group-text" id="percent-addon1">%</span>
 								  </div>
+								  <span id="preCPercentExceedsFlag" class="text-danger fs-6" style="display: none;">Coverings percentage exceeds more than 100%.</span>
 						      </div>
 						      <div class="modal-footer">
-						        <button id="select_pre_c_button" class="btn btn-primary" onClick="onSelectPreCButtonClick()" data-bs-dismiss="modal">Select C</button>
+						        <button id="select_pre_c_button" class="btn btn-primary" onClick="onSelectPreCButtonClick()" data-bs-dismiss="modal" disabled>Select C</button>
 						      </div>
 						    </div>
 						  </div>
@@ -384,6 +389,7 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="pre-p-modal-body">
+						      	<input id="prePsiteId" type="text" style="display: none;">
 						         <label>Select Support Practices: </label>
 							      <div class="form-floating">
 								      <select class="form-select" id="pre_supportpracticesName" name="pre_supportpracticesName" aria-label="Floating label select example"></select>
@@ -395,10 +401,13 @@
 								  </div><br>
 							      <label>P factor value: </label>
 							      <span id="pre_p_value" style="color: blue; font-weight: bold">1.0</span><br><br>
+							      <label>Enter percentage: </label>
 							      <div class="input-group mb-3">
-									  	<input id="pre_p_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" required>
+							      		<span class="input-group-text" id="percent-addon1">0.00</span>
+									  	<input id="pre_p_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" onfocusout="checkPracticePercentVal(this.id, 'pre')" required>
 									  	<span class="input-group-text" id="percent-addon1">%</span>
 								  </div>
+								  <span id="prePPercentExceedsFlag" class="text-danger fs-6" style="display: none;">Practices percentage exceeds more than 100%.</span>
 						      </div>
 						      <div class="modal-footer">
 						         <button id="select_pre_p_button" class="btn btn-primary" onClick="onSelectPrePButtonClick()" data-bs-dismiss="modal">Select P</button>
@@ -501,6 +510,7 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="post-c-modal-body">
+						      	<input id="postCsiteId" type="text" style="display: none;">
 						        <label>Select Cover BMP: </label>
 							      <div class="form-floating">
 								      <select class="form-select" id="post_bmpName" name="post_bmpName" aria-label="Floating label select example"></select>
@@ -511,10 +521,13 @@
 							      <br>
 							      <label>C factor value: </label>
 							      <span id="post_c_value" style="color: blue; font-weight: bold">999</span><br><br>
+							      <label>Enter percentage: </label>
 							      <div class="input-group mb-3">
-									  	<input id="post_c_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" required>
+							      		<span class="input-group-text" id="percent-addon1">0.00</span>	
+									  	<input id="post_c_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" onfocusout="checkCoverPercentVal(this.id, 'post')"required>
 									  	<span class="input-group-text" id="percent-addon1">%</span>
 								  </div>
+								  <span id="postCPercentExceedsFlag" class="text-danger fs-6" style="display: none;">Coverings percentage exceeds more than 100%.</span>
 						      </div>
 						      <div class="modal-footer">
 						        <button id="select_post_c_button"  class="btn btn-primary" onClick="onSelectPostCButtonClick()" data-bs-dismiss="modal">Select C</button>
@@ -532,6 +545,7 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body" id="post-p-modal-body">
+						       <input id="postPsiteId" type="text" style="display: none;">
 						       <label>Select Support Practices: </label>
 							      <div class="form-floating">
 								      <select class="form-select" id="post_supportpracticesName" name="post_supportpracticesName" aria-label="Floating label select example"></select>
@@ -543,10 +557,13 @@
 								  </div><br>
 							      <label>P factor value: </label>
 							      <span id="post_p_value" style="color: blue; font-weight: bold">1.0</span><br><br>
+							      <label>Enter percentage: </label>
 							      <div class="input-group mb-3">
-									  	<input id="post_p_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" required>
+							      		<span class="input-group-text" id="percent-addon1">0.00</span>
+									  	<input id="post_p_percent" type="text" class="form-control" placeholder="Enter percentage here.." aria-label="%" aria-describedby="#percent-addon1" onfocusout="checkPracticePercentVal(this.id, 'post')" required>
 									  	<span class="input-group-text" id="percent-addon1">%</span>
 								  </div>
+								  <span id="postPPercentExceedsFlag" class="text-danger fs-6" style="display: none;">Practices percentage exceeds more than 100%.</span>
 						      </div>
 						      <div class="modal-footer">
 						        <button id="select_post_p_button"  class="btn btn-primary" onClick="onSelectPostPButtonClick()" data-bs-dismiss="modal">Select P</button>

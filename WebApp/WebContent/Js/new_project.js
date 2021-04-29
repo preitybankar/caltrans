@@ -1,13 +1,13 @@
 //////////////////////// Datepicker ///////////////////////////////////
 $(document).ready(function() {
 
-	$('.datepicker').datepicker({
+	 $('.datepicker').datepicker({
 		format: 'yyyy-mm-dd',
 		autoclose: true,
 		disableTouchKeyboard: true
-	});
+	}); 
 
-});
+}); 
 
 class SoilLoss {
 	constructor() {
@@ -153,19 +153,19 @@ class Project {
 	}
 
 	setStartDate(startDate) {
-		this.startDate = startDate;
+		this.start_date = startDate;
 	}
 
 	getStartDate() {
-		return this.startDate;
+		return this.start_date;
 	}
 
 	setEndDate(endDate) {
-		this.endDate = endDate;
+		this.end_date = endDate;
 	}
 
 	getEndDate() {
-		return this.endDate;
+		return this.end_date;
 	}
 
 	setDescription(description) {
@@ -191,6 +191,7 @@ const SITE_LIST = [];
 const MAX_SITES = 10;
 
 function loadProject(project) {
+	console.log(project);
 	loadProjectDetails(project);
 	if (project && project.sites) {
 		loadSites(project.sites);
@@ -279,7 +280,7 @@ function loadSiteDetails(site, siteIndex) {
 
 function loadSoilLoss(soilLoss, type, siteIndex) {
 	if (soilLoss.k) {
-		$("#" + type + "KValue_" + siteIndex).val(soilLoss.k.k_value);
+		$("#" + type + "KValue_" + siteIndex).val(soilLoss.k);	
 	}
 
 	if (soilLoss.ls) {
@@ -288,11 +289,12 @@ function loadSoilLoss(soilLoss, type, siteIndex) {
 	}
 
 	if (soilLoss.r) {
-		let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value + ' | ' + soilLoss.r.duration);
+		// let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value + ' | ' + soilLoss.r.duration);
+		let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value);
 		$("#" + type + "RValues_" + siteIndex).val(r_input);
 	}
 
-	$("#" + type + "Avalue_" + siteIndex).val(soilLoss.soil_loss);
+	$("#" + type + "Avalue_" + siteIndex).val(soilLoss.a);
 	
 		
 	// $("div#" + type + "CoverButton_0" + "-" + siteIndex).remove();
@@ -356,8 +358,11 @@ function addPreCoversButton(btnId) {
 	
 	let siteIndex = btnId.split("_")[1];
 	// let site = SITE_LIST[siteIndex];
+	alert(siteIndex);
 	let site = PROJECT.sites[siteIndex];
+	alert(JSON.stringify(site));
 	let preSoilLoss = site.getPreSoilLoss();
+	alert(site.getPreSoilLoss());
 	let preCoverIndex = preSoilLoss.getCoverCount();
 
 	if (preCoverIndex < MAX_PRE_COVERS) {
@@ -434,6 +439,42 @@ function addPostPracticesButton(btnId) {
 		// alert(JSON.stringify(SITE_LIST));
 	}
 }
+
+
+window.onload = function () {   
+    if (window.location.search.split('?').length > 1) {
+        var params = window.location.search.split('?')[1].split('=');
+        var projectId = params[1];	
+		// alert(projectId);		
+		$.ajax({
+			type: 'GET',
+			url: 'project',
+			data: {id: projectId},
+			async: true,
+		}).done(function(resp) {
+			 let site_string = JSON.parse(resp[0].sites);
+			 // alert(JSON.stringify(site_string));
+			 resp[0].sites = site_string;
+			 var project = JSON.parse(JSON.stringify(resp[0]));	 
+			 // alert(JSON.stringify(jso));
+		 	 PROJECT.id = project.id;
+			 PROJECT.name = project.name;
+			 PROJECT.area = project.area;
+			 PROJECT.start_date = project.start_date;
+		 	 PROJECT.end_date = project.end_date;
+			 PROJECT.description = project.description;
+			 PROJECT.location = project.location;
+			 PROJECT.sites = project.sites;
+			 alert(JSON.stringify(PROJECT))
+			 loadProject(project);		
+		}).fail(function(response) {
+			
+			//alert(response.responseText);
+			
+		});
+    }
+};
+
 /////////////////////    Global variables    //////////////////////
 var isLoading = false;
 var buttonClicked;
@@ -622,6 +663,15 @@ $(document).on("click", ".preSelectRBtn", function() {
 			url: 'r',
 			async: true,
 		}).done(function(rList) {
+			let siteId = buttonClicked.split("_")[1];	
+			if ($("#preRValues_" + siteId).val()) {
+				let selectedVal = ($("#preRValues_" + siteId).val()).split(" | ");
+				$("#pre_r_location_text").val(selectedVal[0]);
+				$("#pre_r_value_text").val(selectedVal[1]);	
+			} else {
+				$("#pre_r_location_text").val("");
+				$("#pre_r_value_text").val("");	
+			}
 			var locationSet = new Set();
 			rMap.clear();
 			rValueMap.clear();
@@ -691,6 +741,15 @@ $(document).on("click", ".postSelectRBtn", function() {
 			url: 'r',
 			async: true,
 		}).done(function(rList) {
+			let siteId = buttonClicked.split("_")[1];	
+			if ($("#postRValues_" + siteId).val()) {
+				let selectedVal = ($("#postRValues_" + siteId).val()).split(" | ");
+				$("#post_r_location_text").val(selectedVal[0]);
+				$("#post_r_value_text").val(selectedVal[1]);	
+			} else {
+				$("#post_r_location_text").val("");
+				$("#post_r_value_text").val("");	
+			}
 			var locationSet = new Set();
 			rMap.clear();
 			rValueMap.clear();
@@ -762,7 +821,17 @@ $(document).on('click', ".preSelectCBtn", function() {
 			type: 'GET',
 			url: 'c',
 			async: true,
-		}).done(function(cList) {
+		}).done(function(cList) {		
+			let siteId = buttonClicked.split("_")[1];
+			$("#preCsiteId").val(siteId);
+			if ($("#preCValues_" + siteId).val()) {
+				let selectedVal = ($("#preCValues_" + siteId).val()).split(" | ");
+				$("#pre_c_percent").val(selectedVal[2]);	
+			} else {
+				$("#pre_c_percent").val("");
+			}
+			document.getElementById("pre_c_percent").classList.remove("is-valid");
+			document.getElementById("pre_c_percent").classList.remove("is-invalid");		
 			var bmpSet = new Set();
 			cMap.clear();
 			cValueMap.clear();
@@ -836,6 +905,16 @@ $(document).on("click", ".postSelectCBtn", function() {
 			url: 'c',
 			async: true,
 		}).done(function(cList) {
+			let siteId = buttonClicked.split("_")[1];
+			$("#postCsiteId").val(siteId);	
+			if ($("#postCValues_" + siteId).val()) {
+				let selectedVal = ($("#postCValues_" + siteId).val()).split(" | ");
+				$("#post_c_percent").val(selectedVal[2]);	
+			} else {
+				$("#post_c_percent").val("");
+			}	
+			document.getElementById("post_c_percent").classList.remove("is-valid");
+			document.getElementById("post_c_percent").classList.remove("is-invalid");	
 			var bmpSet = new Set();
 			cMap.clear();
 			cValueMap.clear();
@@ -909,6 +988,16 @@ $(document).on("click", ".preSelectPBtn", function() {
 			url: 'p',
 			async: true,
 		}).done(function(pList) {
+			let siteId = buttonClicked.split("_")[1];
+			$("#prePsiteId").val(siteId);	
+			if ($("#prePValues_" + siteId).val()) {
+				let selectedVal = ($("#prePValues_" + siteId).val()).split(" | ");
+				$("#pre_p_percent").val(selectedVal[2]);	
+			} else {
+				$("#pre_p_percent").val("");
+			}
+			document.getElementById("pre_p_percent").classList.remove("is-valid");
+			document.getElementById("pre_p_percent").classList.remove("is-invalid");	
 			var supportpracticesSet = new Set();
 			pMap.clear();
 			pValueMap.clear();
@@ -983,6 +1072,16 @@ $(document).on("click", ".postSelectPBtn", function() {
 			url: 'p',
 			async: true,
 		}).done(function(pList) {
+			let siteId = buttonClicked.split("_")[1];
+			$("#postPsiteId").val(siteId);	
+			if ($("#postPValues_" + siteId).val()) {
+				let selectedVal = ($("#postPValues_" + siteId).val()).split(" | ");
+				$("#post_p_percent").val(selectedVal[2]);	
+			} else {
+				$("#post_p_percent").val("");
+			}
+			document.getElementById("post_p_percent").classList.remove("is-valid");
+			document.getElementById("post_p_percent").classList.remove("is-invalid");	
 			var supportpracticesSet = new Set();
 			pValueMap.clear();
 			pMap.clear();
@@ -1046,7 +1145,7 @@ function onSelectPostPButtonClick() {
 }
 
 function setKValue(elementId, type) {
-	let kValue = $("#" + elementId).val();
+	let kValue = parseFloat($("#" + elementId).val());
 	let siteId = elementId.split("_")[1];
 	let site = PROJECT.sites[siteId];
 	
@@ -1073,8 +1172,9 @@ function setSiteDetails(elementId) {
 		site.setName(name);
 	}
 	else if (arr[0] == "siteArea") {
-		let area = $("#" + elementId).val();
+		let area = parseFloat($("#" + elementId).val());
 		site.setArea(area);
+		
 	}
 	else if (arr[0] == "siteLocation") {
 		let location = $("#" + elementId).val();
@@ -1092,7 +1192,7 @@ function setProjectDetails(elementId) {
 		PROJECT.setName(name);
 	}
 	else if (elementId == "projectArea") {
-		let area = $("#" + elementId).val();
+		let area = parseFloat($("#" + elementId).val());
 		PROJECT.setArea(area);
 	}
 	else if (elementId == "projectLocation") {
@@ -1105,148 +1205,150 @@ function setProjectDetails(elementId) {
 	}
 }
 
+function checkCoverPercentVal(elementId, type) {
+	var percent = parseFloat($("#" + elementId).val());
+	var combineId = $("#" + type + "CsiteId").val().split("-");
+	
+	var btnIndex = combineId[0];
+	var siteIndex = combineId[1];
+	var site = PROJECT.sites[siteIndex];
+	var totalPercent = 0.00 + percent;
+	
+	if (type == "pre") {
+		soilLoss = site.pre_soil_loss;
+	} else {
+		soilLoss = site.post_soil_loss;
+	}
+	soilLoss.covers.forEach((cover, index) => {
+    	if(cover.percentage && index != btnIndex) {
+			totalPercent += cover.percentage;
+		}
+	});
+	
+	if (totalPercent > parseFloat(100)) {
+		document.getElementById("select_" + type +"_c_button").disabled = true;
+		document.getElementById(type + "CPercentExceedsFlag").style.display = "block";
+		document.getElementById(type + "_c_percent").classList.add("is-invalid");
+		document.getElementById(type + "_c_percent").classList.remove("is-valid");
+	
+	} else {
+		document.getElementById("select_" + type +"_c_button").disabled = false;
+		document.getElementById(type + "CPercentExceedsFlag").style.display = "none";
+		document.getElementById(type + "_c_percent").classList.add("is-valid");	
+		document.getElementById(type + "_c_percent").classList.remove("is-invalid");
+	}			
+}
 
+
+function checkPracticePercentVal(elementId, type) {
+	var percent = parseFloat($("#" + elementId).val());
+	var combineId = $("#" + type + "PsiteId").val().split("-");
+	
+	var btnIndex = combineId[0];
+	var siteIndex = combineId[1];
+	var site = PROJECT.sites[siteIndex];
+	var totalPercent = 0.00 + percent;
+	
+	if (type == "pre") {
+		soilLoss = site.pre_soil_loss;
+	} else {
+		soilLoss = site.post_soil_loss;
+	}
+	soilLoss.practices.forEach((practice, index) => {
+    	if(practice.percentage && index != btnIndex) {
+			totalPercent += practice.percentage;
+		}
+	});
+	
+	if (totalPercent > parseFloat(100)) {
+		document.getElementById("select_" + type +"_p_button").disabled = true;
+		document.getElementById(type + "PPercentExceedsFlag").style.display = "block";
+		document.getElementById(type + "_p_percent").classList.add("is-invalid");
+		document.getElementById(type + "_p_percent").classList.remove("is-valid");
+	
+	} else {
+		document.getElementById("select_" + type +"_p_button").disabled = false;
+		document.getElementById(type + "PPercentExceedsFlag").style.display = "none";
+		document.getElementById(type + "_p_percent").classList.add("is-valid");	
+		document.getElementById(type + "_p_percent").classList.remove("is-invalid");
+	}			
+}
+
+
+$(document).on("click", ".calculatePreSoilLoss", function() {
+	let siteId = (this.id).split("_")[1];
+	let site = PROJECT.sites[siteId];
+	calculateSoilLoss(siteId, site.getPreSoilLoss(), site.pre_soil_loss, "pre" );
+});
+
+$(document).on("click", ".calculatePostSoilLoss", function() {
+	let siteId = (this.id).split("_")[1];
+	let site = PROJECT.sites[siteId];
+	calculateSoilLoss(siteId, site.getPostSoilLoss(), site.post_soil_loss, "post" );	
+});
+
+
+function calculateSoilLoss(siteId, getSoilLossObj, soilLoss, type) {
+	var kVal = soilLoss.k
+
+	if (soilLoss.ls) {
+		var lsVal = soilLoss.ls.ls_value;
+	}
+	
+	if (soilLoss.r) {
+		var rVal = soilLoss.r.r_value;
+	}
+		
+	var totalC = 0.00;
+	var totalP = 0.00;
+	
+	soilLoss.covers.forEach((cover) => {
+    	totalC += parseFloat(cover.c_value * (cover.percentage/100));
+	});
+	
+	soilLoss.practices.forEach((practice) => {	
+    	totalP += parseFloat(practice.p_value * (practice.percentage/100));
+	});
+	
+	if (kVal && lsVal && rVal && totalC && totalP) {
+		var soilLossA = parseFloat((kVal * lsVal * rVal * totalC * totalP).toFixed(5));	
+	}
+	
+
+	$("#" + type + "Avalue_" + siteId).val(soilLossA);
+	getSoilLossObj.setA(soilLossA);	
+}
+
+//////////////////////// PROJECT SAVE BUTTON //////////////////////////
+var stringifySitesJson = false;
 $(document).on("click", "#saveProjectBtn", function() {
 	
-	//alert("@@@@ save button clicked");
+	// alert("@@@@ save button clicked");
+
+	let startDate = $("#startDate").val();
+	PROJECT.setStartDate(startDate);	
+	let endDate = $("#endDate").val();
+	PROJECT.setEndDate(endDate)
+
+	// alert(JSON.stringify(PROJECT));
 	
-	var project = {
-	   "name":"Test",
-	   "location":"California",
-	   "area":8000,
-	   "start_date":"2021-04-12",
-	   "end_date":"2021-05-19",
-	   "description":"Agbaii Kahihi !!!",
-	   "site_details":JSON.stringify([
-	      {
-	         "name":"Site_0",
-	         "location":"Newark",
-	         "description":"backyard garden irrigation system",
-	         "area":"2000 sqft",
-	         "pre_soil_loss":{
-	            "k":{
-	               "k_value":0.68
-	            },
-	            "r":{
-	               "location":0.2,
-	               "r_value":0.68,
-	               "duration":"3 months"
-	            },
-	            "ls":{
-	               "slope":0.2,
-	               "slope_length":3,
-	               "ls_value":0.68
-	            },
-	            "covers":[
-	               {
-	                  "bmp_name":"Straw",
-	                  "reference":"None",
-	                  "c_value":0.02,
-	                  "percentage":50
-	               },
-	               {
-	                  "bmp_name":"Pavement",
-	                  "reference":"None",
-	                  "c_value":0.07,
-	                  "percentage":50
-	               }
-	            ],
-	            "practices":[
-	               {
-	                  "supportpractices_name":"Benching",
-	                  "reference":"None",
-	                  "p_value":0.02,
-	                  "percentage":50
-	               },
-	               {
-	                  "supportpractices_name":"Terracing",
-	                  "reference":"None",
-	                  "p_value":0.07,
-	                  "percentage":50
-	               }
-	            ],
-	            "soil_loss":0.785
-	         },
-	         "post_soil_loss":{
-	            "k":{
-	               "k_value":0.68
-	            },
-	            "r":{
-	               "location":0.2,
-	               "r_value":0.68,
-	               "duration":"3 months"
-	            },
-	            "ls":{
-	               "slope":0.2,
-	               "slope_length":3,
-	               "ls_value":0.34
-	            },
-	            "covers":[
-	               {
-	                  "bmp_name":"Straw",
-	                  "reference":"None",
-	                  "c_value":0.02,
-	                  "percentage":50
-	               },
-	               {
-	                  "bmp_name":"Pavement",
-	                  "reference":"None",
-	                  "c_value":0.07,
-	                  "percentage":50
-	               }
-	            ],
-	            "practices":[
-	               {
-	                  "supportpractices_name":"Benching",
-	                  "reference":"None",
-	                  "p_value":0.02,
-	                  "percentage":50
-	               },
-	               {
-	                  "supportpractices_name":"Terracing",
-	                  "reference":"None",
-	                  "p_value":0.07,
-	                  "percentage":50
-	               }
-	            ],
-	            "soil_loss":0.999
-	         }
-	      },
-	      {
-	         "name":"Site_1",
-	         "location":"Fremont",
-	         "description":"test",
-	         "area":"5000 sqft"
-	      }
-	   ])
-	};
-	
-	alert(JSON.stringify(project));
-	
+	if (stringifySitesJson == false) {
+		PROJECT.sites = JSON.stringify(PROJECT.sites);
+		stringifySitesJson = true;
+	}
+
+	// alert(JSON.stringify(PROJECT)); 
+
 	$.ajax({
 			type: 'POST',
 			url: 'project',
-			data: project,
+			data: PROJECT,
 			async: true,
 		}).done(function(response) {
 			alert(JSON.stringify(response));
 		}).fail(function(response) {
 			alert(JSON.stringify(response));
-		});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		});	
+		
 });
+
