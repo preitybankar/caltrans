@@ -28,16 +28,15 @@
 	  	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 	  	<script src="Js/index.js"></script>
 	  	<script src="Js/new_project.js"></script>
+	  	<script src="Js/header.js"></script>
 	  	
 		<div id="page-wrap">
 		  <header></header>	
 		  	<section id="main-content">
 				<div id="guts">
-					<div class="container">
-						<div class="justify-content-md-center" id="message" role="alert"></div>
-						<br>
-						<div class="shadow p-3 mb-5 bg-body rounded">
-							<br>
+					<div class="container"><br>
+						<div class="justify-content-md-center" id="message" role="alert"></div><br>
+						<div class="shadow p-3 mb-5 bg-body rounded"><br>
 							<div class="row row-cols-auto justify-content-md-center">
 								<span class="fs-4"> Project Details </span>
 							</div>
@@ -429,43 +428,41 @@
 											aria-label="Close"></button>
 									</div>
 									<div class="modal-body" id="pre-r-modal-body">
-										<label>Click on the calculator link below or Select from
-											the Database and calculate R factor value for targeted
-											construction area: </label><br> <br> <a
-											class="btn btn-secondary" href="https://lew.epa.gov/"
-											target="popup"
-											onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">
-											Rainfall Erosivity Factor Calculator</a> <br> <br> <label>Select
-											From Location from Database</label>
-										<div class="row">
-											<div class="col">
-												<div class="form-floating">
-													<select class="form-select" id="pre_r_location_select"
-														name="pre_r_location_select"
-														aria-label="Floating label select example"></select> <label
-														for="pre_r_location_select">Location:</label>
-												</div>
-											</div>
-											<div class="col">
-												<label>Database R Value= </label> <span
-													id="pre_r_value_select"
-													style="color: blue; font-weight: bold"></span>
-											</div>
-											<br> <br> <br> <br> <label>Please
-												Enter R Factor Value: </label><br> <input type="text"
-												class="form-control" id="pre_r_value_text"
-												placeholder="R Value" aria-label="R Value"
-												aria-describedby="pre_r_value_text">
-											<div class="form-floating"></div>
-											<br> <label>Please Enter Location: </label><br> <input
-												type="text" class="form-control" id="pre_r_location_text"
-												placeholder="Location" aria-label="Location"
-												aria-describedby="pre_r_location_text"><br>
+										<label>Choose one of the following option to enter values for R-factor</label><br><br>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="btn-rcustom-pre" value="option1">
+											<label class="form-check-label" for="btn-rcustom">Enter R-factor value using the EPA link.</label>
+										</div><br><br>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="btn-database-pre" value="option2">
+											<label class="form-check-label" for="btn-database">Enter R-factor value from the database.</label>
 										</div>
+										<br><br>
+										<form id="form-rcustom-pre" style="display: none;">
+											<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br>
+											<br> <a class="btn btn-secondary" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> <br> <br> 
+											<label>Enter R Factor Value: </label><br> <input type="text" class="form-control" id="pre_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value_text">
+											<div class="form-floating"></div>
+											<br> <label>Enter Location: </label><br> 
+											<input type="text" class="form-control" id="pre_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location_text"><br>
+											<div class="form-floating">
+											</div> <label>Enter Duration of the Project in Months: </label><br>
+											<input type="text" class="form-control" id="pre_r_duration_text" placeholder="12" aria-label="12" aria-describedby="pre_r_duration_text"><br>
+										</form>
+										<form id="form-rdatabase-pre" style="display: none;">
+											<br> <label>Select From Location from Database</label>
+											<div class="form-floating">
+												<select class="form-select" id="pre_r_location_select" name="pre_r_location_select" aria-label="Floating label select example"></select> 
+												<label for="pre_r_location_select">Select the Location:</label>
+											</div>
+											<br> <label>R Value: </label> 
+											<span id="pre_r_value_select" style="color: blue; font-weight: bold"></span><br> <br>
+											<label>Duration (in Months): </label> 
+											<span id="pre_r_duration_select" style="color: blue; font-weight: bold"></span><br>
+										</form>
+										<br>
 										<div class="modal-footer">
-											<button id="select_pre_r_button" class="btn btn-primary"
-												onClick="onSelectPreRButtonClick()" data-bs-dismiss="modal">Select
-												R</button>
+											<button id="select_pre_r_button" class="btn btn-primary" onClick="onSelectPreRButtonClick()" data-bs-dismiss="modal">Select R Factor</button>
 										</div>
 									</div>
 								</div>
@@ -585,45 +582,40 @@
 											aria-label="Close"></button>
 									</div>
 									<div class="modal-body" id="post-r-modal-body">
-										<label>Click on the calculator link below or Select from
-											the Database and calculate R factor value for targeted
-											construction area: </label><br> <br>
-										<a class="btn btn-secondary" href="https://lew.epa.gov/"
-											target="popup"
-											onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">
-											Rainfall Erosivity Factor Calculator</a> <br>
-										<br> <label>Select From Location from Database</label>
-										<div class="row">
-											<div class="col">
-												<div class="form-floating">
-													<select class="form-select" id="post_r_location_select"
-														name="post_r_location_select"
-														aria-label="Floating label select example"></select> <label
-														for="post_r_location_select">Location:</label>
-												</div>
-											</div>
-											<div class="col">
-												<label>Database R Value= </label> <span
-													id="post_r_value_select"
-													style="color: blue; font-weight: bold"></span><br>
-												<div class="form-floating"></div>
-											</div>
-											<br>
-											<br> <br> <br> <label>Please Enter R
-												Factor Value: </label><br> <input type="text"
-												class="form-control" id="post_r_value_text"
-												placeholder="R Value" aria-label="R Value"
-												aria-describedby="post_r_value_text">
-											<div class="form-floating"></div>
-											<br> <label>Please Enter Location: </label><br> <input
-												type="text" class="form-control" id="post_r_location_text"
-												placeholder="Location" aria-label="Location"
-												aria-describedby="post_r_location_text"><br>
+										<label>Choose one of the following option to enter values for R-factor</label><br><br>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="btn-rcustom-post" value="option1">
+											<label class="form-check-label" for="btn-rcustom">Enter R-factor value using the EPA link.</label>
+										</div><br><br>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="btn-database-post" value="option2">
+											<label class="form-check-label" for="btn-database">Enter R-factor value from the database.</label>
 										</div>
+										<br><br>
+										<form id="form-rcustom-post" style="display: none;">
+											<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br>
+											<br> <a class="btn btn-secondary" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> <br> <br> 
+											<label>Enter R Factor Value: </label><br> <input type="text" class="form-control" id="post_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="post_r_value_text">
+											<div class="form-floating"></div>
+											<br> <label>Enter Location: </label><br> 
+											<input type="text" class="form-control" id="post_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="post_r_location_text"><br>
+											<div class="form-floating">
+											</div> <label>Enter Duration of the Project in Months: </label><br>
+											<input type="text" class="form-control" id="post_r_duration_text" placeholder="12" aria-label="12" aria-describedby="post_r_duration_text"><br>
+										</form>
+										<form id="form-rdatabase-post" style="display: none;">
+											<br> <label>Select From Location from Database</label>
+											<div class="form-floating">
+												<select class="form-select" id="post_r_location_select" name="post_r_location_select" aria-label="Floating label select example"></select> 
+												<label for="post_r_location_select">Select the Location:</label>
+											</div>
+											<br> <label>R Value: </label> 
+											<span id="post_r_value_select" style="color: blue; font-weight: bold"></span><br> <br>
+											<label>Duration (in Months): </label> 
+											<span id="post_r_duration_select" style="color: blue; font-weight: bold"></span><br>
+										</form><br>
 										<div class="modal-footer">
-											<button id="select_post_r_button" class="btn btn-primary"
-												onClick="onSelectPostRButtonClick()" data-bs-dismiss="modal">Select
-												R</button>
+											<button id="select_post_r_button" class="btn btn-primary" onClick="onSelectPostRButtonClick()" data-bs-dismiss="modal">Select R Factor</button>
 										</div>
 									</div>
 								</div>

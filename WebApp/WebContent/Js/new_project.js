@@ -191,7 +191,7 @@ const SITE_LIST = [];
 const MAX_SITES = 10;
 
 function loadProject(project) {
-	console.log(project);
+	// console.log(project);
 	loadProjectDetails(project);
 	if (project && project.sites) {
 		loadSites(project.sites);
@@ -289,8 +289,8 @@ function loadSoilLoss(soilLoss, type, siteIndex) {
 	}
 
 	if (soilLoss.r) {
-		// let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value + ' | ' + soilLoss.r.duration);
-		let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value);
+		let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value + ' | ' + soilLoss.r.duration);
+		// let r_input = (soilLoss.r.location + ' | ' + soilLoss.r.r_value);
 		$("#" + type + "RValues_" + siteIndex).val(r_input);
 	}
 
@@ -353,16 +353,16 @@ function createSiteAccordion() {
 	loadSites(PROJECT.sites); 
 }
 
-const MAX_PRE_COVERS = 3;
+const MAX_PRE_COVERS = 10;
 function addPreCoversButton(btnId) {
 	
 	let siteIndex = btnId.split("_")[1];
 	// let site = SITE_LIST[siteIndex];
-	alert(siteIndex);
+	// alert(siteIndex);
 	let site = PROJECT.sites[siteIndex];
-	alert(JSON.stringify(site));
+	// alert(JSON.stringify(site));
 	let preSoilLoss = site.getPreSoilLoss();
-	alert(site.getPreSoilLoss());
+	// alert(site.getPreSoilLoss());
 	let preCoverIndex = preSoilLoss.getCoverCount();
 
 	if (preCoverIndex < MAX_PRE_COVERS) {
@@ -376,7 +376,7 @@ function addPreCoversButton(btnId) {
 	}
 }
 
-const MAX_POST_COVERS = 3;
+const MAX_POST_COVERS = 10;
 function addPostCoversButton(btnId) {
 
 	let siteIndex = btnId.split("_")[1];
@@ -397,7 +397,7 @@ function addPostCoversButton(btnId) {
 	}
 }
 
-const MAX_PRE_PRACTICES = 3;
+const MAX_PRE_PRACTICES = 10;
 function addPrePracticesButton(btnId) {
 
 	let siteIndex = btnId.split("_")[1];
@@ -419,13 +419,14 @@ function addPrePracticesButton(btnId) {
 
 }
 
-const MAX_POST_PRACTICES = 3;
+const MAX_POST_PRACTICES = 10;
 function addPostPracticesButton(btnId) {
 
 	let siteIndex = btnId.split("_")[1];
 	// let site = SITE_LIST[siteIndex];
 	let site = PROJECT.sites[siteIndex];
-	let postSoilLoss = site.getPostSoilLoss();
+	alert(JSON.stringify(site));
+	let postSoilLoss = site.post_soil_loss;
 	let postPracticeIndex = postSoilLoss.getPracticeCount();
 
 	if (postPracticeIndex < MAX_POST_PRACTICES) {
@@ -465,7 +466,7 @@ window.onload = function () {
 			 PROJECT.description = project.description;
 			 PROJECT.location = project.location;
 			 PROJECT.sites = project.sites;
-			 alert(JSON.stringify(PROJECT))
+			 // alert(JSON.stringify(PROJECT))
 			 loadProject(project);		
 		}).fail(function(response) {
 			
@@ -652,8 +653,78 @@ function constructLSMapKey(slope, slopeLength) {
 	return slope.toString() + "-" + slopeLength.toString();
 }
 
+/////////////R VALUE for Pre Construction Custom///////	
+
+var rPreCustom =false;
+var rPreDatabase =false;
+var durValueMap = new Map(); // Global variable
+var locationKey; 	
+$(document).ready(function() {
+  $("#btn-rcustom-pre").click(function() {
+    $("#form-rcustom-pre").show();
+    $("#form-rdatabase-pre").hide();
+    rPreCustom =true;
+    rPreDatabase =false; 
+  });
+});
+
+
+$(document).ready(function() {
+   $("#btn-database-pre").click(function() {
+    $("#form-rdatabase-pre").show();
+    $("#form-rcustom-pre").hide();
+    rPreCustom =false;
+    rPreDatabase =true;
+  });
+});
+
 ///////////// Load R Values for Pre Construction //////////////
 $(document).on("click", ".preSelectRBtn", function() {
+	if (!isLoading) {
+		buttonClicked = this.id;
+		$("#pre_r_location_select").empty();
+		isLoading = true;
+		$.ajax({
+			type: 'GET',
+			url: 'r',
+			async: true,
+		}).done(function(rList) {
+			let siteId = buttonClicked.split("_")[1];	
+			if ($("#preRValues_" + siteId).val()) {
+				let selectedVal = ($("#preRValues_" + siteId).val()).split(" | ");
+				$("#pre_r_location_text").val(selectedVal[0]);
+				$("#pre_r_value_text").val(selectedVal[1]);	
+			} else {
+				$("#pre_r_location_text").val("");
+				$("#pre_r_value_text").val("");	
+			}
+			var locationSet = new Set();
+			rMap.clear();
+			rValueMap.clear();
+			durValueMap.clear();
+			for (var i = 0; i < rList.length; i++) {
+				var r = rList[i];
+				locationSet.add(r.location);	
+				var key = r.location;
+				rMap[key] = r;
+				rValueMap[key] = r.r_value;
+				durValueMap[key] = r.duration;
+			}
+			locationSet.forEach(function(location) {
+				$("#pre_r_location_select").append("<option value='" + location + "'>" + location + "</option>");
+			});
+			// Update Pre R
+			var location = $("#pre_r_location_select").val();
+			locationKey=location;
+			setPreRValue(location);
+			isLoading = false;
+		}).fail(function(response) {
+			alert(response.responseText);
+		});
+	}
+});
+
+/*$(document).on("click", ".preSelectRBtn", function() {
 	if (!isLoading) {
 		buttonClicked = this.id;
 		$("#pre_r_location_select").empty();
@@ -694,7 +765,7 @@ $(document).on("click", ".preSelectRBtn", function() {
 			alert(response.responseText);
 		});
 	}
-});
+}); */
 
 ////////////// Set/Update R for Pre-Construction //////////////	
 $(document).on('change', '#pre_r_location_select', function() {
@@ -703,11 +774,71 @@ $(document).on('change', '#pre_r_location_select', function() {
 
 function setPreRValue(location) {
 	var key = location;
+	locationKey = location;
 	var r = rValueMap[key];
+	var dur = durValueMap[key];
+
 	$("#pre_r_value_select").text((r == null) ? "" : r);
+	$("#pre_r_duration_select").text((dur == null) ? "" : dur);	
+}		
+
+/*
+var prerValue_text = $('#pre_r_value_text').val();
+var preLoc_text = $('#pre_r_location_text').val();
+var prerdur_text = $('#pre_r_duration_text').val();
+
+var prerValue_select = $('#pre_r_value_select').text();
+var preLoc_select = $('#pre_r_location_select').text();
+var prerdur_select = $('#pre_r_duration_select').text();
+
+if(rCustom && !rdatabase){
+	var pre_r_str="R: " + preLoc_text + "| " + prerValue_text + "| " +prerdur_text + " months";
+}
+else if (rdatabase && !rCustom){
+	var pre_r_str= "R: " + locationKey + "| " + prerValue_select + "| " +prerdur_select+ " months"; 
+}
+else {
+	var pre_r_str= "R: Erosivity" ;
 }
 
+$("#pre_r_button").text(pre_r_str); */
+	
 function onSelectPreRButtonClick() {
+	let preRValue = $('#pre_r_value_text').val();
+	let preLoc = $('#pre_r_location_text').val();
+	let prerdur_text = $('#pre_r_duration_text').val();
+	let preLoc_select = $('#pre_r_location_select').val();
+	let prerValue_select = $('#pre_r_value_select').text();
+	let prerdur_select = $('#pre_r_duration_select').text();
+	
+	let siteId = buttonClicked.split("_")[1];
+	let site = PROJECT.sites[siteId];
+	
+	let custom = document.getElementById("btn-rcustom-pre").checked;
+	let database = document.getElementById("btn-database-pre").checked
+	
+	if(custom && preRValue && preLoc && prerdur_text) {
+		var objR = new Object();
+		objR.location = preLoc;
+		objR.r_value = parseFloat(preRValue);
+		objR.duration = parseInt(prerdur_text);
+		$("#preRValues_" + siteId).val(objR.location + " | " + objR.r_value+ " | " + objR.duration);
+		r = objR;
+	}
+	else if(database && prerValue_select && preLoc_select && prerdur_select) {
+		let key = preLoc_select;
+		var r = rMap[key];
+		$("#preRValues_" + siteId).val(r.location + " | " + r.r_value + " | " + r.duration);
+	}
+	else {
+		$("#preRValues_" + siteId).val("");
+	}	
+		
+	let preSoilLoss = site.getPreSoilLoss();
+	preSoilLoss.setR(r);
+}
+
+/* function onSelectPreRButtonClick() {
 	let preRValue = $('#pre_r_value_text').val();
 	let preLoc = $('#pre_r_location_text').val();
 	let objR = new Object();
@@ -717,6 +848,7 @@ function onSelectPreRButtonClick() {
 	let site = PROJECT.sites[siteId];
 	let key = preLoc;
 	let r = rMap[key];
+	
 	if (r) {
 		$("#preRValues_" + siteId).val(r.location + " | " + r.r_value);
 	} else if(objR) {
@@ -725,12 +857,35 @@ function onSelectPreRButtonClick() {
 	}
 	else {
 		$("#preRValues_" + siteId).val("");
-	}		
+	}	
+		
 	let preSoilLoss = site.getPreSoilLoss();
 	preSoilLoss.setR(r);
-}
+} */
 
-////////////// Load R Values for Post Construction //////////////
+/////////////R VALUE for Post Construction Custom///////	
+
+var rPostCustom =false;
+var rPostDatabase =false;
+
+$(document).ready(function() {
+  $("#btn-rcustom-post").click(function() {
+    $("#form-rcustom-post").show();
+    $("#form-rdatabase-post").hide();
+    rPostCustom =true;
+    rPostDatabase =false; 
+  });
+});
+
+$(document).ready(function() {
+  $("#btn-database-post").click(function() {
+	$("#form-rdatabase-post").show();
+	$("#form-rcustom-post").hide();
+	rPostCustom =false;
+	rPostDatabase =true;
+	});
+});
+///////////// Load R Values for Post Construction Database //////////////
 $(document).on("click", ".postSelectRBtn", function() {
 	if (!isLoading) {
 		buttonClicked = this.id;
@@ -753,6 +908,7 @@ $(document).on("click", ".postSelectRBtn", function() {
 			var locationSet = new Set();
 			rMap.clear();
 			rValueMap.clear();
+			 durValueMap.clear();
 			for (var i = 0; i < rList.length; i++) {
 				var r = rList[i];
 				locationSet.add(r.location);
@@ -760,12 +916,14 @@ $(document).on("click", ".postSelectRBtn", function() {
 				var key = r.location;
 				rMap[key] = r;
 				rValueMap[key] = r.r_value;
+				durValueMap[key] = r.duration;
 			}
 			locationSet.forEach(function(location) {
 				$("#post_r_location_select").append("<option value='" + location + "'>" + location + "</option>");
 			});
 			// Update Pre R
 			var location = $("#post_r_location_select").val();
+			locationKey = location;
 			setPostRValue(location);
 			isLoading = false;
 		}).fail(function(response) {
@@ -781,12 +939,15 @@ $(document).on('change', '#post_r_location_select', function() {
 
 function setPostRValue(location) {
 	var key = location;
+	locationKey=location;
 	var r = rValueMap[key];
+	var dur = durValueMap[key];
 
 	$("#post_r_value_select").text((r == null) ? "" : r);
-	$('#select_post_r_button').attr("disabled", (r == null));
-}
+	$("#post_r_duration_select").text((dur == null) ? "" : dur);	
+}	
 
+/*
 function onSelectPostRButtonClick() {
 	let postRValue = $('#post_r_value_text').val();
 	let postLoc = $('#post_r_location_text').val();
@@ -809,7 +970,44 @@ function onSelectPostRButtonClick() {
 	let postSoilLoss = site.getPostSoilLoss();
 	postSoilLoss.setR(r);
 	
+} */
+
+
+function onSelectPostRButtonClick() {
+	let postRValue = $('#post_r_value_text').val();
+	let postLoc = $('#post_r_location_text').val();
+	let postrdur_text = $('#post_r_duration_text').val();
+	let postLoc_select = $('#post_r_location_select').val();
+	let postrValue_select = $('#post_r_value_select').text();
+	let postrdur_select = $('#post_r_duration_select').text();
+	
+	let siteId = buttonClicked.split("_")[1];
+	let site = PROJECT.sites[siteId];
+	
+	let custom = document.getElementById("btn-rcustom-post").checked;
+	let database = document.getElementById("btn-database-post").checked
+	
+	if(custom && postRValue && postLoc && postrdur_text) {
+		var objR = new Object();
+		objR.location = postLoc;
+		objR.r_value = parseFloat(postRValue);
+		objR.duration = parseInt(postrdur_text);
+		$("#postRValues_" + siteId).val(objR.location + " | " + objR.r_value+ " | " + objR.duration);
+		r = objR;
+	}
+	else if(database && postrValue_select && postLoc_select && postrdur_select) {
+		let key = postLoc_select;
+		var r = rMap[key];
+		$("#postRValues_" + siteId).val(r.location + " | " + r.r_value + " | " + r.duration);
+	}
+	else {
+		$("#postRValues_" + siteId).val("");
+	}	
+		
+	let postSoilLoss = site.getPostSoilLoss();
+	postSoilLoss.setR(r);
 }
+
 
 ////////////// Load C Values for Pre Construction //////////////	
 $(document).on('click', ".preSelectCBtn", function() {
@@ -1336,18 +1534,28 @@ $(document).on("click", "#saveProjectBtn", function() {
 		PROJECT.sites = JSON.stringify(PROJECT.sites);
 		stringifySitesJson = true;
 	}
-
 	// alert(JSON.stringify(PROJECT)); 
-
+	
 	$.ajax({
 			type: 'POST',
 			url: 'project',
 			data: PROJECT,
 			async: true,
 		}).done(function(response) {
-			alert(JSON.stringify(response));
+			// alert(JSON.stringify(response));
+			if (response.success) {
+				$('#message').html("<span>Submitted! Project data records saved successfully.</span>")
+				.addClass("alert alert-success")
+				.hide()
+				.fadeIn(1500);
+		
+				setTimeout(function() {
+					$('#message').fadeOut("Slow");
+				}, 10000);
+			}	
+			
 		}).fail(function(response) {
-			alert(JSON.stringify(response));
+			// alert(JSON.stringify(response));
 		});	
 		
 });
