@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import com.caltrans.rusle.models.Project;
+import com.google.gson.JsonObject;
 
 public class ProjectsTable extends DbConnection {
 	private static final String PROJECTS = "projects";
@@ -22,8 +23,8 @@ public class ProjectsTable extends DbConnection {
 	
 	private static final String CREATE_PROJECTS_TABLE = String.format(
 			"CREATE TABLE IF NOT EXISTS %s (%s INT NOT NULL AUTO_INCREMENT, %s VARCHAR(250) NOT NULL, %s FLOAT NOT NULL, %s DATE NOT NULL, %s DATE NOT NULL, %s VARCHAR(250) NOT NULL, "
-			+ "%s VARCHAR(250) NOT NULL, %s TEXT, PRIMARY KEY (%s))",
-			PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, ID);
+			+ "%s VARCHAR(250) NOT NULL, %s TEXT, UNIQUE (%s), PRIMARY KEY (%s))",
+			PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, NAME, ID);
 	
 	private static final String INSERT_INTO_PROJECTS = String.format(
 			"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS);
@@ -50,10 +51,11 @@ public class ProjectsTable extends DbConnection {
 		}
 	}
 	
-	public boolean insert(Project project) {
+	public JsonObject insert(Project project) throws Exception {
+		JsonObject responseJson = new JsonObject();
 		openConnection();
 		try {
-			PreparedStatement ps = mConnection.prepareStatement(INSERT_INTO_PROJECTS);
+			PreparedStatement ps = mConnection.prepareStatement(INSERT_INTO_PROJECTS, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, project.getName());
 			ps.setFloat(2, project.getArea());
 			ps.setDate(3, project.getStartDate());
@@ -62,20 +64,29 @@ public class ProjectsTable extends DbConnection {
 			ps.setString(6, project.getDescription());
 			ps.setString(7, project.getSiteDetails());
 			ps.execute();
-			return true;
+			ResultSet rs = ps.getGeneratedKeys();
+			int generatedKey = 0;
+			if (rs.next()) {
+			    generatedKey = rs.getInt(1);
+			}
+			System.out.println("Inserted record's ID: " + generatedKey);
+			responseJson.addProperty("success", true);
+			responseJson.addProperty("id", generatedKey);
+			responseJson.addProperty("message", "saved");
+			return responseJson;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			throw new Exception(e.getMessage().strip(), e);
 		} finally {
 			close();
 		}
 		
 	}
 	
-	public void update(Project project) {
+	public JsonObject update(Project project) throws Exception {
 		openConnection();
+		JsonObject responseJson = new JsonObject();
 		try {
-			System.out.println(UPDATE_PROJECTS);
 			PreparedStatement ps = mConnection.prepareStatement(UPDATE_PROJECTS);
 			ps.setString(1, project.getName());
 			ps.setFloat(2, project.getArea());
@@ -85,10 +96,14 @@ public class ProjectsTable extends DbConnection {
 			ps.setString(6, project.getDescription());
 			ps.setString(7, project.getSiteDetails());
 			ps.setInt(8, project.getId());
-			System.out.println(ps);
 			ps.execute();
+			responseJson.addProperty("success", true);
+			responseJson.addProperty("id", project.getId());
+			responseJson.addProperty("message", "updated");
+			return responseJson;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new Exception(e.getMessage().strip(), e);
 		} finally {
 			close();
 		}
@@ -157,7 +172,7 @@ public class ProjectsTable extends DbConnection {
 		} finally {
 			close();
 		}
-		System.out.println("projectList" + projectList);
+		// System.out.println("projectList" + projectList);
 		return projectList;	
 	}
 	

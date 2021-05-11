@@ -27,7 +27,7 @@ public class RServlet extends HttpServlet {
 			JsonObject rJSON  = new JsonObject();
 			rJSON.addProperty("location", r.getLocation());
 			rJSON.addProperty("r_value", r.getrValue());
-			rJSON.addProperty("duration", r.getDuration());
+			//rJSON.addProperty("duration", r.getDuration());
 			json.add(rJSON);
 		}
         response.setStatus(200);
@@ -43,13 +43,14 @@ public class RServlet extends HttpServlet {
 		String R_value = request.getParameter("r_value");
 		Float  RValue=Float.parseFloat(R_value );  
 		String Location = request.getParameter("location");
-		String RDuration= request.getParameter("duration");
-		int  Duration=12;
-		if(RDuration!=null) {
-			Duration= Integer.parseInt(RDuration);
-		}
+		//String RDuration= request.getParameter("duration");
+		//int  Duration=12;
+		//if(RDuration!=null) {
+		//	Duration= Integer.parseInt(RDuration);
+		//}
 		
-		R r = new R(RValue, Location, Duration);
+		//R r = new R(RValue, Location, Duration);
+		R r = new R(RValue, Location);
 		RTable rtable = new RTable();
 		rtable.createIfNotExist();
 		rtable.insert(r);
@@ -70,15 +71,15 @@ public class RServlet extends HttpServlet {
 		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
 
 		String location = data.get("location").getAsString();
-		int duration = data.get("duration").getAsInt();
+		//int duration = data.get("duration").getAsInt();
 		float r_value = data.get("r_value").getAsFloat();
 
 		System.out.println(location);
-		System.out.println(duration);
+		//System.out.println(duration);
 		System.out.println(r_value);
 
 
-		R r = new R(r_value, location, duration);
+		R r = new R(r_value, location);
 
 		System.out.println(r);
 

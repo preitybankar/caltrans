@@ -80,9 +80,9 @@ public class Main {
 		RTable rTable = new RTable();
 		rTable.createIfNotExist(); 
 		
-		rTable.insert(new R(45.49f, "Sacramento",12));
-		rTable.insert(new R(47.73f, "Davis",12));
-		rTable.insert(new R(52.53f, "Folsom",12));
+		//rTable.insert(new R(45.49f, "Sacramento",12));
+		//rTable.insert(new R(47.73f, "Davis",12));
+		//rTable.insert(new R(52.53f, "Folsom",12));
 		
 		ProjectsTable project = new ProjectsTable();
 		project.createIfNotExist();

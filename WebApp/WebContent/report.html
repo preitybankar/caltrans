@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+	 <head>
+		  <!-- Required meta tags -->
+		  <meta charset="utf-8">	  
+		  <!-- If IE use the latest rendering engine -->
+		  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>	  
+		  <!-- Set the page to the width of the device and set the zoon level -->
+		  <meta name="viewport" content="width=device-width, initial-scale=1">	  
+		  <!-- Bootstrap CSS -->
+		 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">	  
+		 <title>Caltrans - Rusle Program</title>
+	 </head>
+	 <body>
+	 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>	
+	  	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+	 	<!-- Custom scripts and plugins -->
+	 	<script src="Js/index.js"></script>
+		<script src="Js/header.js"></script>
+		<script src="Js/report.js"></script>
+		<div id="page-wrap">
+		  <header></header>	
+		  <section id="main-content">
+				<div id="guts"><br>
+					<div class="container">
+						<div class="justify-content-md-center alert-dismissible fade show" id="message" role="alert"></div>
+						<div class="row">
+							<div class="col d-grid gap-2 d-md-block justify-content-md-start">
+								<a href="#" id="backToEditBtn" class="btn btn-primary text-uppercase" role="button" data-bs-toggle="button">Back</a>		
+							</div>
+							<div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+								<button id="downloadReportBtn" class="btn btn-primary text-uppercase" type="button" onclick="window.print();">Download</button>
+							</div>
+						</div>
+						<br>
+						<div class="container border border-info"><br>									
+							<div class="row g-3 row-cols-auto justify-content-md-center">
+								<span class="fs-4 fw-bolder text-secondary text-uppercase"> PROJECT REPORT </span>
+							</div><br>
+							<div class="row bg-secondary p-1 d-flex border-bottom">
+								<label class="text-uppercase fw-bold text-white">Project Summary</label>
+							</div>
+							<div class="shadow-none p-3 bg-body rounded" id = "projectReportFields">						
+								<div class="row g-3">
+									<div class="col">
+										<div class="form-floating">
+											<span class="form-control" id="projectName"></span>
+											<label for="projectName">Project Name</label>			
+										</div>	
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<span class="form-control" id="projectLocation"></span>
+											<label for="projectLocation">Project Location</label>			
+										</div>
+									</div>	
+								</div>
+								<br>
+								<div class="row g-3">
+									<div class="col">
+										<div class="form-floating">
+											<span class="form-control" id="projectArea"></span>
+											<label for="projectArea">Project Area</label>			
+										</div>
+									</div>
+									<div class="col">	
+										<div class="form-floating">
+											<span class="form-control" id="projectStartDate"></span>
+											<label for="projectStartDate">Project Start Date</label>			
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<span class="form-control" id="projectEndDate"></span>
+											<label for="projectEndDate">Project End Date</label>			
+										</div>
+									</div>
+								</div>
+								<br>	
+								<div class="row g-3">
+									<div class="col">
+										<div class="form-floating">
+											<span id="projectDescription" class="form-control" ></span>
+											<label for="projectDescription">Project Description</label>		
+										</div>
+									</div>
+								</div>
+								<br>	
+								<div class="row g-3">
+									<label class="text-decoration-underline lh-lg text-dark text-uppercase">Average Pre and Post Construction Soil Erosion for this Project</label>
+									<div class="col">
+										<label class="text-dark text-uppercase fw-bold">Pre - Construction Soil Loss</label>
+										<div class="input-group mb-3">
+											<span id="preAvgSoilLoss" class="compareSoilLoss fw-bold  form-control text-danger">0.00</span><span class="input-group-text">tons/acre/year</span>
+										</div>
+									</div>
+									<div class="col">
+										<label class="text-dark text-uppercase fw-bold">Post - Construction Soil Loss</label>
+										<div class="input-group mb-3">
+											<span id="postAvgSoilLoss" class="compareSoilLoss fw-bold  form-control text-danger">0.00</span><span class="input-group-text">tons/acre/year</span>
+										</div>
+									</div>	
+								</div>	
+							</div>	
+							<div class="row bg-secondary p-1 d-flex justify-content-center border-bottom">
+								<label class="text-uppercase fw-bold text-white">Project Segments</label>
+							</div>
+							<br>
+							<div class="container" id="siteReportContainer">		 									  	
+								<div id="siteElements" class="container mb-3 border border-warning" style="display: none;">   		
+							      	<div class="row border-bottom">
+										<span id="segmentIndex" class="p-2 bg-warning text-uppercase fw-bold text-dark">Segment #1</span>	
+									</div><br>
+							      	<div class="row">		
+										<div class="col-sm-4">	
+											<div class="form-floating mb-3">
+												<span class="form-control" id="siteName"></span>
+												<label for="siteName">Segment name</label>
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-floating">
+												<span class="form-control" id="siteArea"></span>
+												<label for="siteArea">Segment Area</label>			
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-floating">
+												<span class="form-control" id="siteLocation"></span>
+												<label for="siteLocation">Segment Location</label>	
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">				
+										<div class="col">
+											<div class="form-floating">
+												<span class="form-control" id="siteDescription"></span>
+												<label for="siteDescription">Segment Description</label>
+											</div>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="bg-secondary p-1 d-flex border-bottom">
+											<label class="text-uppercase fw-bold text-white">Pre Construction</label></span>
+										</div>	
+									</div><br>
+									<div class="row">				
+										<div class="col-sm-6">	
+									        <div class="input-group mb-3">
+									        	<span class="input-group-text">Soil Loss A:</span>	
+												<span id="preAvalue" class="fw-bold form-control text-primary">0.00</span>
+												<span class="input-group-text">tons/acre/year</span>
+											</div>		      			
+										</div>
+										<div class="col-sm-6">
+											 <div class="input-group mb-3">
+											  	<span class="input-group-text" id="basic-addon1">K: Erodibility</span>
+											  	<span  id="preKValue" class="form-control"></span>												  
+											 </div>
+										</div>	
+									</div>			
+									
+									
+									<div class="row">				
+										<div class="col-sm-6">
+											<div class="input-group mb-3">
+												<span class="input-group-text" id="basic-addon1">R: Erosivity</span>
+											  	<span id="preRValues" class="form-control"></span>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group mb-3">
+												<span class="input-group-text" id="basic-addon1">LS: Length/Steepness</span>
+											  	<span id="preLsValues" class="form-control"></span>
+											</div>
+										</div>
+									</div>	
+
+									<div class="row g-3">
+										<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Cover Management</label></span>								
+										<div class="table-responsive">
+											<table class="table table-sm table-striped table-hover table-bordered">
+											  <thead class="table-warning">
+											    <tr>
+											      <th scope="col">#</th>
+											      <th scope="col">Cover BMP</th>
+											      <th scope="col">C Value</th>
+											      <th scope="col">Percentage</th>
+											      <th scope="col">Reference</th>
+											    </tr>
+											  </thead>
+											  <tbody id="preCoversTableBody">
+											  </tbody>
+											</table>
+										</div>														
+									</div>	
+									<br>							
+									<div class="row g-3">
+										<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>		
+										<div class="table-responsive">
+											<table class="table table-sm table-striped table-hover table-bordered">
+											  <thead class="table-warning">
+											    <tr>
+											      <th scope="col">#</th>
+											      <th scope="col">Support Practice</th>
+											      <th scope="col">P Value</th>
+											      <th scope="col">Percentage</th>
+											      <th scope="col">Reference</th>
+											    </tr>
+											  </thead>
+											  <tbody id="prePracticesTableBody">
+											  </tbody>
+											</table>
+										</div>					
+									</div><br>
+									<div class="row">
+										<div class="bg-secondary p-1 d-flex border-bottom">
+											<label class="text-uppercase fw-bold text-white">Post Construction</label></span>
+										</div>	
+									</div><br>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="input-group mb-3">					  	
+											  	<span class="input-group-text">Soil Loss A:</span>	
+												<span id="postAvalue" class="fw-bold form-control text-primary">0.00</span>
+												<span class="input-group-text">tons/acre/year</span>
+											</div>		
+										</div>
+										<div class="col-sm-6">	
+											<div class="input-group mb-3">
+												<span class="input-group-text" id="basic-addon1">K: Erodibility</span>
+											  	<span  id="postKValue" class="form-control"></span>	
+									    	</div>
+										</div>
+									</div>
+										
+									<div class="row">				
+										<div class="col-sm-6">
+											<div class="input-group mb-3">
+												<span class="input-group-text" id="basic-addon1">R: Erosivity</span>
+											  	<span id="postRValues" class="form-control"></span>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group mb-3">
+												<span class="input-group-text" id="basic-addon1">LS: Length/Steepness</span>
+											  	<span id="postLsValues" class="form-control"></span>
+											</div>
+										</div>
+									</div>	
+									
+									<div class="row g-3">
+										<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Cover Management</label></span>								
+										<div class="table-responsive">
+											<table class="table table-sm table-striped table-hover table-bordered">
+											  <thead class="table-warning">
+											    <tr>
+											      <th scope="col">#</th>
+											      <th scope="col">Cover BMP</th>
+											      <th scope="col">C Value</th>
+											      <th scope="col">Percentage</th>
+											      <th scope="col">Reference</th>
+											    </tr>
+											  </thead>
+											  <tbody id="postCoversTableBody">
+											  </tbody>
+											</table>
+										</div>														
+									</div>	
+									<br>							
+									<div class="row g-3">
+										<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>		
+										<div class="table-responsive">
+											<table class="table table-sm table-striped table-hover table-bordered">
+											  <thead class="table-warning">
+											    <tr>
+											      <th scope="col">#</th>
+											      <th scope="col">Support Practice</th>
+											      <th scope="col">P Value</th>
+											      <th scope="col">Percentage</th>
+											      <th scope="col">Reference</th>
+											    </tr>
+											  </thead>
+											  <tbody id="postPracticesTableBody">
+											  </tbody>
+											</table>
+										</div>					
+									</div>			
+								</div>		
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+							<!-- 
+								<div class="row g-3 justify-content-md-center">	
+									<div class="col col-lg-2"><br>
+										<label class="text-uppercase fw-bold">Soil Loss</label>
+									</div>
+									<div class="col-sm-6"><br>
+										<div class="input-group mb-3">
+											<span id="preProjectSoilLoss" class="fw-bold form-control text-primary">0.00</span>
+											<span class="input-group-text">tons/acre/year</span>
+										</div>
+									</div>
+								</div>
+								
+							
+								<div class="row g-3">
+									<span class="border-bottom fw-bold text-dark"><label class="text-uppercase">Parameters Used</label></span>
+									<div class="col"><br>
+										<label class="text-uppercase">LS: Length/Steepness</label>
+										<div class="input-group mb-3">
+											<input id="preLs" type="text" class="form-control" disabled >
+										</div>
+									</div>
+									<div class="col"><br>
+										<label class="text-uppercase">K: Erodibility</label>
+										<div class="input-group mb-3">
+											<input id="preErodibility" type="text" class="form-control" disabled >
+										</div>
+									</div>
+									<div class="col"><br>
+										<label class="text-uppercase">R: Erosivity</label>
+										<div class="input-group mb-3">
+											<input id="preErosivity" type="text" class="form-control" disabled >
+										</div>
+									</div>			
+								</div>	
+								<br>
+								<div class="row g-3">
+									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Cover Management</label></span>								
+									<div class="table-responsive">
+										<table class="table table-sm table-striped table-hover table-bordered">
+										  <thead class="table-warning">
+										    <tr>
+										      <th scope="col">#</th>
+										      <th scope="col">Cover BMP</th>
+										      <th scope="col">C Value</th>
+										      <th scope="col">Percentage</th>
+										      <th scope="col">Reference</th>
+										    </tr>
+										  </thead>
+										  <tbody id="preCoversTableBody">
+										  </tbody>
+										</table>
+									</div>														
+								</div>							
+								<br>							
+								<div class="row g-3">
+									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>		
+									<div class="table-responsive">
+										<table class="table table-sm table-striped table-hover table-bordered">
+										  <thead class="table-warning">
+										    <tr>
+										      <th scope="col">#</th>
+										      <th scope="col">Support Practice</th>
+										      <th scope="col">P Value</th>
+										      <th scope="col">Percentage</th>
+										      <th scope="col">Reference</th>
+										    </tr>
+										  </thead>
+										  <tbody id="prePracticesTableBody">
+										  </tbody>
+										</table>
+									</div>					
+								</div>		
+							
+								<div class="row g-3">
+									<span class="border-bottom fw-bold p-3 mb-2 bg-secondary text-white"><label class="text-uppercase">Soil Loss - After Construction</label></span>
+								</div>
+							
+								<div class="row g-3 justify-content-md-center">
+									<div class="col col-lg-2"><br>
+										<label class="text-uppercase fw-bold">Soil Loss </label>
+									</div>
+									<div class="col-sm-6"><br>
+										<div class="input-group mb-3">
+											<span id="preProjectSoilLoss" class="fw-bold form-control text-primary">0.00</span>
+											<span class="input-group-text">tons/acre/year</span>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row g-3">
+									<span class="border-bottom fw-bold text-dark"><label class="text-uppercase">Parameters Used</label></span>
+									<div class="col"><br>
+										<label class="text-uppercase">LS: Length/Steepness</label>
+										<div class="input-group mb-3">
+											<input id="postLs" type="text" class="form-control" disabled >
+										</div>
+									</div>
+									<div class="col"><br>
+										<label class="text-uppercase">K: Erodibility</label>
+										<div class="input-group mb-3">
+											<input id="postErodibility" type="text" class="form-control" disabled >
+										</div>
+									</div>
+									<div class="col"><br>
+										<label class="text-uppercase">R: Erosivity</label>
+										<div class="input-group mb-3">
+											<input id="postErosivity" type="text" class="form-control" disabled >
+										</div>
+									</div>			
+								</div>
+								
+								<br>
+								<div class="row g-3">
+									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Cover Management</label></span>								
+									<div class="table-responsive">
+										<table class="table table-sm table-striped table-hover align-middle table-bordered">
+										  <thead class="table-warning">
+										    <tr>
+										      <th scope="col">#</th>
+										      <th scope="col">Cover BMP</th>
+										      <th scope="col">C Value</th>
+										      <th scope="col">Percentage</th>
+										      <th scope="col">Reference</th>
+										    </tr>
+										  </thead>
+										  <tbody id="postCoversTableBody">
+										  </tbody>
+										</table>
+									</div>														
+								</div>							
+								<br>							
+								<div class="row g-3">
+									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>
+									
+									<div class="table-responsive">
+										<table class="table table-sm table-striped table-hover align-middle table-bordered">
+										  <thead class="table-warning">
+										    <tr>
+										      <th scope="col">#</th>
+										      <th scope="col">Support Practice</th>
+										      <th scope="col">P Value</th>
+										      <th scope="col">Percentage</th>
+										      <th scope="col">Reference</th>
+										    </tr>
+										  </thead>
+										  <tbody id="postPracticesTableBody">
+										  </tbody>
+										</table>
+									</div>					
+								</div>  -->
+								
+														
+							</div>				
+						</div>
+					</div>
+				</div>
+		  </section>
+		  <footer></footer>
+		</div>	
+	 </body>
+</html>

@@ -1,20 +1,69 @@
-//////////////////////// Datepicker ///////////////////////////////////
-// Loading header and footer using Ajax
-fetch("./header.html")
-  .then(response => {
-    return response.text()
-  })
-  .then(data => {
-    document.querySelector("header").innerHTML = data;
-});
+class Project {
+	constructor() {
+		this.sites = [];
+	}
 
-fetch("./footer.html")
-  .then(response => {
-    return response.text()
-  })
-  .then(data => {
-    document.querySelector("footer").innerHTML = data;
-});
+	setName(name) {
+		this.name = name;
+	}
+
+	getName() {
+		return this.name;
+	}
+
+	setLocation(location) {
+		this.location = location;
+	}
+
+	getLocation() {
+		return this.location;
+	}
+
+	setArea(area) {
+		this.area = area;
+	}
+
+	getArea() {
+		return this.area;
+	}
+
+	setStartDate(startDate) {
+		this.start_date = startDate;
+	}
+
+	getStartDate() {
+		return this.start_date;
+	}
+
+	setEndDate(endDate) {
+		this.end_date = endDate;
+	}
+
+	getEndDate() {
+		return this.end_date;
+	}
+
+	setDescription(description) {
+		this.description = description;
+	}
+
+	getDescription() {
+		return this.description;
+	}
+
+	addSite(site) {
+		this.sites.push(site);
+	}
+
+	getSite(siteId) {
+		// return site by id from sites
+		return this.sites[siteId];
+	}
+}
+
+/////////////////////////////////////////// OLD NEW PROJECT JS /////////////////////////////
+
+//////////////////////// Datepicker ///////////////////////////////////
 $(document).ready(function() {
 
 	 $('.datepicker').datepicker({
@@ -139,7 +188,7 @@ class Site {
 	}
 }*/
 
-var PROJECT = {};
+const PROJECT = {};
 PROJECT.sites = [];
 const SITE_LIST = [];
 const MAX_SITES = 10;
@@ -160,13 +209,11 @@ function loadProjectDetails(project) {
 		$("#startDate").val(project.start_date);
 		$("#endDate").val(project.end_date);
 		$("#projectDescription").val(project.description);
-		$("#preAvgSoilLoss").text(project.pre_soil_loss);
-		$("#postAvgSoilLoss").text(project.post_soil_loss);
 	}
 }
 
 function loadSites(sites) {
-	 // alert(JSON.stringify(sites));
+	// alert(JSON.stringify(sites));
 	if (sites.length < MAX_SITES) {
 		$("div#accordionExample").empty();
 		sites.forEach((site, index) => {
@@ -191,9 +238,8 @@ function addSiteUI(siteIndex) {
 	$("#siteName").prop("id", "siteName_" + siteIndex);
 	$("#siteLocation").prop("id", "siteLocation_" + siteIndex);
 	$("#siteArea").prop("id", "siteArea_" + siteIndex);
-	$("#deleteSiteBtn").prop("id", "deleteSiteBtn_" + siteIndex);
 	$("#siteDescription").prop("id", "siteDescription_" + siteIndex);
-	$("#headingOne_" + siteIndex).html("<button id= accordion_button_" + siteIndex + " class=accordion-button type=button data-bs-toggle=collapse data-bs-target=#collapseOne_" + siteIndex + " aria-expanded=true aria-controls=collapseOne_" + siteIndex + ">" + "Segment #" + (siteIndex + 1) + "</button>");
+	$("#headingOne_" + siteIndex).html("<button id= accordion_button_" + siteIndex + " class=accordion-button type=button data-bs-toggle=collapse data-bs-target=#collapseOne_" + siteIndex + " aria-expanded=true aria-controls=collapseOne_" + siteIndex + ">" + "Site #" + (siteIndex + 1) + "</button>");
 	changeIds("pre", siteIndex);
 	changeIds("post", siteIndex);
 }
@@ -211,9 +257,7 @@ function changeIds(type, siteIndex) {
 	$("#" + type + "CButton").prop("id", type + "CButton_0-" + siteIndex);
 	$("#" + type + "PracticeButton").prop("id", type + "PracticeButton_0-" + siteIndex);
 	$("#" + type + "PValues").prop("id", type + "PValues_0-" + siteIndex);
-	$("#" + type + "PButton").prop("id", type + "PButton_0-" + siteIndex);
-	$("#" + type + "CDelBtn").prop("id", type + "CDelBtn_0-" + siteIndex);	
-	$("#" + type + "PDelBtn").prop("id", type + "PDelBtn_0-" + siteIndex);	
+	$("#" + type + "PButton").prop("id", type + "PButton_0-" + siteIndex);	
 	$("#" + type + "Avalue").prop("id", type + "Avalue_" + siteIndex);
 	$("#add" + type + "CoversBtn").prop("id", "add"+ type + "CoversBtn_" + siteIndex);
 	$("#add" + type + "PracticesBtn").prop("id", "add"+ type + "PracticesBtn_" + siteIndex);
@@ -253,9 +297,10 @@ function loadSoilLoss(soilLoss, type, siteIndex) {
 		$("#" + type + "RValues_" + siteIndex).val(r_input);
 	}
 
-	$("#" + type + "Avalue_" + siteIndex).text(soilLoss.a);
+	$("#" + type + "Avalue_" + siteIndex).val(soilLoss.a);
 	
 		
+	// $("div#" + type + "CoverButton_0" + "-" + siteIndex).remove();
 	soilLoss.covers.forEach((cover, index) => {
 		if (index != 0) {
 			let div = document.createElement('div');
@@ -273,6 +318,7 @@ function loadSoilLoss(soilLoss, type, siteIndex) {
 	});
 
 
+	// $("div#" + type + "PracticeButton_0" + "-" + siteIndex).remove();
 	soilLoss.practices.forEach((practice, index) => {
 		if (index != 0) {		
 			let div = document.createElement('div');
@@ -319,6 +365,7 @@ const MAX_PRE_COVERS = 10;
 function addPreCoversButton(btnId) {
 	
 	let siteIndex = btnId.split("_")[1];
+	// let site = SITE_LIST[siteIndex];
 	// alert(siteIndex);
 	let site = PROJECT.sites[siteIndex];
 	// alert(JSON.stringify(site));
@@ -329,7 +376,7 @@ function addPreCoversButton(btnId) {
 	if (preCoverIndex < MAX_PRE_COVERS) {
 		let div = document.createElement('div');
 		div.id = "preCoverButton_" + preCoverIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=preCValues_' + preCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="pre_c_button" disabled><button id=preCButton_' + preCoverIndex + "-" + siteIndex + ' class="preSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_c_modal">Select C</button><button id=preCDelBtn_' + preCoverIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=preCValues_' + preCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="pre_c_button" disabled><button id=preCButton_' + preCoverIndex + "-" + siteIndex + ' class="preSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_c_modal">Select C</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var preCoverSection = document.getElementById('preCoverSection_' + siteIndex);
 		preCoverSection.appendChild(div);
 		// Since we added empty precover section, add empty precover object and populate it when user enters information
@@ -339,7 +386,9 @@ function addPreCoversButton(btnId) {
 
 const MAX_POST_COVERS = 10;
 function addPostCoversButton(btnId) {
+
 	let siteIndex = btnId.split("_")[1];
+	// let site = SITE_LIST[siteIndex];
 	let site = PROJECT.sites[siteIndex];
 	let postSoilLoss = site.post_soil_loss;
 	let postCoverIndex = postSoilLoss.covers.length;
@@ -347,10 +396,12 @@ function addPostCoversButton(btnId) {
 	if (postCoverIndex < MAX_POST_COVERS) {
 		let div = document.createElement('div');
 		div.id = "postCoverButton_" + postCoverIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_' + postCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_' + postCoverIndex + "-" + siteIndex + ' class="postSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button><button id=postCDelBtn_' + postCoverIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_' + postCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_' + postCoverIndex + "-" + siteIndex + ' class="postSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var postCoverSection = document.getElementById('postCoverSection_' + siteIndex);
 		postCoverSection.appendChild(div);
+		// Since we added empty precover section, add empty precover object and populate it when user enters information
 		postSoilLoss.covers.push({});
+		// alert(JSON.stringify(SITE_LIST));
 	}
 }
 
@@ -358,6 +409,7 @@ const MAX_PRE_PRACTICES = 10;
 function addPrePracticesButton(btnId) {
 
 	let siteIndex = btnId.split("_")[1];
+	// let site = SITE_LIST[siteIndex];
 	let site = PROJECT.sites[siteIndex];
 	let preSoilLoss = site.pre_soil_loss;
 	let prePracticeIndex = preSoilLoss.practices.length;
@@ -366,10 +418,11 @@ function addPrePracticesButton(btnId) {
 
 		let div = document.createElement('div');
 		div.id = "prePracticeButton_" + prePracticeIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_' + prePracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_' + prePracticeIndex + "-" + siteIndex + ' class="preSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button><button id=prePDelBtn_' + prePracticeIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_' + prePracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_' + prePracticeIndex + "-" + siteIndex + ' class="preSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var prePracticeSection = document.getElementById('prePracticeSection_' + siteIndex);
 		prePracticeSection.appendChild(div);
 		preSoilLoss.practices.push({});
+		// alert(JSON.stringify(SITE_LIST));
 	}
 }
 
@@ -377,8 +430,9 @@ const MAX_POST_PRACTICES = 10;
 function addPostPracticesButton(btnId) {
 
 	let siteIndex = btnId.split("_")[1];
+	// let site = SITE_LIST[siteIndex];
 	let site = PROJECT.sites[siteIndex];
-	//alert(JSON.stringify(site));
+	alert(JSON.stringify(site));
 	let postSoilLoss = site.post_soil_loss;
 	let postPracticeIndex = postSoilLoss.practices.length;
 
@@ -386,31 +440,45 @@ function addPostPracticesButton(btnId) {
 
 		let div = document.createElement('div');
 		div.id = "postPracticeButton_" + postPracticeIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_' + postPracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_' + postPracticeIndex + "-" + siteIndex + ' class="postSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button><button id=postPDelBtn_' + postPracticeIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_' + postPracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_' + postPracticeIndex + "-" + siteIndex + ' class="postSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var postPracticeSection = document.getElementById('postPracticeSection_' + siteIndex);
 		postPracticeSection.appendChild(div);
 		postSoilLoss.practices.push({});
+		// alert(JSON.stringify(SITE_LIST));
 	}
 }
 
 
 window.onload = function () {   
     if (window.location.search.split('?').length > 1) {
-        var id = window.location.search.split('?')[1].split('=')[1];
-        alert("id :" + id);		
+        var params = window.location.search.split('?')[1].split('=');
+        var projectId = params[1];	
+		// alert(projectId);		
 		$.ajax({
 			type: 'GET',
 			url: 'project',
-			data: {id: id},
+			data: {id: projectId},
 			async: true,
 		}).done(function(resp) {
 			 let site_string = JSON.parse(resp[0].sites);
+			 // alert(JSON.stringify(site_string));
 			 resp[0].sites = site_string;
 			 var project = JSON.parse(JSON.stringify(resp[0]));	 
-			 PROJECT = project;
+			 // alert(JSON.stringify(jso));
+		 	 PROJECT.id = project.id;
+			 PROJECT.name = project.name;
+			 PROJECT.area = project.area;
+			 PROJECT.start_date = project.start_date;
+		 	 PROJECT.end_date = project.end_date;
+			 PROJECT.description = project.description;
+			 PROJECT.location = project.location;
+			 PROJECT.sites = project.sites;
+			 // alert(JSON.stringify(PROJECT))
 			 loadProject(project);		
-		}).fail(function(response) {			
-			//alert(response.responseText);		
+		}).fail(function(response) {
+			
+			//alert(response.responseText);
+			
 		});
     }
 };
@@ -1375,17 +1443,17 @@ function checkPracticePercentVal(elementId, type) {
 $(document).on("click", ".calculatePreSoilLoss", function() {
 	let siteId = (this.id).split("_")[1];
 	let site = PROJECT.sites[siteId];
-	calculateSoilLoss(siteId, site.pre_soil_loss, "pre" );
+	calculateSoilLoss(siteId, site.pre_soil_loss, site.pre_soil_loss, "pre" );
 });
 
 $(document).on("click", ".calculatePostSoilLoss", function() {
 	let siteId = (this.id).split("_")[1];
 	let site = PROJECT.sites[siteId];
-	calculateSoilLoss(siteId, site.post_soil_loss, "post" );
+	calculateSoilLoss(siteId, site.post_soil_loss, site.post_soil_loss, "post" );	
 });
 
 
-function calculateSoilLoss(siteId, soilLoss, type) {
+function calculateSoilLoss(siteId, getSoilLossObj, soilLoss, type) {
 	var kVal = soilLoss.k
 
 	if (soilLoss.ls) {
@@ -1408,77 +1476,12 @@ function calculateSoilLoss(siteId, soilLoss, type) {
 	});
 	
 	if (kVal && lsVal && rVal && totalC && totalP) {
-		let result = parseFloat((kVal * lsVal * rVal * totalC * totalP));
-		var soilLossA = round(result, 7);	
-	}
-
-	$("#" + type + "Avalue_" + siteId).text(soilLossA);
-	soilLoss.a = soilLossA;
-	
-	var preAvgSoilLoss = 0.0;
-	var postAvgSoilLoss = 0.0;
-	var count = 0;
-	
-	if (type == "pre") {
-		PROJECT.sites.forEach((site) => {
-			if(site.pre_soil_loss.a) {
-				preAvgSoilLoss += site.pre_soil_loss.a;
-				count++;
-			}
-		});	
-		if(preAvgSoilLoss > 0.0) {
-			preAvgSoilLoss = round((preAvgSoilLoss / count), 7);
-		}
-		$("#preAvgSoilLoss").text(preAvgSoilLoss);	
-	} else {
-		PROJECT.sites.forEach((site) => {
-			if(site.post_soil_loss.a) {
-				postAvgSoilLoss += site.post_soil_loss.a;
-				count++;
-			}
-		});
-		if(postAvgSoilLoss > 0.0) {
-			postAvgSoilLoss = round((postAvgSoilLoss / count), 7);
-		}
-		$("#postAvgSoilLoss").text(postAvgSoilLoss);
+		var soilLossA = parseFloat((kVal * lsVal * rVal * totalC * totalP).toFixed(5));	
 	}
 	
-	var preProjectSL = parseFloat($("#preAvgSoilLoss").text());
-	var postProjectSL = parseFloat($("#postAvgSoilLoss").text());
-	
-	PROJECT.pre_soil_loss = preProjectSL;
-	PROJECT.post_soil_loss = postProjectSL;
-	
-	if(postProjectSL > preProjectSL) {
-		$('#comparisonResult').html("<span><strong>Warning! </strong>Post - construction soil loss is greater than Pre - construction soil loss. Try using better cover BMP's and support practices to improve the results.</span>").addClass("alert alert-warning");
-	} 
-	else if(postProjectSL < preProjectSL) {
-		$('#comparisonResult').html("<span><strong>Well done! </strong>Post - construction soil loss is less than Pre - construction soil loss. Thus, there is no significant Soil Erosion happened after construction of this project.</span>").addClass("alert alert-success");
-	} 
-	else {
-		$('#comparisonResult').html("<span><strong>Good job! </strong>Soil loss for Pre - construction and Post - construction is equal. Thus, there is no significant Soil Erosion happened after construction of this project.</span>").addClass("alert alert-primary");
-	}
-}
 
-const round = (number, decimalPlaces) => {
-  const factorOfTen = Math.pow(10, decimalPlaces);
-  return Math.round(number * factorOfTen) / factorOfTen;
-}
-////////////////////////// DELETE SITE ////////////////////////////////
-
-function deleteSite(elementId) {
-	let siteId = elementId.split("_")[1];
-	// let site = PROJECT.sites[siteId];
-	
-	//alert(JSON.stringify(site));
-	//alert(JSON.stringify(PROJECT));
-	
-	PROJECT.sites.splice(siteId, 1);
-	
-	//alert(JSON.stringify(PROJECT));
-	
-	var siteHtml = document.getElementById("accordion-item-" + siteId);
-  	siteHtml.remove();
+	$("#" + type + "Avalue_" + siteId).val(soilLossA);
+	getSoilLossObj.a = soilLossA;	
 }
 
 //////////////////////// PROJECT SAVE BUTTON //////////////////////////
@@ -1488,53 +1491,34 @@ $(document).on("click", "#saveProjectBtn", function() {
 	PROJECT.end_date = $("#endDate").val();
 
 	alert(JSON.stringify(PROJECT));
-
-	if (stringifySitesJson == false) {	
+	
+	if (stringifySitesJson == false) {
 		PROJECT.sites = JSON.stringify(PROJECT.sites);
 		stringifySitesJson = true;
 	}
-		 
+	// alert(JSON.stringify(PROJECT)); 
+	
 	$.ajax({
-		type: 'POST',
-		url: 'project',
-		data: PROJECT,
-		async: true,
-	}).done(function(response) {
-		if (response.success) {
-			alert("if success: " + JSON.stringify(response));
-			// $('#message').html("<span>Submitted! Project data records saved successfully.</span>")
-			/*
-			$('#message').html("<div class=alert-dismissible fade show role=alert>" + 
-			  "<strong>Well done!</strong> Project data records saved successfully." +
-			  "<button type=button class=close data-dismiss=alert aria-label=Close> " +
-			  "<span aria-hidden=true>&times;</span></button></div>")	
-			.addClass("alert alert-success")
-			.hide()
-			.fadeIn(1500);
-			
-			setTimeout(function() {
-				$('#message').fadeOut("Slow");
-			}, 20000); */
-			
-			window.location = 'report.html?id=' + response.id + '&status=' + response.success + '&message=' + response.message;
-		}
-	}).fail(function(response) {
-		// alert("failed: " + JSON.stringify(response));	
-		if(response.responseJSON.fail) {
-			$('#message').html("<span><strong>Please try again! </strong>" + response.responseJSON.message + "</span>")		
-			.addClass("alert alert-danger")
-			.hide()
-			.fadeIn(1500);
-			
-			setTimeout(function() {
-				$('#message').fadeOut("Slow");
-			}, 20000);
-			
+			type: 'POST',
+			url: 'project',
+			data: PROJECT,
+			async: true,
+		}).done(function(response) {
+			// alert(JSON.stringify(response));
+			if (response.success) {
+				$('#message').html("<span>Submitted! Project data records saved successfully.</span>")
+				.addClass("alert alert-success")
+				.hide()
+				.fadeIn(1500);
 		
-		}
-	});	
-	
-	
+				setTimeout(function() {
+					$('#message').fadeOut("Slow");
+				}, 10000);
+			}	
+			
+		}).fail(function(response) {
+			// alert(JSON.stringify(response));
+		});	
 		
 });
 

@@ -1,6 +1,22 @@
 /**
  * 
  */
+// Loading header and footer using Ajax
+fetch("./header.html")
+  .then(response => {
+    return response.text()
+  })
+  .then(data => {
+    document.querySelector("header").innerHTML = data;
+});
+
+fetch("./footer.html")
+  .then(response => {
+    return response.text()
+  })
+  .then(data => {
+    document.querySelector("footer").innerHTML = data;
+});
 var isLoading = false;
 const projectMap = new Map();
 const projectNameMap = new Map();
@@ -37,7 +53,5 @@ function openProject() {
 function onOpenProjectBtnClick() {
 	var name = $("#selectProject").val();
 	var projectId = projectNameMap[name].id;  
-	//alert(projectId)
     window.location = 'new_project.html?id=' + projectId;
-	
 }
