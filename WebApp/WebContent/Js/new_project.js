@@ -397,7 +397,7 @@ function addPostPracticesButton(btnId) {
 window.onload = function () {   
     if (window.location.search.split('?').length > 1) {
         var id = window.location.search.split('?')[1].split('=')[1];
-        alert("id :" + id);		
+       // alert("id :" + id);		
 		$.ajax({
 			type: 'GET',
 			url: 'project',
@@ -589,74 +589,6 @@ function onSelectPostLSButtonClick() {
 function constructLSMapKey(slope, slopeLength) {
 	return slope.toString() + "-" + slopeLength.toString();
 }
-
-/////////////R VALUE for Pre Construction Custom///////	
-/*
-$(document).ready(function() {
-  $("#btn-rcustom-pre").click(function() {
-    $("#form-rcustom-pre").show();
-    $("#form-rdatabase-pre").hide();
-    rPreCustom =true;
-    rPreDatabase =false; 
-  });
-});
-
-
-$(document).ready(function() {
-   $("#btn-database-pre").click(function() {
-    $("#form-rdatabase-pre").show();
-    $("#form-rcustom-pre").hide();
-    rPreCustom =false;
-    rPreDatabase =true;
-  });
-});
-
-///////////// Load R Values for Pre Construction //////////////
-$(document).on("click", ".preSelectRBtn", function() {
-	if (!isLoading) {
-		buttonClicked = this.id;
-		$("#pre_r_location_select").empty();
-		isLoading = true;
-		$.ajax({
-			type: 'GET',
-			url: 'r',
-			async: true,
-		}).done(function(rList) {
-			let siteId = buttonClicked.split("_")[1];	
-			if ($("#preRValues_" + siteId).val()) {
-				let selectedVal = ($("#preRValues_" + siteId).val()).split(" | ");
-				$("#pre_r_location_text").val(selectedVal[0]);
-				$("#pre_r_value_text").val(selectedVal[1]);	
-			} else {
-				$("#pre_r_location_text").val("");
-				$("#pre_r_value_text").val("");	
-			}
-			var locationSet = new Set();
-			rMap.clear();
-			rValueMap.clear();
-			durValueMap.clear();
-			for (var i = 0; i < rList.length; i++) {
-				var r = rList[i];
-				locationSet.add(r.location);	
-				var key = r.location;
-				rMap[key] = r;
-				rValueMap[key] = r.r_value;
-				durValueMap[key] = r.duration;
-			}
-			locationSet.forEach(function(location) {
-				$("#pre_r_location_select").append("<option value='" + location + "'>" + location + "</option>");
-			});
-			// Update Pre R
-			var location = $("#pre_r_location_select").val();
-			locationKey=location;
-			setPreRValue(location);
-			isLoading = false;
-		}).fail(function(response) {
-			alert(response.responseText);
-		});
-	}
-});
-*/
 
 ///////////// Load R Values for Pre Construction //////////////
 $(document).on("click", ".preSelectRBtn", function() {
@@ -1487,7 +1419,7 @@ $(document).on("click", "#saveProjectBtn", function() {
 	PROJECT.start_date = $("#startDate").val();
 	PROJECT.end_date = $("#endDate").val();
 
-	alert(JSON.stringify(PROJECT));
+	// alert(JSON.stringify(PROJECT));
 
 	if (stringifySitesJson == false) {	
 		PROJECT.sites = JSON.stringify(PROJECT.sites);
@@ -1501,7 +1433,7 @@ $(document).on("click", "#saveProjectBtn", function() {
 		async: true,
 	}).done(function(response) {
 		if (response.success) {
-			alert("if success: " + JSON.stringify(response));
+			// alert("if success: " + JSON.stringify(response));
 			// $('#message').html("<span>Submitted! Project data records saved successfully.</span>")
 			/*
 			$('#message').html("<div class=alert-dismissible fade show role=alert>" + 
