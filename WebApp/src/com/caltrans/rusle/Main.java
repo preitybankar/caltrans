@@ -1,5 +1,6 @@
 package com.caltrans.rusle;
 
+import java.sql.Date;
 import java.util.List;
 import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.models.LS;
@@ -9,7 +10,8 @@ import com.caltrans.rusle.db.RTable;
 import com.caltrans.rusle.models.R;
 import com.caltrans.rusle.db.PTable;
 import com.caltrans.rusle.models.P;
-
+import com.caltrans.rusle.models.Project;
+import com.caltrans.rusle.db.ProjectsTable;
 
 public class Main {
 	public static void main(String[] args) {
@@ -76,12 +78,18 @@ public class Main {
 		pTable.insert(new P("Compacted/smooth", "NTPEP ASTM 6459", 1.3f));
 		
 		RTable rTable = new RTable();
-		rTable.createIfNotExist();
-		rTable.insert(new R(45.49f, "Sacramento"));
-		rTable.insert(new R(47.73f, "Davis"));
-		rTable.insert(new R(52.53f, "Folsom"));
+		rTable.createIfNotExist(); 
 		
+		//rTable.insert(new R(45.49f, "Sacramento",12));
+		//rTable.insert(new R(47.73f, "Davis",12));
+		//rTable.insert(new R(52.53f, "Folsom",12));
 		
+		ProjectsTable project = new ProjectsTable();
+		project.createIfNotExist();
+		// project.insert(new Project("6369 Zulmida Backyard gardening project", 5000f, Date.valueOf("2021-04-21"), Date.valueOf("2021-04-30"), "backyard", "water irrigation system gardening", "{site 1}"));
+		// project.update(new Project(1,"6369 Zulmida Backyard gardening project", 66000f, Date.valueOf("2021-04-10"), Date.valueOf("2021-04-20"), "backyard", "water irrigation system gardening", "{site 234}"));
+		// project.delete(new Project(1,"6369 Zulmida Backyard gardening project", 66000f, Date.valueOf("2021-04-10"), Date.valueOf("2021-04-20"), "backyard", "water irrigation system gardening", "{site 234}")); 
+
 		/*List<LS> lsList = lsTable.getAllLS();
 		for (LS dbLS : lsList) {
 			System.out.println(dbLS);

@@ -406,7 +406,7 @@
  	}
 	
 	
-			////////////// Load P Values for Pre Construction //////////////
+	////////////// Load P Values for Pre Construction //////////////
 	
 	var pValueMap = new Map(); // Global variable
 	var refValueMap = new Map(); // Global variable
@@ -556,5 +556,4 @@
 		var post_const_soil_loss = (post_r_value * post_k_value * post_ls_value * post_c_value * post_p_value);
 	  	
 	  	$("#post_cons_result").val(post_const_soil_loss);
-	});
-
+	});			

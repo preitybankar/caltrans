@@ -15,9 +15,8 @@ public class RTable extends DbConnection {
 	private static final String R_VALUE = "r_value";
 	private static final String LOCATION = "location";
 	
-
 	private static final String CREATE_R_TABLE = String.format(
-			"CREATE TABLE IF NOT EXISTS %s ( %s FLOAT NOT NULL, %s VARCHAR(250) NOT NULL, UNIQUE (%s))",
+			"CREATE TABLE IF NOT EXISTS %s ( %s FLOAT NOT NULL, %s VARCHAR(250) NOT NULL,  UNIQUE (%s))",
 			R, R_VALUE, LOCATION, LOCATION);
 	private static final String INSERT_OR_UPDATE_INTO_R = String.format(
 			"INSERT INTO %s (%s, %s) VALUES (?,?) ON DUPLICATE KEY UPDATE %s = ?", R, R_VALUE, LOCATION, R_VALUE);
@@ -42,7 +41,7 @@ public class RTable extends DbConnection {
 			PreparedStatement ps = mConnection.prepareStatement(INSERT_OR_UPDATE_INTO_R);
 			ps.setFloat(1, r.getrValue());
 			ps.setString(2, r.getLocation());
-			ps.setFloat(3, r.getrValue());
+			ps.setFloat(4, r.getrValue());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
