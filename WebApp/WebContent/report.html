@@ -111,7 +111,7 @@
 							</div>
 							<br>
 							<div class="container" id="siteReportContainer">		 									  	
-								<div id="siteElements" class="container mb-3 border border-warning" style="display: none;">   		
+								<div id="siteElement" class="container mb-3 border border-warning" style="display: none;">   		
 							      	<div class="row border-bottom">
 										<span id="segmentIndex" class="p-2 bg-warning text-uppercase fw-bold text-dark">Segment #1</span>	
 									</div><br>
@@ -199,8 +199,7 @@
 											  </tbody>
 											</table>
 										</div>														
-									</div>	
-									<br>							
+									</div>						
 									<div class="row g-3">
 										<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>		
 										<div class="table-responsive">
@@ -218,7 +217,7 @@
 											  </tbody>
 											</table>
 										</div>					
-									</div><br>
+									</div>
 									<div class="row">
 										<div class="bg-secondary p-1 d-flex border-bottom">
 											<label class="text-uppercase fw-bold text-white">Post Construction</label></span>
@@ -273,7 +272,7 @@
 											</table>
 										</div>														
 									</div>	
-									<br>							
+															
 									<div class="row g-3">
 										<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>		
 										<div class="table-responsive">
@@ -292,197 +291,8 @@
 											</table>
 										</div>					
 									</div>			
-								</div>		
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-							<!-- 
-								<div class="row g-3 justify-content-md-center">	
-									<div class="col col-lg-2"><br>
-										<label class="text-uppercase fw-bold">Soil Loss</label>
-									</div>
-									<div class="col-sm-6"><br>
-										<div class="input-group mb-3">
-											<span id="preProjectSoilLoss" class="fw-bold form-control text-primary">0.00</span>
-											<span class="input-group-text">tons/acre/year</span>
-										</div>
-									</div>
-								</div>
-								
-							
-								<div class="row g-3">
-									<span class="border-bottom fw-bold text-dark"><label class="text-uppercase">Parameters Used</label></span>
-									<div class="col"><br>
-										<label class="text-uppercase">LS: Length/Steepness</label>
-										<div class="input-group mb-3">
-											<input id="preLs" type="text" class="form-control" disabled >
-										</div>
-									</div>
-									<div class="col"><br>
-										<label class="text-uppercase">K: Erodibility</label>
-										<div class="input-group mb-3">
-											<input id="preErodibility" type="text" class="form-control" disabled >
-										</div>
-									</div>
-									<div class="col"><br>
-										<label class="text-uppercase">R: Erosivity</label>
-										<div class="input-group mb-3">
-											<input id="preErosivity" type="text" class="form-control" disabled >
-										</div>
-									</div>			
 								</div>	
-								<br>
-								<div class="row g-3">
-									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Cover Management</label></span>								
-									<div class="table-responsive">
-										<table class="table table-sm table-striped table-hover table-bordered">
-										  <thead class="table-warning">
-										    <tr>
-										      <th scope="col">#</th>
-										      <th scope="col">Cover BMP</th>
-										      <th scope="col">C Value</th>
-										      <th scope="col">Percentage</th>
-										      <th scope="col">Reference</th>
-										    </tr>
-										  </thead>
-										  <tbody id="preCoversTableBody">
-										  </tbody>
-										</table>
-									</div>														
-								</div>							
-								<br>							
-								<div class="row g-3">
-									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>		
-									<div class="table-responsive">
-										<table class="table table-sm table-striped table-hover table-bordered">
-										  <thead class="table-warning">
-										    <tr>
-										      <th scope="col">#</th>
-										      <th scope="col">Support Practice</th>
-										      <th scope="col">P Value</th>
-										      <th scope="col">Percentage</th>
-										      <th scope="col">Reference</th>
-										    </tr>
-										  </thead>
-										  <tbody id="prePracticesTableBody">
-										  </tbody>
-										</table>
-									</div>					
-								</div>		
-							
-								<div class="row g-3">
-									<span class="border-bottom fw-bold p-3 mb-2 bg-secondary text-white"><label class="text-uppercase">Soil Loss - After Construction</label></span>
-								</div>
-							
-								<div class="row g-3 justify-content-md-center">
-									<div class="col col-lg-2"><br>
-										<label class="text-uppercase fw-bold">Soil Loss </label>
-									</div>
-									<div class="col-sm-6"><br>
-										<div class="input-group mb-3">
-											<span id="preProjectSoilLoss" class="fw-bold form-control text-primary">0.00</span>
-											<span class="input-group-text">tons/acre/year</span>
-										</div>
-									</div>
-								</div>
-								
-								<div class="row g-3">
-									<span class="border-bottom fw-bold text-dark"><label class="text-uppercase">Parameters Used</label></span>
-									<div class="col"><br>
-										<label class="text-uppercase">LS: Length/Steepness</label>
-										<div class="input-group mb-3">
-											<input id="postLs" type="text" class="form-control" disabled >
-										</div>
-									</div>
-									<div class="col"><br>
-										<label class="text-uppercase">K: Erodibility</label>
-										<div class="input-group mb-3">
-											<input id="postErodibility" type="text" class="form-control" disabled >
-										</div>
-									</div>
-									<div class="col"><br>
-										<label class="text-uppercase">R: Erosivity</label>
-										<div class="input-group mb-3">
-											<input id="postErosivity" type="text" class="form-control" disabled >
-										</div>
-									</div>			
-								</div>
-								
-								<br>
-								<div class="row g-3">
-									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Cover Management</label></span>								
-									<div class="table-responsive">
-										<table class="table table-sm table-striped table-hover align-middle table-bordered">
-										  <thead class="table-warning">
-										    <tr>
-										      <th scope="col">#</th>
-										      <th scope="col">Cover BMP</th>
-										      <th scope="col">C Value</th>
-										      <th scope="col">Percentage</th>
-										      <th scope="col">Reference</th>
-										    </tr>
-										  </thead>
-										  <tbody id="postCoversTableBody">
-										  </tbody>
-										</table>
-									</div>														
-								</div>							
-								<br>							
-								<div class="row g-3">
-									<span class="border-bottom text-dark fw-bold"><label class="text-uppercase">Erosion Control Practices</label></span>
-									
-									<div class="table-responsive">
-										<table class="table table-sm table-striped table-hover align-middle table-bordered">
-										  <thead class="table-warning">
-										    <tr>
-										      <th scope="col">#</th>
-										      <th scope="col">Support Practice</th>
-										      <th scope="col">P Value</th>
-										      <th scope="col">Percentage</th>
-										      <th scope="col">Reference</th>
-										    </tr>
-										  </thead>
-										  <tbody id="postPracticesTableBody">
-										  </tbody>
-										</table>
-									</div>					
-								</div>  -->
-								
-														
+																						
 							</div>				
 						</div>
 					</div>
