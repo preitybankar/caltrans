@@ -18,6 +18,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>	
 	  	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 	 	<!-- Custom scripts and plugins -->
 	 	<script src="Js/index.js"></script>
 		<script src="Js/header.js"></script>
@@ -33,11 +34,19 @@
 								<a href="#" id="backToEditBtn" class="btn btn-primary text-uppercase" role="button" data-bs-toggle="button">Back</a>		
 							</div>
 							<div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-								<button id="downloadReportBtn" class="btn btn-primary text-uppercase" type="button" onclick="window.print();">Download</button>
+								<div class="dropdown">
+							    	<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+										DOWNLOAD
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+										<li><a class="dropdown-item" href="#" onclick="window.print()">Standard Report</a></li>
+										<li><a id="downloadReportBtn" class="dropdown-item" href="#">Generated Report</a></li>
+									</ul>
+								</div>
 							</div>
 						</div>
 						<br>
-						<div class="container border border-info"><br>									
+						<div id="download_report_section" class="container border border-info"><br>									
 							<div class="row g-3 row-cols-auto justify-content-md-center">
 								<span class="fs-4 fw-bolder text-secondary text-uppercase"> PROJECT REPORT </span>
 							</div><br>
