@@ -453,19 +453,19 @@
 								</div>
 								<div class="modal-body" id="pre-r-modal-body">
 									<form id="form-rcustom-pre">
-										<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br><br> 
-										<a class="btn btn-secondary" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a><br><br> 
-										
+										<label>Click on the EPA calculator link below and calculate R factor value for targeted construction area: </label><br><br> 		
+										<div class="d-grid gap-2 col-8 mx-auto">
+											<a class="btn btn btn-primary active" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> 
+										</div><br>
 										<label>Enter R factor value: </label><br>
 									 	<div class="input-group mb-3">
 						          			<input type="text" class="form-control" id="pre_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value_text"><br> 
-								  	 	</div>
-									  	
+								  	 	</div>					  	
 										<label>Enter location: </label><br> 
 										<div class="input-group mb-3">
-											<input type="text" class="form-control" id="pre_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location_text"><br>	
+											<input type="text" class="form-control" id="pre_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location_text">
 									  	</div>
-									</form> 
+									</form>
 									<div class="modal-footer">
 										<button id="select_pre_r_button" class="btn btn-primary" onClick="onSelectPreRButtonClick()" data-bs-dismiss="modal">Select R</button>
 									</div>
@@ -581,21 +581,21 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="staticBackdropLabel">Select R
-										Factor</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
+									<h5 class="modal-title" id="staticBackdropLabel">Select R Factor</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body" id="post-r-modal-body">
 									<form id="form-rcustom-post">
-										<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br><br> 
-										<a class="btn btn-secondary" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> <br> <br> 
-										<label>Enter R Factor Value: </label><br>
+										<label>Click on the EPA calculator link below and calculate R factor value for targeted construction area: </label><br><br> 
+										<div class="d-grid gap-2 col-8 mx-auto">
+											<a class="btn btn btn-primary active" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> 
+										</div><br>
+										<label>Enter R factor value: </label><br>
 										<input type="text" class="form-control" id="post_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="post_r_value_text">
 										<div class="form-floating"></div>
-										<br> <label>Enter Location: </label><br> 
+										<br> <label>Enter location: </label><br> 
 										<input type="text" class="form-control" id="post_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="post_r_location_text">
-									</form>
+									</form> <br>
 									<div class="modal-footer">
 										<button id="select_post_r_button" class="btn btn-primary" onClick="onSelectPostRButtonClick()" data-bs-dismiss="modal">Select R</button>
 									</div>

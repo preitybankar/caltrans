@@ -35,7 +35,6 @@ window.onload = function() {
 			$("#projectStartDate").text(project.start_date);
 			$("#projectEndDate").text(project.end_date);
 			$("#projectDescription").text(project.description);
-
 	
 			project.sites.forEach((site, index) => {
 				$("#segmentIndex").text("Segment #" + (index + 1));
@@ -52,9 +51,6 @@ window.onload = function() {
 				$("#preAvalue").text(site.pre_soil_loss.a);
 				$("#postAvalue").text(site.post_soil_loss.a);
 
-				// changeIds("pre", index);
-				// changeIds("post", index);
-				
 				let div = document.createElement('div');
 				let siteElementId = "siteElement-" + index;
 				div.innerHTML = document.getElementById('siteElement').innerHTML;
@@ -65,40 +61,18 @@ window.onload = function() {
 				siteReportContainer.appendChild(div);
 				
 				// Load Pre Covers
-				// let preCoversTableId = "preCoversTable_" + index;
-				// $("#" + siteElementId).find('#preCoversTable').prop("id", preCoversTableId);
-				
-				// let preCoversBodyId = "preCoversBody_" + index;
-				// $("#" + preCoversTableId).find('#preCoversBody').prop("id", preCoversBodyId);
-				
 				let preCoversBodyId = changeIds("pre", "Covers", index, siteElementId);
 				loadCovers(site.pre_soil_loss, preCoversBodyId);
 				
 				// Load Post Covers
-				// let postCoversTableId = "postCoversTable_" + index;
-				// $("#" + siteElementId).find('#postCoversTable').prop("id", postCoversTableId);
-				
-				// let postCoversBodyId = "postCoversBody_" + index;
-				// $("#" + postCoversTableId).find('#postCoversBody').prop("id", postCoversBodyId);
 				let postCoversBodyId = changeIds("post", "Covers", index, siteElementId);
 				loadCovers(site.post_soil_loss, postCoversBodyId);
 				
-				// Load Post Practices
-				// let prePracticesTableId = "prePracticesTable_" + index;
-				// $("#" + siteElementId).find('#prePracticesTable').prop("id", prePracticesTableId);
-				
-				// let prePracticesBodyId = "prePracticesBody_" + index;
-				// $("#" + prePracticesTableId).find('#prePracticesBody').prop("id", prePracticesBodyId);
+				// Load Post Practices	
 				let prePracticesBodyId = changeIds("pre", "Practices", index, siteElementId);
 				loadPractices(site.pre_soil_loss, prePracticesBodyId);
 				
 				// Load Post Practices
-				// let postPracticesTableId = "postPracticesTable_" + index;
-				// $("#" + siteElementId).find('#postPracticesTable').prop("id", postPracticesTableId);
-				
-				// let postPracticesBodyId = "postPracticesBody_" + index;
-				// $("#" + postPracticesTableId).find('#postPracticesBody').prop("id", postPracticesBodyId);
-				
 				let postPracticesBodyId = changeIds("post", "Practices", index, siteElementId);
 				loadPractices(site.post_soil_loss, postPracticesBodyId);
 			});	
@@ -110,7 +84,6 @@ window.onload = function() {
 
 function changeIds(type, itemToLoad, siteIndex, siteElementId) {
 	let tableId = type + itemToLoad + "Table_" + siteIndex;
-	
 	$("#" + siteElementId).find('#' + type + itemToLoad + 'Table').prop("id", tableId);
 				
 	let bodyId = type + itemToLoad + "Body_" + siteIndex;

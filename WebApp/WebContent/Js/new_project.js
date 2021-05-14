@@ -1419,7 +1419,7 @@ $(document).on("click", "#saveProjectBtn", function() {
 	PROJECT.start_date = $("#startDate").val();
 	PROJECT.end_date = $("#endDate").val();
 
-	// alert(JSON.stringify(PROJECT));
+	alert(JSON.stringify(PROJECT));
 
 	if (stringifySitesJson == false) {	
 		PROJECT.sites = JSON.stringify(PROJECT.sites);
