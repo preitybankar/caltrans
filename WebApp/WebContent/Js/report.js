@@ -106,6 +106,22 @@ window.onload = function() {
 			 alert(response.responseText);
 		});
 	}
+	
+	document.getElementById("downloadReportBtn").addEventListener("click", () => {
+		const main = this.document.getElementById("download_report_section");
+        console.log(main);
+        console.log(window);
+        var opt = {
+        	margin: 0.5,
+        	filename: 'Rusle_Report.pdf',
+        	image: { type: 'png', quality: 1 },
+        	html2canvas: {scale: 4, logging: true},
+        	jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        
+        alert("Please wait. Report is being generated...");
+        html2pdf().from(main).set(opt).save();
+    })
 };
 
 function changeIds(type, itemToLoad, siteIndex, siteElementId) {
