@@ -1,7 +1,6 @@
 package com.caltrans.rusle.models;
 
 import java.sql.Date;
-// import java.util.Date;
 
 public class Project {
 	public static final int INVALID_ID = -999;
@@ -12,9 +11,12 @@ public class Project {
 	private final Date mEndDate;
 	private final String mLocation;
 	private final String mDescription;
+	private final float mPreSoilLoss;
+	private final float mPostSoilLoss;
 	private final String mSiteDetails;
 	
-	public Project(int id, String name, float area, Date startDate, Date endDate, String location, String description, String siteDetails) {
+	
+	public Project(int id, String name, float area, Date startDate, Date endDate, String location, String description, float preSoilLoss, float postSoilLoss, String siteDetails) {
 		mId = id;
 		mName = name;
 		mArea = area;
@@ -22,11 +24,13 @@ public class Project {
 		mEndDate = endDate;
 		mLocation = location;
 		mDescription = description;
+		mPreSoilLoss = preSoilLoss;
+		mPostSoilLoss = postSoilLoss;
 		mSiteDetails = siteDetails;
 	}
 	
-	public Project(String name, float area, Date startDate, Date endDate, String location, String description, String siteDetails) {
-		this(INVALID_ID, name, area, startDate, endDate, location, description, siteDetails);
+	public Project(String name, float area, Date startDate, Date endDate, String location, String description, float preSoilLoss, float postSoilLoss, String siteDetails) {
+		this(INVALID_ID, name, area, startDate, endDate, location, description, preSoilLoss, postSoilLoss, siteDetails);
 	}
 
 	public int getId() {
@@ -57,12 +61,20 @@ public class Project {
 		return mDescription;
 	}
 	
+	public float getPreSoilLoss() {
+		return mPreSoilLoss;
+	}
+	
+	public float getPostSoilLoss() {
+		return mPostSoilLoss;
+	}
+	
 	public String getSiteDetails() {
 		return mSiteDetails;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Id: %d, Name: %s, Area: %f, Start Date: %s, End Date: %s, Location: %s, Description: %s, Site Details: %s", mId, mName, mArea, mStartDate, mEndDate, mLocation, mDescription, mSiteDetails);
+		return String.format("Id: %d, Name: %s, Area: %f, Start Date: %s, End Date: %s, Location: %s, Description: %s, Pre Construction Soil Loss: %f, Post Construction Soil Loss: %f, Site Details: %s", mId, mName, mArea, mStartDate, mEndDate, mLocation, mDescription, mPreSoilLoss, mPostSoilLoss, mSiteDetails);
 	}
 }

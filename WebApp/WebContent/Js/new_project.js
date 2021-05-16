@@ -160,8 +160,8 @@ function loadProjectDetails(project) {
 		$("#startDate").val(project.start_date);
 		$("#endDate").val(project.end_date);
 		$("#projectDescription").val(project.description);
-		$("#preAvgSoilLoss").text(project.pre_soil_loss);
-		$("#postAvgSoilLoss").text(project.post_soil_loss);
+		$("#preAvgSoilLoss").text(project.pre_construction_soil_loss);
+		$("#postAvgSoilLoss").text(project.post_construction_soil_loss);
 	}
 }
 
@@ -262,7 +262,7 @@ function loadSoilLoss(soilLoss, type, siteIndex) {
 			div.id = type + "CoverButton_" + index + "-" + siteIndex;
 			div.innerHTML = ('<div class="input-group mb-3"><input id=' + type + 'CValues_' + index + "-" + siteIndex +
 			' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="' +
-			type + '_c_button" disabled><button id=' + type + 'CButton_' + index + "-" + siteIndex + ' class="' + type + 'SelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#' + type + '_c_modal">Select C</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+			type + '_c_button" disabled><button id=' + type + 'CButton_' + index + "-" + siteIndex + ' class="' + type + 'SelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#' + type + '_c_modal">Select C</button><button id=' + type + 'CDelBtn_' + index + "-" + siteIndex + " onclick=deleteCBtn(this.id," + "'" + type + "'" + ') class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 			var coverSection = document.getElementById(type + 'CoverSection_' + siteIndex);
 			coverSection.appendChild(div);		
 		}		
@@ -279,7 +279,7 @@ function loadSoilLoss(soilLoss, type, siteIndex) {
 			div.id = type + "PracticeButton_" + index + "-" + siteIndex;		
 			div.innerHTML = ('<div class="input-group mb-3"><input id=' + type + 'PValues_' + index + "-" + siteIndex +
 				' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="' +
-				type + '_p_button" disabled><button id=' + type + 'PButton_' + index + "-" + siteIndex + ' class="' + type + 'SelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#' + type + '_p_modal">Select P</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');	
+				type + '_p_button" disabled><button id=' + type + 'PButton_' + index + "-" + siteIndex + ' class="' + type + 'SelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#' + type + '_p_modal">Select P</button><button id=' + type + 'PDelBtn_' + index + "-" + siteIndex + " onclick=deletePBtn(this.id," + "'" + type + "'" + ') class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');	
 			var practiceSection = document.getElementById(type + 'PracticeSection_' + siteIndex);
 			practiceSection.appendChild(div);	
 		}
@@ -329,7 +329,7 @@ function addPreCoversButton(btnId) {
 	if (preCoverIndex < MAX_PRE_COVERS) {
 		let div = document.createElement('div');
 		div.id = "preCoverButton_" + preCoverIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=preCValues_' + preCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="pre_c_button" disabled><button id=preCButton_' + preCoverIndex + "-" + siteIndex + ' class="preSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_c_modal">Select C</button><button id=preCDelBtn_' + preCoverIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=preCValues_' + preCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="pre_c_button" disabled><button id=preCButton_' + preCoverIndex + "-" + siteIndex + ' class="preSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_c_modal">Select C</button><button id=preCDelBtn_' + preCoverIndex + "-" + siteIndex + " onclick=deleteCBtn(this.id," + "'pre'" + ') class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var preCoverSection = document.getElementById('preCoverSection_' + siteIndex);
 		preCoverSection.appendChild(div);
 		// Since we added empty precover section, add empty precover object and populate it when user enters information
@@ -347,7 +347,7 @@ function addPostCoversButton(btnId) {
 	if (postCoverIndex < MAX_POST_COVERS) {
 		let div = document.createElement('div');
 		div.id = "postCoverButton_" + postCoverIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_' + postCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_' + postCoverIndex + "-" + siteIndex + ' class="postSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button><button id=postCDelBtn_' + postCoverIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=postCValues_' + postCoverIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled><button id=postCButton_' + postCoverIndex + "-" + siteIndex + ' class="postSelectCBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button><button id=postCDelBtn_' + postCoverIndex + "-" + siteIndex + " onclick=deleteCBtn(this.id," + "'post'" + ') class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var postCoverSection = document.getElementById('postCoverSection_' + siteIndex);
 		postCoverSection.appendChild(div);
 		postSoilLoss.covers.push({});
@@ -366,7 +366,7 @@ function addPrePracticesButton(btnId) {
 
 		let div = document.createElement('div');
 		div.id = "prePracticeButton_" + prePracticeIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_' + prePracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_' + prePracticeIndex + "-" + siteIndex + ' class="preSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button><button id=prePDelBtn_' + prePracticeIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=prePValues_' + prePracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled><button id=prePButton_' + prePracticeIndex + "-" + siteIndex + ' class="preSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button><button id=prePDelBtn_' + prePracticeIndex + "-" + siteIndex + " onclick=deletePBtn(this.id," + "'pre'" + ') class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var prePracticeSection = document.getElementById('prePracticeSection_' + siteIndex);
 		prePracticeSection.appendChild(div);
 		preSoilLoss.practices.push({});
@@ -386,7 +386,7 @@ function addPostPracticesButton(btnId) {
 
 		let div = document.createElement('div');
 		div.id = "postPracticeButton_" + postPracticeIndex + "-" + siteIndex;
-		div.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_' + postPracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_' + postPracticeIndex + "-" + siteIndex + ' class="postSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button><button id=postPDelBtn_' + postPracticeIndex + "-" + siteIndex + ' class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
+		div.innerHTML = ('<div class="input-group mb-3"><input id=postPValues_' + postPracticeIndex + "-" + siteIndex + ' type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled><button id=postPButton_' + postPracticeIndex + "-" + siteIndex + ' class="postSelectPBtn btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button><button id=postPDelBtn_' + postPracticeIndex + "-" + siteIndex + " onclick=deletePBtn(this.id," + "'post'" + ') class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button></div>');
 		var postPracticeSection = document.getElementById('postPracticeSection_' + siteIndex);
 		postPracticeSection.appendChild(div);
 		postSoilLoss.practices.push({});
@@ -658,15 +658,6 @@ function onSelectPreRButtonClick() {
 	let site = PROJECT.sites[siteId];
 	let key = preLoc;
 	let r = rMap[key];
-	/*if (r) {
-		$("#preRValues_" + siteId).val(r.location + " | " + r.r_value);
-	} else if(objR) {
-		$("#preRValues_" + siteId).val(objR.location + " | " + objR.r_value);
-		r = objR;
-	}
-	else {
-		$("#preRValues_" + siteId).val("");
-	}*/	
 	if(objR && objR.location && objR.r_value) {
 		$("#preRValues_" + siteId).val(objR.location + " | " + objR.r_value);
 		r = objR;
@@ -676,65 +667,6 @@ function onSelectPreRButtonClick() {
 	}		
 	site.pre_soil_loss.r = r;
 }
-
-/*	
-function onSelectPreRButtonClick() {
-	let preRValue = $('#pre_r_value_text').val();
-	let preLoc = $('#pre_r_location_text').val();
-	let prerdur_text = $('#pre_r_duration_text').val();
-	let preLoc_select = $('#pre_r_location_select').val();
-	let prerValue_select = $('#pre_r_value_select').text();
-	let prerdur_select = $('#pre_r_duration_select').text();
-	
-	let siteId = buttonClicked.split("_")[1];
-	let site = PROJECT.sites[siteId];
-	
-	let custom = document.getElementById("btn-rcustom-pre").checked;
-	let database = document.getElementById("btn-database-pre").checked
-	
-	if(custom && preRValue && preLoc && prerdur_text) {
-		var objR = new Object();
-		objR.location = preLoc;
-		objR.r_value = parseFloat(preRValue);
-		objR.duration = parseInt(prerdur_text);
-		$("#preRValues_" + siteId).val(objR.location + " | " + objR.r_value+ " | " + objR.duration);
-		r = objR;
-	}
-	else if(database && prerValue_select && preLoc_select && prerdur_select) {
-		let key = preLoc_select;
-		var r = rMap[key];
-		$("#preRValues_" + siteId).val(r.location + " | " + r.r_value + " | " + r.duration);
-	}
-	else {
-		$("#preRValues_" + siteId).val("");
-	}	
-		
-	site.pre_soil_loss.r = r;
-}*/
-
-/*
-/////////////R VALUE for Post Construction Custom///////	
-var rPostCustom =false;
-var rPostDatabase =false;
-
-$(document).ready(function() {
-  $("#btn-rcustom-post").click(function() {
-    $("#form-rcustom-post").show();
-    $("#form-rdatabase-post").hide();
-    rPostCustom =true;
-    rPostDatabase =false; 
-  });
-});
-
-$(document).ready(function() {
-  $("#btn-database-post").click(function() {
-	$("#form-rdatabase-post").show();
-	$("#form-rcustom-post").hide();
-	rPostCustom =false;
-	rPostDatabase =true;
-	});
-});
-*/
 
 ///////////// Load R Values for Post Construction Database //////////////
 $(document).on("click", ".postSelectRBtn", function() {
@@ -801,16 +733,6 @@ function onSelectPostRButtonClick() {
 	let site = PROJECT.sites[siteId];
 	let key = postLoc;
 	let r = rMap[key];
-	
-	/*if (r) {
-		$("#postRValues_" + siteId).val(r.location + " | " + r.r_value);
-	} else if(objR) {
-		$("#postRValues_" + siteId).val(objR.location + " | " + objR.r_value);
-		r = objR;
-	}
-	else {
-		$("#postRValues_" + siteId).val("");
-	}*/	
 	if(objR && objR.location && objR.r_value) {
 		$("#postRValues_" + siteId).val(objR.location + " | " + objR.r_value);
 		r = objR;
@@ -820,42 +742,6 @@ function onSelectPostRButtonClick() {
 	}	
 	site.post_soil_loss.r = r;
 }
-
-/*
-function onSelectPostRButtonClick() {
-	let postRValue = $('#post_r_value_text').val();
-	let postLoc = $('#post_r_location_text').val();
-	let postrdur_text = $('#post_r_duration_text').val();
-	let postLoc_select = $('#post_r_location_select').val();
-	let postrValue_select = $('#post_r_value_select').text();
-	let postrdur_select = $('#post_r_duration_select').text();
-	
-	let siteId = buttonClicked.split("_")[1];
-	let site = PROJECT.sites[siteId];
-	
-	let custom = document.getElementById("btn-rcustom-post").checked;
-	let database = document.getElementById("btn-database-post").checked
-	
-	if(custom && postRValue && postLoc && postrdur_text) {
-		var objR = new Object();
-		objR.location = postLoc;
-		objR.r_value = parseFloat(postRValue);
-		objR.duration = parseInt(postrdur_text);
-		$("#postRValues_" + siteId).val(objR.location + " | " + objR.r_value+ " | " + objR.duration);
-		r = objR;
-	}
-	else if(database && postrValue_select && postLoc_select && postrdur_select) {
-		let key = postLoc_select;
-		var r = rMap[key];
-		$("#postRValues_" + siteId).val(r.location + " | " + r.r_value + " | " + r.duration);
-	}
-	else {
-		$("#postRValues_" + siteId).val("");
-	}	
-		
-	site.post_soil_loss.r = r;
-}
-*/
 
 ////////////// Load C Values for Pre Construction //////////////	
 $(document).on('click', ".preSelectCBtn", function() {
@@ -1070,7 +956,6 @@ $(document).on("click", ".preSelectPBtn", function() {
 
 
 ////////////// Set/Update P for Pre-Construction //////////////
-
 $(document).on('change', '#pre_supportpracticesName', function() {
 	setPrePValue(this.value);
 });
@@ -1378,8 +1263,8 @@ function calculateSoilLoss(siteId, soilLoss, type) {
 	var preProjectSL = parseFloat($("#preAvgSoilLoss").text());
 	var postProjectSL = parseFloat($("#postAvgSoilLoss").text());
 	
-	PROJECT.pre_soil_loss = preProjectSL;
-	PROJECT.post_soil_loss = postProjectSL;
+	PROJECT.pre_construction_soil_loss = preProjectSL;
+	PROJECT.post_construction_soil_loss = postProjectSL;
 	
 	if(postProjectSL > preProjectSL) {
 		$('#comparisonResult').html("<span><strong>Warning! </strong>Post - construction soil loss is greater than Pre - construction soil loss. Try using better cover BMP's and support practices to improve the results.</span>").addClass("alert alert-warning");
@@ -1397,20 +1282,44 @@ const round = (number, decimalPlaces) => {
   return Math.round(number * factorOfTen) / factorOfTen;
 }
 ////////////////////////// DELETE SITE ////////////////////////////////
-
 function deleteSite(elementId) {
 	let siteId = elementId.split("_")[1];
-	// let site = PROJECT.sites[siteId];
-	
-	//alert(JSON.stringify(site));
-	//alert(JSON.stringify(PROJECT));
-	
 	PROJECT.sites.splice(siteId, 1);
-	
-	//alert(JSON.stringify(PROJECT));
-	
 	var siteHtml = document.getElementById("accordion-item-" + siteId);
   	siteHtml.remove();
+}
+
+////////////////////////// DELETE COVER ////////////////////////////////
+function deleteCBtn(elementId, type) {
+	let idsArray = elementId.split("_")[1].split("-");
+	let coverId = idsArray[0];
+	let siteId = idsArray[1];
+	let site = PROJECT.sites[siteId];
+	if(type == "pre"){
+		site.pre_soil_loss.covers.splice(coverId, 1);
+
+	} else {
+		site.post_soil_loss.covers.splice(coverId, 1);
+	}
+	let divId = type + "CoverButton_" + coverId + "-" + siteId;
+	let coverBtnHtml = document.getElementById(divId);
+  	coverBtnHtml.remove();
+}
+////////////////////////// DELETE PRACTICE ////////////////////////////////
+function deletePBtn(elementId, type) {
+	let idsArray = elementId.split("_")[1].split("-");
+	let practiceId = idsArray[0];
+	let siteId = idsArray[1];
+	let site = PROJECT.sites[siteId];
+	if(type == "pre"){
+		site.pre_soil_loss.practices.splice(practiceId, 1);
+
+	} else {
+		site.post_soil_loss.practices.splice(practiceId, 1);
+	}
+	let divId = type + "PracticeButton_" + practiceId + "-" + siteId;
+	let practiceBtnHtml = document.getElementById(divId);
+  	practiceBtnHtml.remove();
 }
 
 //////////////////////// PROJECT SAVE BUTTON //////////////////////////
@@ -1418,8 +1327,8 @@ var stringifySitesJson = false;
 $(document).on("click", "#saveProjectBtn", function() {
 	PROJECT.start_date = $("#startDate").val();
 	PROJECT.end_date = $("#endDate").val();
-
-	// alert(JSON.stringify(PROJECT));
+	PROJECT.pre_construction_soil_loss = parseFloat($("#preAvgSoilLoss").text());;
+	PROJECT.post_construction_soil_loss = parseFloat($("#postAvgSoilLoss").text());
 
 	if (stringifySitesJson == false) {	
 		PROJECT.sites = JSON.stringify(PROJECT.sites);
@@ -1433,25 +1342,11 @@ $(document).on("click", "#saveProjectBtn", function() {
 		async: true,
 	}).done(function(response) {
 		if (response.success) {
-			// alert("if success: " + JSON.stringify(response));
-			// $('#message').html("<span>Submitted! Project data records saved successfully.</span>")
-			/*
-			$('#message').html("<div class=alert-dismissible fade show role=alert>" + 
-			  "<strong>Well done!</strong> Project data records saved successfully." +
-			  "<button type=button class=close data-dismiss=alert aria-label=Close> " +
-			  "<span aria-hidden=true>&times;</span></button></div>")	
-			.addClass("alert alert-success")
-			.hide()
-			.fadeIn(1500);
-			
-			setTimeout(function() {
-				$('#message').fadeOut("Slow");
-			}, 20000); */
-			
 			window.location = 'report.html?id=' + response.id + '&status=' + response.success + '&message=' + response.message;
 		}
 	}).fail(function(response) {
-		// alert("failed: " + JSON.stringify(response));	
+		// alert("failed: " + JSON.stringify(response));
+		alert(response.responseJSON.message);	
 		if(response.responseJSON.fail) {
 			$('#message').html("<span><strong>Please try again! </strong>" + response.responseJSON.message + "</span>")		
 			.addClass("alert alert-danger")
@@ -1460,13 +1355,8 @@ $(document).on("click", "#saveProjectBtn", function() {
 			
 			setTimeout(function() {
 				$('#message').fadeOut("Slow");
-			}, 20000);
-			
-		
+			}, 20000);		
 		}
-	});	
-	
-	
-		
+	});			
 });
 

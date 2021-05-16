@@ -17,7 +17,6 @@ window.onload = function() {
 				$('#message').fadeOut("Slow");
 			}, 10000);
 		}
-
 		$.ajax({
 			type: 'GET',
 			url: 'project',
@@ -35,26 +34,11 @@ window.onload = function() {
 			$("#projectStartDate").text(project.start_date);
 			$("#projectEndDate").text(project.end_date);
 			$("#projectDescription").text(project.description);
-
+			$("#preAvgSoilLoss").text(project.pre_construction_soil_loss);
+			$("#postAvgSoilLoss").text(project.post_construction_soil_loss);
 	
 			project.sites.forEach((site, index) => {
-				$("#segmentIndex").text("Segment #" + (index + 1));
-				$("#siteName").text(site.name);
-				$("#siteArea").text(site.area);
-				$("#siteLocation").text(site.location);
-				$("#siteDescription").text(site.description);
-				$("#preLsValues").text(site.pre_soil_loss.ls.ls_value);
-				$("#postLsValues").text(site.post_soil_loss.ls.ls_value);
-				$("#preRValues").text(site.pre_soil_loss.r.r_value);
-				$("#postRValues").text(site.post_soil_loss.r.r_value);
-				$("#preKValue").text(site.pre_soil_loss.k);
-				$("#postKValue").text(site.post_soil_loss.k);
-				$("#preAvalue").text(site.pre_soil_loss.a);
-				$("#postAvalue").text(site.post_soil_loss.a);
 
-				// changeIds("pre", index);
-				// changeIds("post", index);
-				
 				let div = document.createElement('div');
 				let siteElementId = "siteElement-" + index;
 				div.innerHTML = document.getElementById('siteElement').innerHTML;
@@ -64,42 +48,46 @@ window.onload = function() {
 				let siteReportContainer = document.getElementById('siteReportContainer');
 				siteReportContainer.appendChild(div);
 				
+				changeIds("pre", index);
+				changeIds("post", index);
+				
+				// Load Site details
+				$("#segmentIndex_" + index).text("Segment #" + (index + 1));
+				$("#siteName_" + index).text(site.name);
+				$("#siteArea_" + index).text(site.area);
+				$("#siteLocation_" + index).text(site.location);
+				$("#siteDescription_" + index).text(site.description);
+
+				// Load LS Values
+				loadLSValue(site.pre_soil_loss, "pre", index);
+				loadLSValue(site.post_soil_loss, "post", index);
+				
+				// Load R Values
+				loadRValue(site.pre_soil_loss, "pre", index);
+				loadRValue(site.post_soil_loss, "post", index);
+				
+				// Load K Values
+				$("#siteElement-" + index).find("#preKValue_" + index).text(site.pre_soil_loss.k);
+				$("#siteElement-" + index).find("#postKValue_" + index).text(site.post_soil_loss.k);
+				
+				// Load A:Soil Loss Values
+				$("#siteElement-" + index).find("#preAValue_" + index).text(site.pre_soil_loss.a);
+				$("#siteElement-" + index).find("#postAValue_" + index).text(site.post_soil_loss.a);
+		
 				// Load Pre Covers
-				// let preCoversTableId = "preCoversTable_" + index;
-				// $("#" + siteElementId).find('#preCoversTable').prop("id", preCoversTableId);
-				
-				// let preCoversBodyId = "preCoversBody_" + index;
-				// $("#" + preCoversTableId).find('#preCoversBody').prop("id", preCoversBodyId);
-				
-				let preCoversBodyId = changeIds("pre", "Covers", index, siteElementId);
+				let preCoversBodyId = changeTableIds("pre", "Covers", index, siteElementId);
 				loadCovers(site.pre_soil_loss, preCoversBodyId);
 				
 				// Load Post Covers
-				// let postCoversTableId = "postCoversTable_" + index;
-				// $("#" + siteElementId).find('#postCoversTable').prop("id", postCoversTableId);
-				
-				// let postCoversBodyId = "postCoversBody_" + index;
-				// $("#" + postCoversTableId).find('#postCoversBody').prop("id", postCoversBodyId);
-				let postCoversBodyId = changeIds("post", "Covers", index, siteElementId);
+				let postCoversBodyId = changeTableIds("post", "Covers", index, siteElementId);
 				loadCovers(site.post_soil_loss, postCoversBodyId);
 				
-				// Load Post Practices
-				// let prePracticesTableId = "prePracticesTable_" + index;
-				// $("#" + siteElementId).find('#prePracticesTable').prop("id", prePracticesTableId);
-				
-				// let prePracticesBodyId = "prePracticesBody_" + index;
-				// $("#" + prePracticesTableId).find('#prePracticesBody').prop("id", prePracticesBodyId);
-				let prePracticesBodyId = changeIds("pre", "Practices", index, siteElementId);
+				// Load Post Practices	
+				let prePracticesBodyId = changeTableIds("pre", "Practices", index, siteElementId);
 				loadPractices(site.pre_soil_loss, prePracticesBodyId);
 				
 				// Load Post Practices
-				// let postPracticesTableId = "postPracticesTable_" + index;
-				// $("#" + siteElementId).find('#postPracticesTable').prop("id", postPracticesTableId);
-				
-				// let postPracticesBodyId = "postPracticesBody_" + index;
-				// $("#" + postPracticesTableId).find('#postPracticesBody').prop("id", postPracticesBodyId);
-				
-				let postPracticesBodyId = changeIds("post", "Practices", index, siteElementId);
+				let postPracticesBodyId = changeTableIds("post", "Practices", index, siteElementId);
 				loadPractices(site.post_soil_loss, postPracticesBodyId);
 			});	
 		}).fail(function(response) {
@@ -124,15 +112,44 @@ window.onload = function() {
     })
 };
 
-function changeIds(type, itemToLoad, siteIndex, siteElementId) {
+function changeIds(type, siteIndex) {
+	$("#siteElement-" + siteIndex).find("#segmentIndex").prop("id", "segmentIndex_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#siteName").prop("id", "siteName_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#siteArea").prop("id", "siteArea_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#siteLocation").prop("id", "siteLocation_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#siteDescription").prop("id", "siteDescription_" + siteIndex);	
+	$("#siteElement-" + siteIndex).find("#" + type + "LsValues").prop("id", type + "LsValues_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#" + type + "RValues").prop("id", type + "RValues_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#" + type + "KValue").prop("id", type + "KValue_" + siteIndex);
+	$("#siteElement-" + siteIndex).find("#" + type + "AValue").prop("id", type + "AValue_" + siteIndex);
+}
+
+//Change cover and practice table Ids
+function changeTableIds(type, itemToLoad, siteIndex, siteElementId) {
 	let tableId = type + itemToLoad + "Table_" + siteIndex;
-	
 	$("#" + siteElementId).find('#' + type + itemToLoad + 'Table').prop("id", tableId);
 				
 	let bodyId = type + itemToLoad + "Body_" + siteIndex;
 	$("#" + tableId).find('#' + type + itemToLoad + 'Body').prop("id", bodyId);
 	
 	return bodyId;
+}
+//Load LS
+function loadLSValue(soilLoss, type, siteIndex) {
+	if (soilLoss.ls) {
+		$("#" + type +"LsValues_" + siteIndex).text(soilLoss.ls.ls_value);
+	} else {
+		$("#" + type +"LsValues_" + siteIndex).text("");
+	}			
+}
+
+//Load R
+function loadRValue(soilLoss, type, siteIndex) {
+	if (soilLoss.r) {
+		$("#" + type +"RValues_" + siteIndex).text(soilLoss.r.r_value);
+	} else {
+		$("#" + type +"RValues_" + siteIndex).text("");
+	}			
 }
 
 // Load covers			
@@ -149,25 +166,54 @@ function loadPractices(soilLoss, tableId) {
 }
 
 function addRow(tableId, index, name, value, percent, reference) {
-	// Get a reference to the table
-	let tableRef = document.getElementById(tableId);
-	// Insert a row at the end of the table
-	let newRow = tableRef.insertRow(-1);
-	// Insert a cell in the row at index 0
-	let newCell1 = newRow.insertCell(0);
-	let newCell2 = newRow.insertCell(1);
-	let newCell3 = newRow.insertCell(2);
-	let newCell4 = newRow.insertCell(3);
-	let newCell5 = newRow.insertCell(4);
-	// Append a text node to the cell
-	newCell1.appendChild(document.createTextNode(index));
-	newCell2.appendChild(document.createTextNode(name));
-	newCell3.appendChild(document.createTextNode(value));
-	newCell4.appendChild(document.createTextNode(percent));
-	newCell5.appendChild(document.createTextNode(reference));
+	
+	if (typeof name == "undefined" && typeof value == "undefined" && typeof percent == "undefined" && typeof reference == "undefined") {
+		//Do not add table row
+	} else {
+		// Add table row
+		// Get a reference to the table
+		let tableRef = document.getElementById(tableId);
+		// Insert a row at the end of the table
+		let newRow = tableRef.insertRow(-1);
+		// Insert a cell in the row at index 0
+		let newCell1 = newRow.insertCell(0);
+		let newCell2 = newRow.insertCell(1);
+		let newCell3 = newRow.insertCell(2);
+		let newCell4 = newRow.insertCell(3);
+		let newCell5 = newRow.insertCell(4);
+		// Append a text node to the cell
+		
+		newCell1.appendChild(document.createTextNode(index));
+		if (typeof name != "undefined") {
+			newCell2.appendChild(document.createTextNode(name));
+		} else {
+			newCell2.appendChild(document.createTextNode(""));
+		}
+		if (typeof value != "undefined") {
+			newCell3.appendChild(document.createTextNode(value));
+		} else {
+			newCell3.appendChild(document.createTextNode(""));
+		}
+		if (typeof percent != "undefined") {
+			newCell4.appendChild(document.createTextNode(percent));
+		} else {
+			newCell4.appendChild(document.createTextNode(""));
+		}
+		if (typeof reference != "undefined") {
+			newCell5.appendChild(document.createTextNode(reference));
+		} else {
+			newCell5.appendChild(document.createTextNode(""));
+		}
+	}
+	
 }
 
 const round = (number, decimalPlaces) => {
 	const factorOfTen = Math.pow(10, decimalPlaces);
 	return Math.round(number * factorOfTen) / factorOfTen;
+}
+
+function takeBacktoEdit() {
+	var projectId = PROJECT.id;
+    window.location = 'new_project.html?id=' + projectId;
 }

@@ -34,6 +34,8 @@ public class ProjectServlet extends HttpServlet {
     			projectJSON.addProperty("end_date", project.getEndDate().toString());
     			projectJSON.addProperty("location", project.getLocation());
     			projectJSON.addProperty("description", project.getDescription());
+    			projectJSON.addProperty("pre_construction_soil_loss", project.getPreSoilLoss());
+    			projectJSON.addProperty("post_construction_soil_loss", project.getPostSoilLoss());
     			projectJSON.addProperty("sites", project.getSiteDetails());
     			json.add(projectJSON);
     		}
@@ -48,6 +50,8 @@ public class ProjectServlet extends HttpServlet {
     			projectJSON.addProperty("end_date", project.getEndDate().toString());
     			projectJSON.addProperty("location", project.getLocation());
     			projectJSON.addProperty("description", project.getDescription());
+    			projectJSON.addProperty("pre_construction_soil_loss", project.getPreSoilLoss());
+    			projectJSON.addProperty("post_construction_soil_loss", project.getPostSoilLoss());
     			projectJSON.addProperty("sites", project.getSiteDetails());
     			json.add(projectJSON);
     		}
@@ -67,17 +71,43 @@ public class ProjectServlet extends HttpServlet {
 		String endDate = req.getParameter("end_date");
 		String location = req.getParameter("location");
 		String description = req.getParameter("description");
-		JsonArray siteDetailsJsonArray = new JsonParser().parse(req.getParameter("sites")).getAsJsonArray();
-		String siteDetails = siteDetailsJsonArray.toString();		
+		String preSoilLoss = req.getParameter("pre_construction_soil_loss");
+		String postSoilLoss = req.getParameter("post_construction_soil_loss");
+		String sites = req.getParameter("sites");
+		JsonArray siteDetailsJsonArray = new JsonParser().parse(sites).getAsJsonArray();
+		String siteDetails = siteDetailsJsonArray.toString();
+		
+		System.out.println("preSoilLoss :: - ::" + preSoilLoss); 
+		System.out.println("postSoilLoss :: - ::" + postSoilLoss); 
+		
+		if (!Validator.isValidString(name)) {
+			Utility.writeFailure(resp, "Please enter project name");
+			return;
+		} else if (!Validator.isFloatString(area)) {
+			Utility.writeFailure(resp, "Please enter valid project area");
+			return;
+		} else if (!Validator.isValidDate(startDate)) {
+			Utility.writeFailure(resp, "Please enter valid project start date");
+			return;
+		} else if (!Validator.isValidDate(endDate)) {
+			Utility.writeFailure(resp, "Please enter valid project end date");
+			return;
+		} else if (!Validator.isValidString(location)) {
+			Utility.writeFailure(resp, "Please enter project location");
+			return;
+		} else if (!Validator.isValidString(description)) {
+			Utility.writeFailure(resp, "Please enter project description");
+			return;
+		}
 		
 		ProjectsTable projectsTable = new ProjectsTable();
 		projectsTable.createIfNotExist();
 		JsonObject resultJson = new JsonObject();
 
 		try {
-				if (id == null) {	
+				if (id == null) {
 					System.out.println("Inside If: INSERT"); 
-					Project project = new Project(name, Float.parseFloat(area), Date.valueOf(startDate), Date.valueOf(endDate), location, description, siteDetails);	
+					Project project = new Project(name, Float.parseFloat(area.trim()), Date.valueOf(startDate), Date.valueOf(endDate), location, description, Float.parseFloat(preSoilLoss.trim()), Float.parseFloat(postSoilLoss.trim()), siteDetails);	
 					resultJson = projectsTable.insert(project);
 					System.out.println("resultJson : " + resultJson.get("success")); 
 					if (resultJson.get("success").getAsBoolean()) {
@@ -87,7 +117,7 @@ public class ProjectServlet extends HttpServlet {
 				} else { 
 					System.out.println("Inside Else: UPDATE"); 
 					System.out.println("ID : " + id); 	
-					Project project = new Project(Integer.parseInt(id), name, Float.parseFloat(area), Date.valueOf(startDate), Date.valueOf(endDate), location, description, siteDetails);
+					Project project = new Project(Integer.parseInt(id), name, Float.parseFloat(area.trim()), Date.valueOf(startDate), Date.valueOf(endDate), location, description, Float.parseFloat(preSoilLoss.trim()), Float.parseFloat(postSoilLoss.trim()), siteDetails);
 					resultJson = projectsTable.update(project);
 					if (resultJson.get("success").getAsBoolean() == true) {
 						Utility.writeSuccess(resp, resultJson);

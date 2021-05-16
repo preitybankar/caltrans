@@ -77,7 +77,7 @@ public class LSServlet extends HttpServlet {
 		
 		LS ls = new LS(ls_slope, ls_length, ls_value);
 		
-		System.out.println(ls);
+		System.out.println("LS Object" + ls);
 		
 		LSTable lsTable = new LSTable();	
 		lsTable.delete(ls);

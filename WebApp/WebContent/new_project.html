@@ -42,77 +42,75 @@
 							</div>
 							<br>
 							<div class="container">
-								<form id="new_project_form">
-									<div class="row g-3">		
-										<div class="col-sm-6">	
-											<div class="form-floating mb-3">
-												<input type="text" class="form-control" name="projectName" id="projectName" onfocusout="setProjectDetails(this.id)" placeholder="Enter project name here.." required>
-												<label for="projectName" class="col-form-label">Project Name</label>
-											</div>						
-										</div>
-															
-										<div class="col-sm-6">
-											<div class="form-floating mb-3">
-												<input type="text" class="form-control" name="projectLocation" id="projectLocation" onfocusout="setProjectDetails(this.id)" placeholder="Enter project location here.." required>
-												<label for="projectLocation" class="col-form-label">Project Location</label>
-											</div>	
+								<div class="row g-3">		
+									<div class="col-sm-6">	
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" name="projectName" id="projectName" onfocusout="setProjectDetails(this.id)" placeholder="Enter project name here.." required>
+											<label for="projectName" class="col-form-label">Project Name</label>
+										</div>						
+									</div>
+														
+									<div class="col-sm-6">
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" name="projectLocation" id="projectLocation" onfocusout="setProjectDetails(this.id)" placeholder="Enter project location here.." required>
+											<label for="projectLocation" class="col-form-label">Project Location</label>
+										</div>	
+									</div>
+								</div>
+								
+								<div class="row g-3">		
+									<div class="col-sm-6">	
+										<div class="form-floating mb-3">
+											<input type="text" class="form-control" name="projectArea" id="projectArea" onfocusout="setProjectDetails(this.id)" placeholder="Enter total project area here.." required>
+											<label for="projectArea" class="col-form-label">Project Area in acres</label>
+										</div>							
+									</div>
+									<div class="col-sm-6">
+										<div class="form-floating mb-3">
+										  	<textarea class="form-control" name="projectDescription" id="projectDescription" onfocusout="setProjectDetails(this.id)" placeholder="Enter project description here.."></textarea>
+											<label for="projectDescription" class="col-form-label">Project Description</label>	
 										</div>
 									</div>
-									
-									<div class="row g-3">		
-										<div class="col-sm-6">	
-											<div class="form-floating mb-3">
-												<input type="text" class="form-control" name="projectArea" id="projectArea" onfocusout="setProjectDetails(this.id)" placeholder="Enter total project area here.." required>
-												<label for="projectArea" class="col-form-label">Project Area in acres</label>
-											</div>							
-										</div>
-										<div class="col-sm-6">
-											<div class="form-floating mb-3">
-											  	<textarea class="form-control" name="projectDescription" id="projectDescription" onfocusout="setProjectDetails(this.id)" placeholder="Enter project description here.."></textarea>
-												<label for="projectDescription" class="col-form-label">Project Description</label>	
-											</div>
+								</div>
+								
+								<div class="row g-3">		
+									<div class="col-sm-6">	
+										<div class="input-group date">
+										   <div class="input-group-addon">
+										        <span class="input-group-text">Start Date</span>
+										    </div>
+										    <input type="text" class="form-control datepicker" id="startDate" name="startDate" onfocusout="setProjectDetails(this.id)" placeholder="Start Date">
+										    <div class="input-group-addon">
+										        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+										    </div>
+										</div>		
+									</div>
+									<div class="col-sm-6">
+										<div class="input-group date">
+											<div class="input-group-addon">
+										        <span class="input-group-text">End Date</span>
+										    </div>
+										    <input type="text" class="form-control datepicker" id="endDate" name="endDate" onfocusout="setProjectDetails(this.id)" placeholder="End Date">
+											<div class="input-group-addon">
+										        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+										    </div>
 										</div>
 									</div>
-									
-									<div class="row g-3">		
-										<div class="col-sm-6">	
-											<div class="input-group date">
-											   <div class="input-group-addon">
-											        <span class="input-group-text">Start Date</span>
-											    </div>
-											    <input type="text" class="form-control datepicker" id="startDate" name="startDate" onfocusout="setProjectDetails(this.id)" placeholder="Start Date">
-											    <div class="input-group-addon">
-											        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
-											    </div>
-											</div>		
-										</div>
-										<div class="col-sm-6">
-											<div class="input-group date">
-												<div class="input-group-addon">
-											        <span class="input-group-text">End Date</span>
-											    </div>
-											    <input type="text" class="form-control datepicker" id="endDate" name="endDate" onfocusout="setProjectDetails(this.id)" placeholder="End Date">
-												<div class="input-group-addon">
-											        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
-											    </div>
-											</div>
-										</div>
-									</div>
-								</form>
-								<br><br>
+								</div>
+								<br>
 								<div class="row g-3 border-bottom">
 									<span class="fw-bold text-dark"><label class="text-uppercase">Soil Erosion Comparison</label></span>
 								</div><br>
 								<div class="row g-3 border-bottom">
 									<label class="text-decoration-underline lh-lg text-dark text-uppercase">Average Pre and Post Construction Soil Erosion for this Project</label>
 									<div class="col">
-										<label class="text-dark text-uppercase">Pre - Construction</label>
+										<label class="text-dark text-uppercase">Pre - Construction Soil Loss</label>
 										<div class="input-group mb-3">
 											<span id="preAvgSoilLoss" class="compareSoilLoss fw-bold  form-control text-danger">0.00</span><span class="input-group-text">tons/acre/year</span>
 										</div>
 									</div>
 									<div class="col">
-										<label class="text-dark text-uppercase">Post - Construction</label>
+										<label class="text-dark text-uppercase">Post - Construction Soil Loss</label>
 										<div class="input-group mb-3">
 											<span id="postAvgSoilLoss" class="compareSoilLoss fw-bold  form-control text-danger">0.00</span><span class="input-group-text">tons/acre/year</span>
 										</div>
@@ -241,7 +239,7 @@
 															        <div class="input-group mb-3">
 																		<input id="preCValues" type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="pre_c_button" disabled>
 																		<button id="preCButton" class="preSelectCBtn btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#pre_c_modal">Select C</button>
-																		<button id="preCDelBtn" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>		
+																		<button id="preCDelBtn" onclick="deleteCBtn(this.id, 'pre')" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>		
 																	</div>	      	
 																</div>
 															</div>
@@ -256,7 +254,7 @@
 																	<div class="input-group mb-3">
 																	  	<input id="postCValues" type="text" class="form-control" placeholder="C: Cover Management" aria-label="C: Cover Management" aria-describedby="post_c_button" disabled>
 																	  	<button id="postCButton" class="postSelectCBtn btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#post_c_modal">Select C</button>
-																		<button id="postCDelBtn" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>
+																		<button id="postCDelBtn" onclick="deleteCBtn(this.id, 'post')" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>
 																	</div>
 																</div>
 															</div>
@@ -273,7 +271,7 @@
 															        <div class="input-group mb-3">
 																		<input id="prePValues" type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="pre_p_button" disabled>
 																		<button id="prePButton" class="preSelectPBtn btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#pre_p_modal">Select P</button>
-																		<button id="prePDelBtn" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>
+																		<button id="prePDelBtn" onclick="deletePBtn(this.id, 'pre')" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>
 																	</div>	      	
 																</div>
 															</div>
@@ -288,7 +286,7 @@
 																	<div class="input-group mb-3">
 																	  	<input id="postPValues" type="text" class="form-control" placeholder="P: Erosion Control Practice" aria-label="P: Erosion Control Practice" aria-describedby="post_p_button" disabled>
 																	  	<button id="postPButton" class="postSelectPBtn btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#post_p_modal">Select P</button>
-																		<button id="postPDelBtn" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>
+																		<button id="postPDelBtn" onclick="deletePBtn(this.id, 'post')" class="btn btn-outline-secondary btn-sm"><i class="bi bi-dash"></i></button>
 																	</div>
 																</div>
 															</div>
@@ -453,19 +451,19 @@
 								</div>
 								<div class="modal-body" id="pre-r-modal-body">
 									<form id="form-rcustom-pre">
-										<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br><br> 
-										<a class="btn btn-secondary" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a><br><br> 
-										
+										<label>Click on the EPA calculator link below and calculate R factor value for targeted construction area: </label><br><br> 		
+										<div class="d-grid gap-2 col-8 mx-auto">
+											<a class="btn btn btn-primary active" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> 
+										</div><br>
 										<label>Enter R factor value: </label><br>
 									 	<div class="input-group mb-3">
 						          			<input type="text" class="form-control" id="pre_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="pre_r_value_text"><br> 
-								  	 	</div>
-									  	
+								  	 	</div>					  	
 										<label>Enter location: </label><br> 
 										<div class="input-group mb-3">
-											<input type="text" class="form-control" id="pre_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location_text"><br>	
+											<input type="text" class="form-control" id="pre_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="pre_r_location_text">
 									  	</div>
-									</form> 
+									</form>
 									<div class="modal-footer">
 										<button id="select_pre_r_button" class="btn btn-primary" onClick="onSelectPreRButtonClick()" data-bs-dismiss="modal">Select R</button>
 									</div>
@@ -581,21 +579,21 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="staticBackdropLabel">Select R
-										Factor</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
+									<h5 class="modal-title" id="staticBackdropLabel">Select R Factor</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body" id="post-r-modal-body">
 									<form id="form-rcustom-post">
-										<label>Click on the calculator link below and calculate R factor value for targeted construction area: </label><br><br> 
-										<a class="btn btn-secondary" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> <br> <br> 
-										<label>Enter R Factor Value: </label><br>
+										<label>Click on the EPA calculator link below and calculate R factor value for targeted construction area: </label><br><br> 
+										<div class="d-grid gap-2 col-8 mx-auto">
+											<a class="btn btn btn-primary active" href="https://lew.epa.gov/" target="popup" onclick="window.open('https://lew.epa.gov/','popup','width=600,height=600'); return false;">Rainfall Erosivity Factor Calculator</a> 
+										</div><br>
+										<label>Enter R factor value: </label><br>
 										<input type="text" class="form-control" id="post_r_value_text" placeholder="R Value" aria-label="R Value" aria-describedby="post_r_value_text">
 										<div class="form-floating"></div>
-										<br> <label>Enter Location: </label><br> 
+										<br> <label>Enter location: </label><br> 
 										<input type="text" class="form-control" id="post_r_location_text" placeholder="Location" aria-label="Location" aria-describedby="post_r_location_text">
-									</form>
+									</form> <br>
 									<div class="modal-footer">
 										<button id="select_post_r_button" class="btn btn-primary" onClick="onSelectPostRButtonClick()" data-bs-dismiss="modal">Select R</button>
 									</div>

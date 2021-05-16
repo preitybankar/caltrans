@@ -19,24 +19,23 @@ public class ProjectsTable extends DbConnection {
 	private static final String END_DATE = "end_date";
 	private static final String LOCATION = "location";
 	private static final String DESCRIPTION = "description";
+	private static final String PRE_CONSTRUCTION_SOIL_LOSS = "pre_construction_soil_loss";
+	private static final String POST_CONSTRUCTION_SOIL_LOSS = "post_construction_soil_loss";
 	private static final String SITE_DETAILS = "site_details";
 	
 	private static final String CREATE_PROJECTS_TABLE = String.format(
 			"CREATE TABLE IF NOT EXISTS %s (%s INT NOT NULL AUTO_INCREMENT, %s VARCHAR(250) NOT NULL, %s FLOAT NOT NULL, %s DATE NOT NULL, %s DATE NOT NULL, %s VARCHAR(250) NOT NULL, "
-			+ "%s VARCHAR(250) NOT NULL, %s TEXT, UNIQUE (%s), PRIMARY KEY (%s))",
-			PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, NAME, ID);
+			+ "%s VARCHAR(250) NOT NULL, %s FLOAT NOT NULL, %s FLOAT NOT NULL, %s TEXT, UNIQUE (%s), PRIMARY KEY (%s))",
+			PROJECTS, ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, PRE_CONSTRUCTION_SOIL_LOSS, POST_CONSTRUCTION_SOIL_LOSS, SITE_DETAILS, NAME, ID);
 	
 	private static final String INSERT_INTO_PROJECTS = String.format(
-			"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS);
-	
+			"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, PRE_CONSTRUCTION_SOIL_LOSS, POST_CONSTRUCTION_SOIL_LOSS, SITE_DETAILS);	
 	
 	private static final String UPDATE_PROJECTS = String.format(
-			"UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, ID);
+			"UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?", PROJECTS, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, PRE_CONSTRUCTION_SOIL_LOSS, POST_CONSTRUCTION_SOIL_LOSS, SITE_DETAILS, ID);
 	
-	private static final String SELECT_FROM_PROJECTS = String.format("SELECT %s, %s, %s, %s, %s, %s, %s, %s FROM %s", ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, PROJECTS);
-	
-	// private static final String SELECT_PROJECTS_BY_ID = String.format("SELECT %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?", ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, SITE_DETAILS, PROJECTS, ID);
-	
+	private static final String SELECT_FROM_PROJECTS = String.format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s", ID, NAME, AREA, START_DATE, END_DATE, LOCATION, DESCRIPTION, PRE_CONSTRUCTION_SOIL_LOSS, POST_CONSTRUCTION_SOIL_LOSS, SITE_DETAILS, PROJECTS);
+		
 	private static final String DELETE_FROM_PROJECTS = String.format("DELETE FROM %s WHERE %s = ?", PROJECTS, ID);
 	
 	public void createIfNotExist() {
@@ -62,7 +61,9 @@ public class ProjectsTable extends DbConnection {
 			ps.setDate(4, project.getEndDate());
 			ps.setString(5, project.getLocation());
 			ps.setString(6, project.getDescription());
-			ps.setString(7, project.getSiteDetails());
+			ps.setFloat(7, project.getPreSoilLoss());
+			ps.setFloat(8, project.getPostSoilLoss());
+			ps.setString(9, project.getSiteDetails());
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
 			int generatedKey = 0;
@@ -94,8 +95,10 @@ public class ProjectsTable extends DbConnection {
 			ps.setDate(4, project.getEndDate());
 			ps.setString(5, project.getLocation());
 			ps.setString(6, project.getDescription());
-			ps.setString(7, project.getSiteDetails());
-			ps.setInt(8, project.getId());
+			ps.setFloat(7, project.getPreSoilLoss());
+			ps.setFloat(8, project.getPostSoilLoss());
+			ps.setString(9, project.getSiteDetails());
+			ps.setInt(10, project.getId());
 			ps.execute();
 			responseJson.addProperty("success", true);
 			responseJson.addProperty("id", project.getId());
@@ -123,8 +126,10 @@ public class ProjectsTable extends DbConnection {
 				Date endDate = rs.getDate(END_DATE);
 				String location = rs.getString(LOCATION);
 				String description = rs.getString(DESCRIPTION);
+				float preSoilLoss = rs.getFloat(PRE_CONSTRUCTION_SOIL_LOSS);
+				float postSoilLoss = rs.getFloat(POST_CONSTRUCTION_SOIL_LOSS);
 				String siteDetails = rs.getString(SITE_DETAILS);
-				Project project = new Project(id, name, area, startDate, endDate, location, description, siteDetails);
+				Project project = new Project(id, name, area, startDate, endDate, location, description, preSoilLoss, postSoilLoss, siteDetails);
 				projectList.add(project);
 			}
 			if (rs != null && !rs.isClosed()) {
@@ -157,8 +162,10 @@ public class ProjectsTable extends DbConnection {
 				Date endDate = rs.getDate(END_DATE);
 				String location = rs.getString(LOCATION);
 				String description = rs.getString(DESCRIPTION);
+				float preSoilLoss = rs.getFloat(PRE_CONSTRUCTION_SOIL_LOSS);
+				float postSoilLoss = rs.getFloat(POST_CONSTRUCTION_SOIL_LOSS);
 				String siteDetails = rs.getString(SITE_DETAILS);
-				Project project = new Project(id, name, area, startDate, endDate, location, description, siteDetails);
+				Project project = new Project(id, name, area, startDate, endDate, location, description, preSoilLoss, postSoilLoss, siteDetails);
 				projectList.add(project);
 			}
 			if (rs != null && !rs.isClosed()) {

@@ -23,7 +23,7 @@ public class LSTable extends DbConnection {
 			LS_VALUE, LS_VALUE);
 	private static final String SELECT_FROM_LS = String.format("SELECT %s, %s, %s FROM %s", SLOPE, SLOPE_LENGTH,
 			LS_VALUE, LS);
-	private static final String DELETE_FROM_LS = String.format("DELETE FROM %s WHERE %s = ? AND %s = ?", LS, SLOPE,
+	private static final String DELETE_FROM_LS = String.format("DELETE FROM %s WHERE ABS(%s - ?) < 0.001 AND %s = ?", LS, SLOPE,
 			SLOPE_LENGTH);
 
 	public void createIfNotExist() {
@@ -86,12 +86,21 @@ public class LSTable extends DbConnection {
 	public void delete(LS ls) {
 		openConnection();
 		try {
+			System.out.println(DELETE_FROM_LS);
+			System.out.println(ls);
 			PreparedStatement ps = mConnection.prepareStatement(DELETE_FROM_LS);
 			ps.setFloat(1, ls.getSlope());
 			ps.setInt(2, ls.getSlopeLength());
-			ps.execute();
+			System.out.println(ps);
+			int rowCount = ps.executeUpdate();
+			if(rowCount > 0) {
+				System.out.println("Record Deleted successfully from database. Total records deleted are :: " + rowCount);
+			} else {
+				System.out.println("false: Value could not be deleted from the database ::" + rowCount);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("An exception occured while Deleting records from Table. Exception is :: " + e);
 		} finally {
 			close();
 		}
