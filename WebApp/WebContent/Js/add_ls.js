@@ -57,6 +57,7 @@ function editLS(clickedRow, changedData) {
 }
       
 function deleteLS(clickedRow, rowData) {
+	alert(JSON.stringify(rowData));
 		$.ajax({
 		url: "ls",
 		data: JSON.stringify(rowData),

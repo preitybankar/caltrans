@@ -6,6 +6,11 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpServletResponse;
 
 public abstract class Utility {
+	private static final String SUCCESS = "success";
+	private static final String MESSAGE = "message";
+	private static final String FAIL = "fail";
+	private static final String ID = "id";
+	
 	public static final void writeSuccess(HttpServletResponse resp, JsonObject sqlResp) {
 		resp.setStatus(200);
 		resp.setContentType("application/json");
@@ -28,16 +33,29 @@ public abstract class Utility {
 	
 	private static String statusSuccess(JsonObject response) {
 		JsonObject responseJson = new JsonObject();
-		responseJson.addProperty("success", response.get("success").getAsBoolean());
-		responseJson.addProperty("id", response.get("id").getAsInt());
-		responseJson.addProperty("message", response.get("message").getAsString());
+		responseJson.addProperty(SUCCESS, response.get(SUCCESS).getAsBoolean());
+		responseJson.addProperty(ID, response.get(ID).getAsInt());
+		responseJson.addProperty(MESSAGE, response.get(MESSAGE).getAsString());
 		return responseJson.toString();
+	}
+	
+	public static final void writeFailure(HttpServletResponse resp, String errorMsg) {
+		resp.setStatus(500);
+		resp.setContentType("application/json");
+		try {
+			JsonObject temp = new JsonObject();
+			temp.addProperty(SUCCESS, false);
+			temp.addProperty(MESSAGE, errorMsg);
+			resp.getWriter().write(temp.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static String statusFail(JsonObject response) {
 		JsonObject responseJson = new JsonObject();
-		responseJson.addProperty("fail", response.get("fail").getAsBoolean());
-		responseJson.addProperty("message", response.get("message").getAsString());
-		return response.toString();
+		responseJson.addProperty(FAIL, response.get(FAIL).getAsBoolean());
+		responseJson.addProperty(MESSAGE, response.get(MESSAGE).getAsString());
+		return responseJson.toString();
 	}
 }
