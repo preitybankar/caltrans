@@ -1345,9 +1345,7 @@ $(document).on("click", "#saveProjectBtn", function() {
 			window.location = 'report.html?id=' + response.id + '&status=' + response.success + '&message=' + response.message;
 		}
 	}).fail(function(response) {
-		// alert("failed: " + JSON.stringify(response));
-		alert(response.responseJSON.message);	
-		if(response.responseJSON.fail) {
+		if(!response.responseJSON.success) {
 			$('#message').html("<span><strong>Please try again! </strong>" + response.responseJSON.message + "</span>")		
 			.addClass("alert alert-danger")
 			.hide()

@@ -1,6 +1,17 @@
 /**
  * 
  */
+
+$(document).ready(function() {
+	if ($.fn.dataTable.isDataTable('#ls_table')) {
+		$('#ls_table').DataTable().destroy();
+		$('#ls_table_body').empty();
+		loadDatatable();
+	} else {
+		loadDatatable();
+	}
+});
+
 var lsTable;
 var clickedEditRow;
 function loadDatatable() {
@@ -28,45 +39,29 @@ function loadDatatable() {
 	             return nRow;  
 	         }
 		});
-		//console.log(lsTable);
 	});
 }
 
-function editLS(clickedRow, changedData) {
-			//alert('form clicked');        
-    		//alert(clickedRow)
-    		/*
-    		$.ajax({
-				url: "ls",
-				data: JSON.stringify(changedData),
-				type: "POST",
-				async: true,
-				success: function() {
-					//lsTable.row(clickedRow).draw();
-					//alert("Inside success");
-					$('#message').html("<span>Updated! LS data record has been updated.</span>")
-						.addClass("alert alert-success")
-						.hide()
-						.fadeIn(1500);
-			
-					setTimeout(function() {
-						$('#message').fadeOut("Slow");
-					}, 5000);
-				}
-			}); */
-}
-      
-function deleteLS(clickedRow, rowData) {
-	alert(JSON.stringify(rowData));
+$(document).on("click", "#saveLSBtn", function() {
+	let lsSlope = $('#ls-slope').val(); 
+	let slopeLength = $('#ls-length').val();
+	let lsValue = $('#ls-value').val();
+	if(lsSlope && slopeLength && lsValue) {
+		let dataString = {};
+		dataString.slope = lsSlope;
+		dataString.slope_length = slopeLength;
+		dataString.ls_value = lsValue;
+		alert(JSON.stringify(dataString));		
 		$.ajax({
-		url: "ls",
-		data: JSON.stringify(rowData),
-		type: "DELETE",
-		async: true,
-		success: function() {
-			lsTable.row(clickedRow).remove().draw();
-			//alert("Inside success");
-			$('#message').html("<span>Deleted! LS data record has been deleted.</span>")
+			type: "POST",
+			url: "ls",
+			data: JSON.stringify(dataString),
+			async: true,
+		}).done(function(response) {
+			$('#ls-slope').val('');
+			$('#ls-length').val('');
+			$('#ls-value').val('');
+			$('#message').html("<span>Submitted! LS data saved successfully.</span>")
 				.addClass("alert alert-success")
 				.hide()
 				.fadeIn(1500);
@@ -74,30 +69,47 @@ function deleteLS(clickedRow, rowData) {
 			setTimeout(function() {
 				$('#message').fadeOut("Slow");
 			}, 5000);
-		}
-	});
-}
-
-$(document).ready(function() {
-	if ($.fn.dataTable.isDataTable('#ls_table')) {
-		$('#ls_table').DataTable().destroy();
-		$('#ls_table_body').empty();
-		loadDatatable();
-	} else {
-		loadDatatable();
-	}
+	
+			setTimeout(function() {
+				if ($.fn.dataTable.isDataTable('#ls_table')) {
+					$('#ls_table').DataTable().destroy();
+					$('#ls_table_body').empty();
+					loadDatatable();
+				} else {
+					loadDatatable();
+				}
+			}, 1000);
+		}).fail(function(response) {
+			//alert("failed: " + JSON.stringify(response));		
+			if(!response.responseJSON.success) {
+				$('#message').html("<span><strong>Please try again! </strong>" + response.responseJSON.message + "</span>")		
+				.addClass("alert alert-danger")
+				.hide()
+				.fadeIn(1500);
+				
+				setTimeout(function() {
+					$('#message').fadeOut("Slow");
+				}, 20000);		
+			}	
+		});	
+	} else {	
+		if(!lsSlope) {
+			alert("Please enter average watershed slope.");
+		} else if(!slopeLength) {
+			alert("Please enter sheet flow length.");
+		} else if(!lsValue) {
+			alert("Please enter LS factor value.");
+		}	
+	}		
 });
 
-$(document).ready(function() {
-
-	$('#ls_table tbody').on( 'click', 'td .fa.fa-pencil-square', function (e) {
-    	//alert( 'Row index: '+ lsTable.row( clickedRow ).index() );
-    	
-    	var clickedRow = $($(this).closest('td')).closest('tr');
-    	var rowData = lsTable.row( clickedRow ).data();
-		
-		$('#edit_slope').val(rowData.slope);
-		$('#edit_slope_length').val(rowData.slope_length); 
+$(document).ready(function() {	
+	$('#ls_table tbody').off( 'click.rowClick' ).on('click.rowClick', 'td .fa.fa-pencil-square', function () {		
+		var td = $(this).closest('td');
+ 		var rowIdx = lsTable.cell( td ).index().row;
+		var rowData = lsTable.row( rowIdx ).data();	
+		$('#edit_slope').text(rowData.slope);
+		$('#edit_slope_length').text(rowData.slope_length); 
 		$('#edit_ls_value').val(rowData.ls_value);
 	
 		var edit_ls_modal = new bootstrap.Modal(document.getElementById('edit_ls_modal'), {
@@ -108,34 +120,41 @@ $(document).ready(function() {
 		
 		edit_ls_modal.show();
     	
-    	e.stopPropagation();
-    	
     	$('#update_ls_button').click( function() {
-	        // alert('clicked');
-	        
-	        
-	        $('#edit_slope').val(rowData.slope);
-			$('#edit_slope_length').val(rowData.slope_length); 
-			$('#edit_ls_value').val(rowData.ls_value);
-	       
 	        var dataString = new Object();
-			dataString.slope = $('#edit_slope').val();
-			dataString.slope_length = $('#edit_slope_length').val();
+			dataString.slope = $('#edit_slope').text();
+			dataString.slope_length = $('#edit_slope_length').text();
 			dataString.ls_value = $('#edit_ls_value').val();
 			
-			console.log(dataString);
-			 
-    		editLS(clickedRow, dataString); 
+    		editLS(rowIdx, dataString); 
+			$( "#update_ls_button").off( "click" );
 	    });
-	    
-	    //console.log(rowData.slope);
-    	//console.log(rowData.slope_length);
-    	//console.log(rowData.ls_value);
-  
 	});
-	
-	$('#ls_table tbody').on( 'click', 'td i.fa.fa-minus-square', function (e) {
-	    
+});
+
+function editLS(clickedRowIndex, changedData) {
+	$.ajax({
+		url: "ls",
+		data: JSON.stringify(changedData),
+		type: "POST",
+		async: true,
+	}).done(function(response) {
+		lsTable.row(clickedRowIndex).data( changedData ).invalidate().draw();
+		$('#message').html("<span>Updated! LS data record has been updated.</span>")
+			.addClass("alert alert-success")
+			.hide()
+			.fadeIn(1500);
+
+		setTimeout(function() {
+			$('#message').fadeOut("Slow");
+		}, 5000);
+	}).fail(function(response) {
+		alert("failed: " + JSON.stringify(response));			
+	});	
+}
+
+$(document).ready(function() {
+	$('#ls_table tbody').on( 'click', 'td i.fa.fa-minus-square', function () {    
     	var clickedRow = $($(this).closest('td')).closest('tr');
     	var rowData = lsTable.row( clickedRow ).data();
     	
@@ -143,63 +162,26 @@ $(document).ready(function() {
 		  backdrop: 'static',
 		  keyboard: false,
 		  focus: true
-		})
-		
-		delete_ls_modal.show();
-    	
-    	e.stopPropagation();
-
-	    $('#delete_ls_button').click( function() {
-	        //alert('clicked');   
-    		deleteLS(clickedRow, rowData);     
+		})		
+		delete_ls_modal.show();  	
+	    $('#delete_ls_button').click( function() {  
+    		deleteLS(clickedRow, rowData);  
+			$( "#delete_ls_button").off( "click" );   
 	    });
-    		
-    	//alert( 'Row data: '+ rowData);
-    	//console.log(rowData);
-    	//console.log(rowData.ls_value);
-    	//console.log(rowData.slope);
-    	//console.log(rowData.slope_length);
 	});
-	    
-	$("#ls_form").on("submit", function(e) {
-		var dataString = $(this).serialize();
-		// get inputs
-		//var dataString = new Object();
-		//dataString.slope = $('#ls-slope').val();
-		//dataString.slope_length = $('#ls-length').val();
-		//dataString.ls_value = $('#ls-value').val();
-		//alert(dataString);
-		//alert(JSON.stringify(dataString))
+});	
 
-		e.preventDefault();
-		$.ajax({
-			type: "POST",
-			url: "ls",
-			data: dataString,
-			async: true,
-			success: function() {
-				$("#ls_form")[0].reset();
-				$('#message').html("<span>Submitted! LS data saved successfully.</span>")
-					.addClass("alert alert-success")
-					.hide()
-					.fadeIn(1500);
-
-				setTimeout(function() {
-					$('#message').fadeOut("Slow");
-				}, 5000);
-
-				setTimeout(function() {
-					if ($.fn.dataTable.isDataTable('#ls_table')) {
-						$('#ls_table').DataTable().destroy();
-						$('#ls_table_body').empty();
-						loadDatatable();
-					} else {
-						loadDatatable();
-					}
-				}, 1000);
-				
-			}
-		});
-		return false;
-	});
-});
+function deleteLS(clickedRow, rowData) {
+	$.ajax({
+		url: "ls",
+		data: JSON.stringify(rowData),
+		type: "DELETE",
+		async: true,
+	}).done(function(response) {
+		lsTable.row(clickedRow).remove().draw();
+		$('#message').html("<span>Deleted! LS data record has been deleted.</span>").addClass("alert alert-success").hide().fadeIn(1500);
+		setTimeout(function() { $('#message').fadeOut("Slow"); }, 5000);
+	}).fail(function(response) {
+		alert("failed: " + JSON.stringify(response));			
+	});	
+}

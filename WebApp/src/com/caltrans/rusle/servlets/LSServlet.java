@@ -1,15 +1,11 @@
 package com.caltrans.rusle.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.stream.Collectors;
-
 import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.models.LS;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,12 +38,13 @@ public class LSServlet extends HttpServlet {
 		
 		response.setContentType("text/json");
 		JsonArray json = new JsonArray();
-
-		String ls_slope = request.getParameter("ls_slope");
-		String ls_length = request.getParameter("ls_length");
-		String ls_value = request.getParameter("ls_value");
 		
-		LS ls = new LS(Float.parseFloat(ls_slope), Integer.parseInt(ls_length), Float.parseFloat(ls_value));
+		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);		
+		float ls_slope = data.get("slope").getAsFloat();
+		int ls_length = data.get("slope_length").getAsInt();
+		float ls_value = data.get("ls_value").getAsFloat();
+	
+		LS ls = new LS(ls_slope, ls_length, ls_value);
 		LSTable lsTable = new LSTable();
 		lsTable.createIfNotExist();
 		lsTable.insert(ls);
@@ -58,27 +55,14 @@ public class LSServlet extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		System.out.println("Inside doDelete");
-		
 		response.setContentType("text/json");
-		JsonArray json = new JsonArray();
-		
-		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
-		
+		JsonArray json = new JsonArray();	
+		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);		
 		float ls_slope = data.get("slope").getAsFloat();
 		int ls_length = data.get("slope_length").getAsInt();
 		float ls_value = data.get("ls_value").getAsFloat();
 		
-		System.out.println(ls_slope);
-		System.out.println(ls_length);
-		System.out.println(ls_value);
-	
-		
 		LS ls = new LS(ls_slope, ls_length, ls_value);
-		
-		System.out.println("LS Object" + ls);
-		
 		LSTable lsTable = new LSTable();	
 		lsTable.delete(ls);
 		response.setStatus(200);

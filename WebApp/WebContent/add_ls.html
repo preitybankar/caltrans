@@ -42,7 +42,7 @@
 						<div class="row row-cols-auto justify-content-md-center">
 						      <span class="fs-4"> Add LS factor values </span>	    
 						</div><br><br>
-						<form id = "ls_form">
+						<!-- <form id = "ls_form">  -->
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
 								<label for="ls-slope" class="col-sm-3 col-form-label">Enter Average Watershed Slope (%)</label>
 								<div class="mb-3 col-sm-5">
@@ -73,9 +73,9 @@
 								</div>
 							</div>
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
-						    	<button type="submit" class="btn btn-primary">SAVE</button>
+						    	<button id="saveLSBtn" type="button" class="btn btn-primary">SAVE</button>
 							</div><br>
-						</form>
+						<!-- </form> -->
 					</div>
 				</div>
 				<div class="container">
@@ -115,30 +115,28 @@
 				        <h5 class="modal-title" id="staticBackdropLabel">Edit LS factor values</h5>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
-				      <form id = "edit_form">
-					      <div class="modal-body" id="edit-ls-modal-body">
-					        <label>Enter Average Watershed Slope (%)</label>
-						      <div class="form-floating">
-							      <input type="text" class="form-control" id="edit_slope" required>
-							      <label for="edit_slope">Average Watershed Slope (%)</label>
-							  </div><br>
-						      <label>Enter Sheet Flow Length (ft)</label>
-						      <div class="form-floating">
-							      <input type="text" class="form-control" id="edit_slope_length" required>
-							      <label for="edit_slope_length">Sheet Flow Length (ft)</label>
-							  </div><br>
-							   <label>Enter LS factor value </label>
-							   <div class="form-floating">
-							      <input type="text" class="form-control" id="edit_ls_value" required>	
-							      <label for="edit_ls_value">LS factor value: </label>
-							  </div><br>
-					      </div>
-					      <div class="modal-footer">
-					        <div class="row mb-3 row-cols-auto justify-content-md-center">
-								<button id="update_ls_button" type="submit" class="btn btn-primary" data-bs-dismiss="modal">UPDATE</button>
-							</div>
-					      </div>
-					   </form>
+				      <div class="modal-body" id="edit-ls-modal-body">
+				        <label>Enter Average Watershed Slope (%)</label>
+					      <div class="form-floating">
+						      <span type="text" class="form-control" id="edit_slope" required></span>
+						      <label for="edit_slope">Average Watershed Slope (%)</label>
+						  </div><br>
+					      <label>Enter Sheet Flow Length (ft)</label>
+					      <div class="form-floating">
+						      <span type="text" class="form-control" id="edit_slope_length" required></span>
+						      <label for="edit_slope_length">Sheet Flow Length (ft)</label>
+						  </div><br>
+						   <label>Enter LS factor value </label>
+						   <div class="form-floating">
+						      <input type="text" class="form-control" id="edit_ls_value" required>	
+						      <label for="edit_ls_value">LS factor value: </label>
+						  </div><br>
+				      </div>
+				      <div class="modal-footer">
+				        <div class="row mb-3 row-cols-auto justify-content-md-center">
+							<button id="update_ls_button" type="button" class="btn btn-primary" data-bs-dismiss="modal">UPDATE</button>
+						</div>
+				      </div>
 				    </div>
 				  </div>
 				</div> 
