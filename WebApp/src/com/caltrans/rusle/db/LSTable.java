@@ -47,7 +47,7 @@ public class LSTable extends DbConnection {
 			ps.setInt(2, ls.getSlopeLength());
 			ps.setFloat(3, ls.getLSValue());
 			ps.setFloat(4, ls.getLSValue());
-			System.out.println(ps);
+			System.out.println("Update query :: " + ps);
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

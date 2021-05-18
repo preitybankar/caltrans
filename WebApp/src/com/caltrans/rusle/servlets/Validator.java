@@ -27,4 +27,8 @@ public class Validator {
 	public static boolean isFloatString(String num) {
 		return isValidString(num) && num.matches("[-+]?[0-9]*\\.?[0-9]+");
 	}
+	
+	public static boolean isIntString(String num) {
+		return isValidString(num) && num.matches("[+-]?[0-9]+");
+	}
 }

@@ -77,26 +77,23 @@ public class ProjectServlet extends HttpServlet {
 		JsonArray siteDetailsJsonArray = new JsonParser().parse(sites).getAsJsonArray();
 		String siteDetails = siteDetailsJsonArray.toString();
 		
-		System.out.println("preSoilLoss :: - ::" + preSoilLoss); 
-		System.out.println("postSoilLoss :: - ::" + postSoilLoss); 
-		
 		if (!Validator.isValidString(name)) {
-			Utility.writeFailure(resp, "Please enter project name");
+			Utility.writeFailure(resp, "Please enter project name.");
 			return;
 		} else if (!Validator.isFloatString(area)) {
-			Utility.writeFailure(resp, "Please enter valid project area");
+			Utility.writeFailure(resp, "Please enter valid project area.");
 			return;
 		} else if (!Validator.isValidDate(startDate)) {
-			Utility.writeFailure(resp, "Please enter valid project start date");
+			Utility.writeFailure(resp, "Please enter valid project start date.");
 			return;
 		} else if (!Validator.isValidDate(endDate)) {
-			Utility.writeFailure(resp, "Please enter valid project end date");
+			Utility.writeFailure(resp, "Please enter valid project end date.");
 			return;
 		} else if (!Validator.isValidString(location)) {
-			Utility.writeFailure(resp, "Please enter project location");
+			Utility.writeFailure(resp, "Please enter project location.");
 			return;
 		} else if (!Validator.isValidString(description)) {
-			Utility.writeFailure(resp, "Please enter project description");
+			Utility.writeFailure(resp, "Please enter project description.");
 			return;
 		}
 		
