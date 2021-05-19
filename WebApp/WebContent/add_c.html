@@ -42,7 +42,7 @@
 						<div class="row row-cols-auto justify-content-md-center">
 						      <span class="fs-4"> Add C Factor Values </span>	    
 						</div><br><br>
-						<form id = "c_form">
+						<!-- <form id = "c_form">  -->
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
 								<label for="bmp" class="col-sm-3 col-form-label">Enter BMP Name: </label>
 								<div class="mb-3 col-sm-5">
@@ -69,9 +69,9 @@
 								</div>
 							</div>
 							<div class="row mb-3 row-cols-auto justify-content-md-center">
-						    	<button type="submit" class="btn btn-primary">SAVE</button>
+						    	<button id="saveCBtn" type="button" class="btn btn-primary">SAVE</button>
 							</div><br>
-						</form>
+						<!-- </form> -->
 					</div>
 				</div>
 				<div class="container">
@@ -111,30 +111,28 @@
 				        <h5 class="modal-title" id="staticBackdropLabel">Edit C Factor Values</h5>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
-				      <form id = "edit_form">
-					      <div class="modal-body" id="edit-c-modal-body">
-					        <label>Enter BMP Name</label>
-						      <div class="form-floating">
-							      <input type="text" class="form-control" id="edit_bmp" required>
-							      <label for="edit_bmp">BMP Name</label>
-							  </div><br>
-						      <label>Enter Reference</label>
-						      <div class="form-floating">
-							      <input type="text" class="form-control" id="edit_reference" required>
-							      <label for="edit_reference">Reference</label>
-							  </div><br>
-							   <label>Enter C factor value </label>
-							   <div class="form-floating">
-							      <input type="text" class="form-control" id="edit_c_value" required>	
-							      <label for="edit_c_value">C factor value: </label>
-							  </div><br>
-					      </div>
-					      <div class="modal-footer">
-					        <div class="row mb-3 row-cols-auto justify-content-md-center">
-								<button id="update_c_button" type="submit" class="btn btn-primary" onClick="onUpdateCButtonClick()" data-bs-dismiss="modal">UPDATE</button>
-							</div>
-					      </div>
-					   </form>
+				      <div class="modal-body" id="edit-c-modal-body">
+				        <label>Enter BMP Name</label>
+					      <div class="form-floating">
+					      	  <span type="text" class="form-control" id="edit_bmp" required></span>
+						      <label for="edit_bmp">BMP Name</label>
+						  </div><br>
+					      <label>Enter Reference</label>
+					      <div class="form-floating">
+					      	  <span type="text" class="form-control" id="edit_reference" required></span>
+						      <label for="edit_reference">Reference</label>
+						  </div><br>
+						   <label>Enter C factor value </label>
+						   <div class="form-floating">
+						      <input type="text" class="form-control" id="edit_c_value" required>	
+						      <label for="edit_c_value">C factor value: </label>
+						  </div><br>
+				      </div>
+				      <div class="modal-footer">
+				        <div class="row mb-3 row-cols-auto justify-content-md-center">
+							<button id="update_c_button" type="submit" class="btn btn-primary" onClick="onUpdateCButtonClick()" data-bs-dismiss="modal">UPDATE</button>
+						</div>
+				      </div>
 				    </div>
 				  </div>
 				</div> 
@@ -149,11 +147,11 @@
 				      </div>
 				      <form id = "delete_form">
 					      <div class="modal-body" id="delete-c-modal-body">
-					      	<p>Are you sure, you want to delete this row data?</p>
+					      	<p>Are you sure you want to delete this row data?</p>
 					      </div>
 					      <div class="modal-footer">
 					        <div class="row mb-3 row-cols-auto justify-content-md-center">
-								<button id="delete_c_button" type="button" class="btn btn-primary" onClick="onDeleteCButtonClick()" data-bs-dismiss="modal">DELETE</button>
+								<button id="delete_c_button" type="button" class="btn btn-primary" data-bs-dismiss="modal">DELETE</button>
 							</div>
 					      </div>
 					   </form>

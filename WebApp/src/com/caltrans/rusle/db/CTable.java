@@ -45,6 +45,7 @@ public class CTable extends DbConnection {
 			ps.setString(2, c.getReference());
 			ps.setFloat(3, c.getCValue());
 			ps.setFloat(4, c.getCValue());
+			System.out.println("Update query :: " + ps);
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,11 +84,20 @@ public class CTable extends DbConnection {
 	public void delete(C c) {
 		openConnection();
 		try {
+			System.out.println(DELETE_FROM_C);
+			System.out.println(c);
 			PreparedStatement ps = mConnection.prepareStatement(DELETE_FROM_C);
 			ps.setString(1, c.getBMPName());
-			ps.execute();
+			System.out.println(ps);
+			int rowCount = ps.executeUpdate();
+			if(rowCount > 0) {
+				System.out.println("Record Deleted successfully from database. Total records deleted are :: " + rowCount);
+			} else {
+				System.out.println("false: Value could not be deleted from the database ::" + rowCount);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("An exception occured while Deleting records from Table. Exception is :: " + e);
 		} finally {
 			close();
 		}
