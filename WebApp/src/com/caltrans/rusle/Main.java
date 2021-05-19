@@ -12,6 +12,8 @@ import com.caltrans.rusle.db.PTable;
 import com.caltrans.rusle.models.P;
 import com.caltrans.rusle.models.Project;
 import com.caltrans.rusle.db.ProjectsTable;
+import com.caltrans.rusle.db.LoginTable;
+import com.caltrans.rusle.models.Login;
 
 public class Main {
 	public static void main(String[] args) {
@@ -79,7 +81,6 @@ public class Main {
 		
 		RTable rTable = new RTable();
 		rTable.createIfNotExist(); 
-		
 		//rTable.insert(new R(45.49f, "Sacramento",12));
 		//rTable.insert(new R(47.73f, "Davis",12));
 		//rTable.insert(new R(52.53f, "Folsom",12));
@@ -95,5 +96,11 @@ public class Main {
 			System.out.println(dbLS);
 		}*/
 		//lsTable.delete(new LS(1f, 3, 0.09f));
+		
+		LoginTable loginTable = new LoginTable();
+		loginTable.createIfNotExist();
+		loginTable.insert(new Login("Priti", "pritigbankar@csus.edu", "pritiadmin123", "admin"));
+		loginTable.insert(new Login("Lekha", "llekha@csus.edu", "admin123", "admin"));
+		loginTable.insert(new Login("user", "usermail@gmail.com", "user123", "guest"));
 	}
 }
