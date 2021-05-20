@@ -2,8 +2,12 @@ package com.caltrans.rusle.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+
+import com.caltrans.rusle.db.LSTable;
 import com.caltrans.rusle.db.ProjectsTable;
+import com.caltrans.rusle.models.LS;
 import com.caltrans.rusle.models.Project;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -133,8 +137,43 @@ public class ProjectServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doDelete(req, resp);
+		
+        resp.setContentType("text/json");
+		JsonArray json = new JsonArray();
+		
+		JsonObject data = new Gson().fromJson(req.getReader(), JsonObject.class);		
+		int id = data.get("id").getAsInt();
+		String name = data.get("name").getAsString();
+		float area = data.get("area").getAsFloat();	
+		String startDate = data.get("start_date").getAsString();
+		String endDate = data.get("end_date").getAsString();
+		String location = data.get("location").getAsString();
+		String description = data.get("description").getAsString();
+		float preSoilLoss = data.get("pre_construction_soil_loss").getAsFloat();
+		float postSoilLoss = data.get("post_construction_soil_loss").getAsFloat();
+		String sites = data.get("sites").getAsString();
+		JsonArray siteDetailsJsonArray = new JsonParser().parse(sites).getAsJsonArray();
+		String siteDetails = siteDetailsJsonArray.toString();
+		
+		System.out.println("id :: " + id);
+		System.out.println("name :: " + name);
+		System.out.println("area :: " + area);
+		System.out.println("startDate :: " + startDate);
+		System.out.println("endDate :: " + endDate);
+		System.out.println("location :: " + location);
+		System.out.println("description :: " + description);
+		System.out.println("preSoilLoss :: " + preSoilLoss);
+		System.out.println("postSoilLoss :: " + postSoilLoss);
+		System.out.println("siteDetails :: " + siteDetails);
+				
+		Project project = new Project(id, name, area, Date.valueOf(startDate), Date.valueOf(endDate), location, description, preSoilLoss, postSoilLoss, siteDetails);
+		ProjectsTable projectsTable = new ProjectsTable();
+		projectsTable.delete(project);
+
+        resp.setStatus(200);
+		resp.setContentType("application/json");
+		resp.getWriter().write(json.toString());
+		
 	}
 
 }

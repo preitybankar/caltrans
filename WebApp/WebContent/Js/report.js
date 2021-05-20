@@ -5,17 +5,21 @@ var PROJECT = {};
 window.onload = function() {
 	if (window.location.search.split('?').length > 1) {
 		var paramsArray = window.location.search.split('?')[1].split('&');
-		var id = paramsArray[0].split('=')[1];
-		var statusResp = paramsArray[1].split('=')[1];
-		var message = paramsArray[2].split('=')[1];
-		if (statusResp) {
-			$('#message').html("<span><strong>Well done!</strong> Project data record " + message + " successfully." + "</span>")
-				.addClass("alert alert-success")
-				.hide()
-				.fadeIn(1500);
-			setTimeout(function() {
-				$('#message').fadeOut("Slow");
-			}, 10000);
+		if(paramsArray.length == 1) {
+			var id = paramsArray[0].split('=')[1];
+		} else {
+			var id = paramsArray[0].split('=')[1];
+			var statusResp = paramsArray[1].split('=')[1];
+			var message = paramsArray[2].split('=')[1];
+			if (statusResp) {
+				$('#message').html("<span><strong>Well done!</strong> Project data record " + message + " successfully." + "</span>")
+					.addClass("alert alert-success")
+					.hide()
+					.fadeIn(1500);
+				setTimeout(function() {
+					$('#message').fadeOut("Slow");
+				}, 10000);
+			}
 		}
 		$.ajax({
 			type: 'GET',

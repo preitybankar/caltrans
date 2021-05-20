@@ -13,7 +13,6 @@ $(document).ready(function() {
 });
 
 var lsTable;
-var clickedEditRow;
 function loadDatatable() {
 	$.ajax({
 		type: 'GET',
@@ -33,7 +32,10 @@ function loadDatatable() {
 				{ data: "ls_value" },
 				{ data: null, "render": function(data, type, full, meta) { return '<a href="#")"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>'; } },
 				{ data: null, "render": function(data, type, full, meta) { return '<a href="#"> <i class="fa fa-minus-square" aria-hidden="true"></i></a>'; } }
-			],  
+			], 
+			 columnDefs: [
+			  	{ targets: [4, 5], orderable: false},
+			], 
 	         "fnRowCallback": function (nRow, aData, iDisplayIndex) {  
 	             $("td:first", nRow).html(iDisplayIndex + 1);  
 	             return nRow;  

@@ -25,120 +25,6 @@ $(document).ready(function() {
 
 }); 
 
-/*class SoilLoss {
-	constructor() {
-		this.covers = [];
-		this.practices = [];
-	}
-
-	setK(k) {
-		this.k = k;
-	}
-
-	getK() {
-		return this.k;
-	}
-
-	setR(r) {
-		this.r = r;
-	}
-
-	getR() {
-		return this.r;
-	}
-
-	setLS(ls) {
-		this.ls = ls;
-	}
-
-	getLS() {
-		return this.ls;
-	}
-
-	addCover(c) {
-		this.covers.push(c);
-	}
-	
-	getCoverCount() {
-		return this.covers.length;
-	}
-	
-	setCover(cover, coverId) {
-		this.covers[coverId] = cover;	
-	}
-	
-	addPractice(p) {
-		this.practices.push(p);
-	}
-
-	getPracticeCount() {
-		return this.practices.length;
-	}
-	
-	setPractice(practice, practiceId) {
-		this.practices[practiceId] = practice;	
-	}
-
-	setA(a) {
-		this.a = a;
-	}
-
-	getA() {
-		return this.a;
-	}
-
-}
-
-class Site {
-	setName(name) {
-		this.name = name;
-	}
-
-	getName() {
-		return this.name;
-	}
-
-	setLocation(location) {
-		this.location = location;
-	}
-
-	getLocation() {
-		return this.location;
-	}
-
-	setArea(area) {
-		this.area = area;
-	}
-
-	getArea() {
-		return this.area;
-	}
-
-	setDescription(description) {
-		this.description = description;
-	}
-
-	getDescription() {
-		return this.description;
-	}
-
-	setPreSoilLoss(preSoilLoss) {
-		this.pre_soil_loss = preSoilLoss;
-	}
-
-	getPreSoilLoss() {
-		return this.pre_soil_loss;
-	}
-
-	setPostSoilLoss(postSoilLoss) {
-		this.post_soil_loss = postSoilLoss;
-	}
-
-	getPostSoilLoss() {
-		return this.post_soil_loss;
-	}
-}*/
-
 var PROJECT = {};
 PROJECT.sites = [];
 const SITE_LIST = [];
@@ -162,6 +48,19 @@ function loadProjectDetails(project) {
 		$("#projectDescription").val(project.description);
 		$("#preAvgSoilLoss").text(project.pre_construction_soil_loss);
 		$("#postAvgSoilLoss").text(project.post_construction_soil_loss);
+		
+		let preProjectSL = project.pre_construction_soil_loss;
+		let postProjectSL = project.post_construction_soil_loss;
+		
+		if(postProjectSL > preProjectSL) {
+			$('#comparisonResult').html("<span><strong>Warning! </strong>Post - construction soil loss is greater than Pre - construction soil loss. Try using better cover BMP's and support practices to improve the results.</span>").addClass("alert alert-warning");
+		} 
+		else if(postProjectSL < preProjectSL) {
+			$('#comparisonResult').html("<span><strong>Well done! </strong>Post - construction soil loss is less than Pre - construction soil loss. Thus, there is no significant Soil Erosion happened after construction of this project.</span>").addClass("alert alert-success");
+		} 
+		else if(postProjectSL == preProjectSL){
+			$('#comparisonResult').html("<span><strong>Good job! </strong>Soil loss for Pre - construction and Post - construction is equal. Thus, there is no significant Soil Erosion happened after construction of this project.</span>").addClass("alert alert-primary");
+		}											
 	}
 }
 
