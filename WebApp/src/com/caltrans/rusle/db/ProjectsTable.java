@@ -188,13 +188,18 @@ public class ProjectsTable extends DbConnection {
 		try {
 			PreparedStatement ps = mConnection.prepareStatement(DELETE_FROM_PROJECTS);
 			ps.setInt(1, project.getId());
-			ps.execute();
+			int rowCount = ps.executeUpdate();
+			if(rowCount > 0) {
+				System.out.println("Record Deleted successfully from database. Total records deleted are :: " + rowCount);
+			} else {
+				System.out.println("false: Value could not be deleted from the database ::" + rowCount);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("An exception occured while Deleting records from Table. Exception is :: " + e);
 		} finally {
 			close();
 		}
 	}
-	
 	
 }

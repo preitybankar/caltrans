@@ -17,17 +17,21 @@ window.onload = function() {
 			
 	if (window.location.search.split('?').length > 1) {
 		var paramsArray = window.location.search.split('?')[1].split('&');
-		var id = paramsArray[0].split('=')[1];
-		var statusResp = paramsArray[1].split('=')[1];
-		var message = paramsArray[2].split('=')[1];
-		if (statusResp) {
-			$('#message').html("<span><strong>Well done!</strong> Project data record " + message + " successfully." + "</span>")
-				.addClass("alert alert-success")
-				.hide()
-				.fadeIn(1500);
-			setTimeout(function() {
-				$('#message').fadeOut("Slow");
-			}, 10000);
+		if(paramsArray.length == 1) {
+			var id = paramsArray[0].split('=')[1];
+		} else {
+			var id = paramsArray[0].split('=')[1];
+			var statusResp = paramsArray[1].split('=')[1];
+			var message = paramsArray[2].split('=')[1];
+			if (statusResp) {
+				$('#message').html("<span><strong>Well done!</strong> Project data record " + message + " successfully." + "</span>")
+					.addClass("alert alert-success")
+					.hide()
+					.fadeIn(1500);
+				setTimeout(function() {
+					$('#message').fadeOut("Slow");
+				}, 10000);
+			}
 		}
 		$.ajax({
 			type: 'GET',
@@ -114,9 +118,9 @@ window.onload = function() {
         var opt = {
         	margin: 0.5,
         	filename: 'Rusle_Report.pdf',
-        	image: { type: 'png', quality: 1 },
+        	image: { type: 'jpeg', quality: 1 },
         	html2canvas: {scale: 4, logging: true},
-        	jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        	jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
         };
         
         alert("Please wait. Report is being generated...");

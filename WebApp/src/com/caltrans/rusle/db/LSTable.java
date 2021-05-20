@@ -86,12 +86,9 @@ public class LSTable extends DbConnection {
 	public void delete(LS ls) {
 		openConnection();
 		try {
-			System.out.println(DELETE_FROM_LS);
-			System.out.println(ls);
 			PreparedStatement ps = mConnection.prepareStatement(DELETE_FROM_LS);
 			ps.setFloat(1, ls.getSlope());
 			ps.setInt(2, ls.getSlopeLength());
-			System.out.println(ps);
 			int rowCount = ps.executeUpdate();
 			if(rowCount > 0) {
 				System.out.println("Record Deleted successfully from database. Total records deleted are :: " + rowCount);
