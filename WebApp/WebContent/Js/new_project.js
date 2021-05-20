@@ -16,25 +16,21 @@ fetch("./footer.html")
     document.querySelector("footer").innerHTML = data;
 });
 $(document).ready(function() {
-
 	 $('.datepicker').datepicker({
 		format: 'yyyy-mm-dd',
 		autoclose: true,
 		disableTouchKeyboard: true
 	}); 
 	
- var email= document.cookie;
- $.ajax({
-			type: 'GET',
-			url: 'login',
-			data: { email: email },
-			async: true,
-		}).done(function(resp) {
-			
-			//alert(JSON.stringify(resp));
-			
-			$('#login_details').html('<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-outline-light me-2">Sign Out</a>');
-			});
+ 	var email= document.cookie;
+ 	$.ajax({
+		type: 'GET',
+		url: 'login',
+		data: { email: email },
+		async: true,
+	}).done(function(resp) {
+		$('#login_details').html('<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-outline-light me-2">Sign Out</a>');
+	});
 
 }); 
 

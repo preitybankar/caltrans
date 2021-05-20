@@ -118,9 +118,9 @@ window.onload = function() {
         var opt = {
         	margin: 0.5,
         	filename: 'Rusle_Report.pdf',
-        	image: { type: 'png', quality: 1 },
+        	image: { type: 'jpeg', quality: 1 },
         	html2canvas: {scale: 4, logging: true},
-        	jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        	jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
         };
         
         alert("Please wait. Report is being generated...");
