@@ -3,6 +3,18 @@
  */
 var PROJECT = {};
 window.onload = function() {
+		var email= document.cookie;
+		$.ajax({
+			type: 'GET',
+			url: 'login',
+			data: { email: email },
+			async: true,
+		}).done(function(resp) {
+			
+		 var element = document.getElementById("login_details");
+		 document.getElementById("login_details").innerHTML = '<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-outline-light me-2">Sign Out</a>';
+			});
+			
 	if (window.location.search.split('?').length > 1) {
 		var paramsArray = window.location.search.split('?')[1].split('&');
 		if(paramsArray.length == 1) {
