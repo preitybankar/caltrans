@@ -998,42 +998,12 @@ function setSiteDetails(elementId) {
 	let siteId = arr[1];
 	let site = PROJECT.sites[siteId];
 	
-	
-	if (arr[0] == "siteArea") {
-		
-		let projectArea =  parseFloat($("#projectArea").val());
-	
-		let siteArea = parseFloat($("#" + elementId).val());
-		
-		let totalSiteArea = 0.0 + siteArea;
-		
-		PROJECT.sites.forEach((site, index) => {
-	    	if(site.area && index != siteId) {
-				totalSiteArea += site.area;
-			}
-		});
-		
-		if (totalSiteArea > projectArea) {
-			document.getElementById("saveProjectBtn").disabled = true;
-			document.getElementById("areaExceedsFlag").style.display = "block";
-			document.getElementById(elementId).classList.add("is-invalid");
-			document.getElementById(elementId).classList.remove("is-valid");
-		
-		} else if (totalSiteArea < projectArea || totalSiteArea == projectArea) {
-			document.getElementById("saveProjectBtn").disabled = false;
-			document.getElementById("areaExceedsFlag").style.display = "none";
-			document.getElementById(elementId).classList.add("is-valid");	
-			document.getElementById(elementId).classList.remove("is-invalid");
-			site.area = parseFloat($("#" + elementId).val());
-		}	
-	}
-
 	if (arr[0] == "siteName") {
 		site.name = $("#" + elementId).val();
 	}
-	/* else if (arr[0] == "siteArea") {
+	else if (arr[0] == "siteArea") {
 		site.area = parseFloat($("#" + elementId).val());
-	} */
+	}
 	else if (arr[0] == "siteLocation") {
 		site.location = $("#" + elementId).val();
 	}
@@ -1126,6 +1096,7 @@ function checkPracticePercentVal(elementId, type) {
 		document.getElementById(type + "_p_percent").classList.remove("is-invalid");
 	}			
 }
+
 
 $(document).on("click", ".calculatePreSoilLoss", function() {
 	let siteId = (this.id).split("_")[1];

@@ -55,50 +55,50 @@
 							</div>
 							<div class="shadow-none p-3 bg-body rounded" id = "projectReportFields">						
 								<div class="row g-3">
-									<div class="col">
-										<div class="form-floating">
-											<span class="form-control" id="projectName"></span>
-											<label for="projectName">Project Name</label>			
-										</div>	
-									</div>
-									<div class="col">
-										<div class="form-floating">
-											<span class="form-control" id="projectLocation"></span>
-											<label for="projectLocation">Project Location</label>			
+									<div class="col">							
+										<label class="text-uppercase">Name </label>
+										<div class="input-group mb-3">
+											<span id="projectName" class="form-control"></span>
 										</div>
+									</div>
+									<div class="col">										
+										<label class="text-uppercase">Location </label>
+										<div class="input-group mb-3">
+											<span class="form-control" id="projectLocation"></span>
+										</div>										
 									</div>	
 								</div>
-								<br>
+								
 								<div class="row g-3">
-									<div class="col">
-										<div class="form-floating">
+									<div class="col">	
+										<label class="text-uppercase">Area </label>
+										<div class="input-group mb-3">
 											<span class="form-control" id="projectArea"></span>
-											<label for="projectArea">Project Area</label>			
-										</div>
+										</div>									
 									</div>
 									<div class="col">	
-										<div class="form-floating">
+										<label class="text-uppercase">Start Date </label>
+										<div class="input-group mb-3">
 											<span class="form-control" id="projectStartDate"></span>
-											<label for="projectStartDate">Project Start Date</label>			
-										</div>
+										</div>									
 									</div>
-									<div class="col">
-										<div class="form-floating">
+									<div class="col">	
+										<label class="text-uppercase">End Date </label>
+										<div class="input-group mb-3">
 											<span class="form-control" id="projectEndDate"></span>
-											<label for="projectEndDate">Project End Date</label>			
 										</div>
 									</div>
 								</div>
-								<br>	
+								
 								<div class="row g-3">
-									<div class="col">
-										<div class="form-floating">
-											<span id="projectDescription" class="form-control" ></span>
-											<label for="projectDescription">Project Description</label>		
-										</div>
+									<div class="col">						
+										<label class="text-uppercase">Description</label>
+										<div class="input-group mb-3">
+											<span id="projectDescription" class="form-control" style="height: 65px"></span>
+										</div>							
 									</div>
 								</div>
-								<br>	
+								
 								<div class="row g-3">
 									<label class="text-decoration-underline lh-lg text-dark text-uppercase">Average Pre and Post Construction Soil Erosion for this Project</label>
 									<div class="col">
@@ -125,49 +125,49 @@
 										<span id="segmentIndex" class="p-2 bg-warning text-uppercase fw-bold text-dark">Segment #1</span>	
 									</div><br>
 							      	<div class="row">		
-										<div class="col-sm-4">	
-											<div class="form-floating mb-3">
+										<div class="col-sm-4">											
+											<label class="text-uppercase">Name </label>
+											<div class="input-group mb-3">
 												<span class="form-control" id="siteName"></span>
-												<label for="siteName">Segment name</label>
-											</div>
+											</div>																	
 										</div>
-										<div class="col-sm-4">
-											<div class="form-floating">
+										<div class="col-sm-4">					
+											<label class="text-uppercase">Area </label>
+											<div class="input-group mb-3">
 												<span class="form-control" id="siteArea"></span>
-												<label for="siteArea">Segment Area</label>			
-											</div>
+											</div>		
 										</div>
 										<div class="col-sm-4">
-											<div class="form-floating">
+											<label class="text-uppercase">Location</label>
+											<div class="input-group mb-3">
 												<span class="form-control" id="siteLocation"></span>
-												<label for="siteLocation">Segment Location</label>	
-											</div>
+											</div>	
 										</div>
 									</div>
 									
 									<div class="row">				
 										<div class="col">
-											<div class="form-floating">
-												<span class="form-control" id="siteDescription"></span>
-												<label for="siteDescription">Segment Description</label>
-											</div>
+											<label class="text-uppercase">Description</label>
+											<div class="input-group mb-3">
+												<span class="form-control" id="siteDescription" style="height: 65px"></span>
+											</div>	
 										</div>
 									</div>
-									<br>
+									
 									<div class="row">
 										<div class="bg-secondary p-1 d-flex border-bottom">
 											<label class="text-uppercase fw-bold text-white">Pre Construction</label></span>
 										</div>	
 									</div><br>
 									<div class="row">				
-										<div class="col-sm-6">	
+										<div class="col-sm-8">	
 									        <div class="input-group mb-3">
 									        	<span class="input-group-text">A: Soil Loss</span>	
 												<span id="preAValue" class="fw-bold form-control text-primary">0.00</span>
 												<span class="input-group-text">tons/acre/year</span>
 											</div>		      			
 										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-4">
 											 <div class="input-group mb-3">
 											  	<span class="input-group-text" id="basic-addon1">K: Erodibility</span>
 											  	<span  id="preKValue" class="form-control"></span>												  
@@ -233,14 +233,14 @@
 										</div>	
 									</div><br>
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-8">
 											<div class="input-group mb-3">					  	
 											  	<span class="input-group-text">A: Soil Loss</span>	
 												<span id="postAValue" class="fw-bold form-control text-primary">0.00</span>
 												<span class="input-group-text">tons/acre/year</span>
 											</div>		
 										</div>
-										<div class="col-sm-6">	
+										<div class="col-sm-4">	
 											<div class="input-group mb-3">
 												<span class="input-group-text" id="basic-addon1">K: Erodibility</span>
 											  	<span  id="postKValue" class="form-control"></span>	
