@@ -1,6 +1,21 @@
 /**
  * 
  */
+ window.onload = function() {
+ //alert(document.cookie);
+ var email= document.cookie;
+ $.ajax({
+			type: 'GET',
+			url: 'login',
+			data: { email: email },
+			async: true,
+		}).done(function(resp) {
+			
+			//alert(JSON.stringify(resp));
+			
+			$('#login_details').html('<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-warning">Sign Out</a>');
+			});
+ };
 
 $(document).ready(function() {
 	loadDataTable();

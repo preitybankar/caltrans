@@ -45,7 +45,7 @@ window.onload = function() {
 			
 			//alert(JSON.stringify(resp));
 			
-			$('#login_details').html('<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-outline-light me-2">Sign Out</a>');
+			$('#login_details').html('<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-warning">Sign Out</a>');
 			
 			document.cookie = resp.email +";path=/";
 			//alert(document.cookie);

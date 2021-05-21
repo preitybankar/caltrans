@@ -12,7 +12,7 @@ window.onload = function() {
 		}).done(function(resp) {
 			
 		 var element = document.getElementById("login_details");
-		 document.getElementById("login_details").innerHTML = '<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-outline-light me-2">Sign Out</a>';
+		 document.getElementById("login_details").innerHTML = '<span id="userEmail">' + resp.name + '</span> &nbsp;&nbsp;<a href="login.html" type="button" class="btn btn-warning">Sign Out</a>';
 			});
 			
 	if (window.location.search.split('?').length > 1) {
