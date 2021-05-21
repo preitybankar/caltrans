@@ -655,7 +655,7 @@ function onSelectPostRButtonClick() {
 $(document).on('click', ".preSelectCBtn", function() {
 	if (!isLoading) {
 		buttonClicked = this.id;
-		$("#pre_bmpName").empty();
+		$("#pre_bmpName").empty();		
 		isLoading = true;
 		$.ajax({
 			type: 'GET',
@@ -1034,6 +1034,7 @@ function checkCoverPercentVal(elementId, type) {
 	var btnIndex = combineId[0];
 	var siteIndex = combineId[1];
 	var site = PROJECT.sites[siteIndex];
+	
 	var totalPercent = 0.00 + percent;
 	
 	if (type == "pre") {
