@@ -2,8 +2,11 @@ package com.caltrans.rusle.servlets;
 
 import java.io.IOException;
 
+import com.caltrans.rusle.db.CTable;
 import com.caltrans.rusle.db.PTable;
+import com.caltrans.rusle.models.C;
 import com.caltrans.rusle.models.P;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -32,21 +35,40 @@ public class PServlet extends HttpServlet {
         response.setStatus(200);
 		response.setContentType("application/json");
 		response.getWriter().write(json.toString());
+		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/json");
 		JsonArray json = new JsonArray();
-
-		String supportpractices_name = request.getParameter("supportpractices_name");
-		String reference = request.getParameter("reference");
-		String p_value = request.getParameter("p_value");
 		
-		P p = new P(supportpractices_name, reference, Float.parseFloat(p_value));
+		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);		
+		String supportpractices_name = data.get("supportpractices_name").getAsString();
+		String reference = data.get("reference").getAsString();
+		float p_value = data.get("p_value").getAsFloat();
+		
+		P p = new P(supportpractices_name, reference, p_value);
 		PTable pTable = new PTable();
 		pTable.createIfNotExist();
 		pTable.insert(p);
+		response.setStatus(200);
+		response.setContentType("application/json");
+		response.getWriter().write(json.toString());
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/json");
+		JsonArray json = new JsonArray();	
+		JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);		
+		String supportpractices_name = data.get("supportpractices_name").getAsString();
+		String reference = data.get("reference").getAsString();
+		float p_value = data.get("p_value").getAsFloat();
+		
+		P p = new P(supportpractices_name, reference, p_value);
+		PTable pTable = new PTable();	
+		pTable.delete(p);
 		response.setStatus(200);
 		response.setContentType("application/json");
 		response.getWriter().write(json.toString());
