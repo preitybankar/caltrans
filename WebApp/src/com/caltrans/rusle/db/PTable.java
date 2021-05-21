@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.caltrans.rusle.models.C;
 import com.caltrans.rusle.models.P;
 
 public class PTable extends DbConnection {
@@ -80,7 +81,7 @@ public class PTable extends DbConnection {
 		return pList;
 	}
 
-	public void delete(P p) {
+	/*public void delete(P p) {
 		openConnection();
 		try {
 			PreparedStatement ps = mConnection.prepareStatement(DELETE_FROM_P);
@@ -88,6 +89,28 @@ public class PTable extends DbConnection {
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}*/
+	
+	public void delete(P p) {
+		openConnection();
+		try {
+			System.out.println(DELETE_FROM_P);
+			System.out.println(p);
+			PreparedStatement ps = mConnection.prepareStatement(DELETE_FROM_P);
+			ps.setString(1, p.getSupportPracticesName());
+			System.out.println(ps);
+			int rowCount = ps.executeUpdate();
+			if(rowCount > 0) {
+				System.out.println("Record Deleted successfully from database. Total records deleted are :: " + rowCount);
+			} else {
+				System.out.println("false: Value could not be deleted from the database ::" + rowCount);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("An exception occured while Deleting records from Table. Exception is :: " + e);
 		} finally {
 			close();
 		}
