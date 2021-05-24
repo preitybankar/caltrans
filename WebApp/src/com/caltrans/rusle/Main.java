@@ -99,8 +99,8 @@ public class Main {
 		
 		LoginTable loginTable = new LoginTable();
 		loginTable.createIfNotExist();
-		loginTable.insert(new Login("Priti", "pritigbankar@csus.edu", "pritiadmin123", "admin"));
-		loginTable.insert(new Login("Lekha", "llekha@csus.edu", "admin123", "admin"));
+		loginTable.insert(new Login("Priti Bankar", "pritigbankar@csus.edu", "pritiadmin123", "admin"));
+		loginTable.insert(new Login("Lekha Srinivasan", "llekha@csus.edu", "admin123", "admin"));
 		loginTable.insert(new Login("user", "usermail@gmail.com", "user123", "guest"));
 	}
 }
