@@ -85,8 +85,7 @@ $(document).on("click", "#saveLSBtn", function() {
 		let dataString = {};
 		dataString.slope = lsSlope;
 		dataString.slope_length = slopeLength;
-		dataString.ls_value = lsValue;
-		alert(JSON.stringify(dataString));		
+		dataString.ls_value = lsValue;		
 		$.ajax({
 			type: "POST",
 			url: "ls",
