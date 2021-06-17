@@ -87,10 +87,7 @@ public class Main {
 		
 		ProjectsTable project = new ProjectsTable();
 		project.createIfNotExist();
-		// project.insert(new Project("6369 Zulmida Backyard gardening project", 5000f, Date.valueOf("2021-04-21"), Date.valueOf("2021-04-30"), "backyard", "water irrigation system gardening", "{site 1}"));
-		// project.update(new Project(1,"6369 Zulmida Backyard gardening project", 66000f, Date.valueOf("2021-04-10"), Date.valueOf("2021-04-20"), "backyard", "water irrigation system gardening", "{site 234}"));
-		// project.delete(new Project(1,"6369 Zulmida Backyard gardening project", 66000f, Date.valueOf("2021-04-10"), Date.valueOf("2021-04-20"), "backyard", "water irrigation system gardening", "{site 234}")); 
-
+		
 		/*List<LS> lsList = lsTable.getAllLS();
 		for (LS dbLS : lsList) {
 			System.out.println(dbLS);
@@ -99,6 +96,7 @@ public class Main {
 		
 		LoginTable loginTable = new LoginTable();
 		loginTable.createIfNotExist();
+		loginTable.insert(new Login("Admin", "admin@caltrans.com", "admin12345", "admin"));
 		loginTable.insert(new Login("Priti Bankar", "pritigbankar@csus.edu", "pritiadmin123", "admin"));
 		loginTable.insert(new Login("Lekha Srinivasan", "llekha@csus.edu", "admin123", "admin"));
 		loginTable.insert(new Login("user", "usermail@gmail.com", "user123", "guest"));
